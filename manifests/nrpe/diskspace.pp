@@ -29,5 +29,7 @@ class nagios::nrpe::diskspace {
     tag                 => "${environment}",
   }
 
+  motd::register { 'Nagios Diskspace Check': }
+
 }
 

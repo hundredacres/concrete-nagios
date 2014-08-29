@@ -63,4 +63,6 @@ class nagios::nrpe::iostat {
     tag                 => "${environment}",
   }
 
+  motd::register { 'Nagios Diskspeed Check': }
+
 }

@@ -3,6 +3,11 @@
 	<name>nagios</name>
 	<comment></comment>
 	<projects>
+		<project>basic_server</project>
+		<project>concat</project>
+		<project>munin</project>
+		<project>ntp</project>
+		<project>stdlib</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
