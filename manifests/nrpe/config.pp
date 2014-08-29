@@ -18,6 +18,6 @@ class nagios::nrpe::config {
     notify => Service[nrpe],
   }
 
-  motd::register { 'NRPE End Point': }
+  @motd::register { 'NRPE End Point': }
 
 }

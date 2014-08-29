@@ -10,7 +10,7 @@ class nagios::nrpe::total_procs {
     service_description => "${hostname}_check_total_procs",
     tag                 => "${environment}",
   }
-  
-    motd::register { 'Nagios Total Processes Check': }
+
+  @motd::register { 'Nagios Total Processes Check': }
 
 }

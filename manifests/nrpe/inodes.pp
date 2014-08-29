@@ -19,7 +19,7 @@ class nagios::nrpe::inodes {
     tag                 => "${environment}",
   }
 
-  motd::register { 'Nagios Inodes Check': }
+  @motd::register { 'Nagios Inodes Check': }
 
 }
 

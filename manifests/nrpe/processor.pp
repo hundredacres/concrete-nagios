@@ -37,7 +37,7 @@ class nagios::nrpe::processor {
     tag                 => "${environment}",
   }
 
-  motd::register { 'Nagios CPU Load Check': }
+  @motd::register { 'Nagios CPU Load Check': }
 
 }
 
