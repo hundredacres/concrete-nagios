@@ -30,6 +30,6 @@ class nagios::server::nrpe {
 
   }
 
-  @motd::register { 'Nagios NRPE Server': }
+  @basic_server::motd::register { 'Nagios NRPE Server': }
 
 }

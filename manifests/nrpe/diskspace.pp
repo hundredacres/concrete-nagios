@@ -29,7 +29,7 @@ class nagios::nrpe::diskspace {
     tag                 => "${environment}",
   }
 
-  @motd::register { 'Nagios Diskspace Check': }
+  @basic_server::motd::register { 'Nagios Diskspace Check': }
 
 }
 

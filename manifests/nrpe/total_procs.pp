@@ -11,6 +11,6 @@ class nagios::nrpe::total_procs {
     tag                 => "${environment}",
   }
 
-  @motd::register { 'Nagios Total Processes Check': }
+  @basic_server::motd::register { 'Nagios Total Processes Check': }
 
 }

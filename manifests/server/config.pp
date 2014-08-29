@@ -37,6 +37,6 @@ class nagios::server::config {
     notify  => Exec["rechmod"],
   }
 
-  @motd::register { 'Nagios Server and Check/Host Collection': }
+  @basic_server::motd::register { 'Nagios Server and Check/Host Collection': }
 
 }

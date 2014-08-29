@@ -19,6 +19,6 @@ class nagios::client {
     tag                 => "${environment}",
   }
 
-  motd::register { 'Nagios Host Check': }
+  @basic_server::motd::register { 'Nagios Host Check': }
 
 }

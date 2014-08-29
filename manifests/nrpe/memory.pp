@@ -32,6 +32,6 @@ class nagios::nrpe::memory {
     tag                 => "${environment}",
   }
 
-  @motd::register { 'Nagios Memory Check': }
+  @basic_server::motd::register { 'Nagios Memory Check': }
 
 }
