@@ -1,0 +1,79 @@
+class nagios::server {
+	
+	package {
+		nagios3:
+		ensure => installed,
+		;
+	}
+	
+	service {
+		nagios3:
+		ensure => running,
+		enable => true,
+		require => Package[nagios3],
+		subscribe => file["/etc/nagios3/conf.d/"],
+		;
+	}
+
+	file_line { "check_external_commands":
+		line => "check_external_commands=1",
+		path => "/etc/nagios3/nagios.cfg",
+		match => "check_external_commands",
+		ensure => present,
+		notify => Service[nagios3],
+	}
+
+
+	file { "/etc/nagios3/conf.d/puppet/" :
+		ensure => directory,
+		purge => true,
+		recurse => true,
+		force => true,
+		owner => root,
+		group => nagios,
+		mode => "0640",
+	}
+
+        Nagios_host <<||>> {
+               notify => file["/etc/nagios3/conf.d/"],
+		require => file[ "/etc/nagios3/conf.d/puppet/" ],
+	}
+
+        Nagios_service <<||>> {
+#		require => Nagios_host, 
+               notify => file["/etc/nagios3/conf.d/"],
+		require => file[ "/etc/nagios3/conf.d/puppet/" ],
+	}
+
+        Nagios_command <<||>> {
+#		require => nagios_service,
+                notify => file["/etc/nagios3/conf.d/"],
+		require => file[ "/etc/nagios3/conf.d/puppet/" ],
+        }
+
+	file { "/etc/nagios3/conf.d/":
+		recurse => true,
+		group => "nagios",
+		mode => "0640",
+		require=> file[ "/etc/nagios3/conf.d/puppet/" ],
+	}
+
+	class nrpe {
+
+		package { "nagios-nrpe-plugin" :
+			ensure => installed,
+			notify => Service[nagios3],
+		}
+
+#	Automatically added in ubuntu install
+#
+#		nagios_command { 'Check Nrpe':
+#			command_name => 'check_nrpe',
+#			ensure       => 'present',
+#			command_line => '/usr/lib64/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$',
+#			target => "/etc/nagios3/conf.d/nagios_commands.cfg",
+#		}
+	
+	}
+	
+}
