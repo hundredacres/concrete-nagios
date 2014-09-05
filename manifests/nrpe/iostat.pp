@@ -61,6 +61,7 @@ class nagios::nrpe::iostat {
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
     service_description => "${hostname}_check_iostat",
     tag                 => "${environment}",
+    notifications_enabled => 0,
   }
 
   @basic_server::motd::register { 'Nagios Diskspeed Check': }
