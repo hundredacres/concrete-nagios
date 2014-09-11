@@ -1,6 +1,6 @@
 #Replace this with heira when I've got a better grip on how it works.
 
-class ntp::params {
+class nagios::params {
   
     case $::environment {
     'testing'     : { $server = "192.168.90.223" }
