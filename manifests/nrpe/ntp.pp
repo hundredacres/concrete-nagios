@@ -1,5 +1,6 @@
 class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::params {
   require nagios::nrpe::config
+  require basic_server::ntp
   include nagios::nrpe::service
 
   # This should be factored out when we need a second eventhandler
@@ -31,7 +32,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::par
 }
   
   file_line { "check_time_sync":
-    line   => "command[check_time_sync]=/usr/lib/nagios/plugins/check_ntp_time -H $server -w 0.5 -c 100",
+    line   => "command[check_time_sync]=/usr/lib/nagios/plugins/check_ntp_time -H $server -w 0.5 -c 1",
     path   => "/etc/nagios/nrpe_local.cfg",
     match  => "command\[check_time_sync\]",
     ensure => present,
