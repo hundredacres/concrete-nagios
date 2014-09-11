@@ -84,11 +84,14 @@ case $STATE in
 					#Will resync on the 3rd soft warning
 					3)	
 						/usr/lib/nagios/plugins/check_nrpe -H $HOST -c resync_ntp
+						;;
 				esac
 				;;
 			HARD)
 				/usr/lib/nagios/plugins/check_nrpe -H $HOST -c resync_ntp
+				;;
 		esac
+		;;
 	CRITICAL)
 		case $TYPE in
 			SOFT)
@@ -96,11 +99,14 @@ case $STATE in
 					#Will resync on the 3rd soft warning
 					3)	
 						/usr/lib/nagios/plugins/check_nrpe -H $HOST -c resync_ntp
+						;;
 				esac
 				;;
 			HARD)
 				/usr/lib/nagios/plugins/check_nrpe -H $HOST -c resync_ntp
+				;;
 		esac
+		;;
 esac
 
 exit 0
