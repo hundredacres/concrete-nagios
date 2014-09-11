@@ -46,7 +46,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::par
 	}
 	
 	@@nagios_service { "check_time_sync_${hostname}":
-    check_command       => "check_nrpe_1arg!check_mem",
+    check_command       => "check_nrpe_1arg!check_time_sync",
     use                 => "generic-service",
     host_name           => $hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
