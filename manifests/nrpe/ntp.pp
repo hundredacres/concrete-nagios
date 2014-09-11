@@ -19,7 +19,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::par
     group  => root,
     mode   => "0755",
     ensure => present,
-    before => File_line["resync_ntp""],
+    before => File_line["resync_ntp"],
   }
   
   #add nagios to sudoers so it can stop/start ntp
