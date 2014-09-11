@@ -9,7 +9,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::par
     owner   => root,
     group   => root,
     mode    => 755,
-    before => File_line["resync_ntp.sh"],
+    before => File["resync_ntp.sh"],
   }
 
   file { "resync_ntp.sh":
