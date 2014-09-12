@@ -6,6 +6,7 @@ class nagios::client {
     use     => "generic-host",
     alias   => $hostname,
     tag     => "${environment}",
+    parents => "${xenhost}",
   }
 
   @@nagios_service { "check_ping_${hostname}":
