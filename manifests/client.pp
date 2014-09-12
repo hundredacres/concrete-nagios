@@ -9,7 +9,7 @@ class nagios::client {
     parents         => "${xenhost}",
     icon_image      => "base/linux40.png",
     statusmap_image => "base/linux40.gd2",
-  }F
+  }
 
   @@nagios_service { "check_ping_${hostname}":
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
