@@ -36,7 +36,7 @@ class nagios::nrpe::iostat {
       $check = "command[check_iostat]=/usr/lib/nagios/plugins/check_iostat.sh -d xvda -W -w 999,100,200,50,12 -c 999,200,300,100,14"
     }
     default : {
-      $check = "command[check_iostat]=/usr/lib/nagios/plugins/check_iostat.sh -d xvda -W -w 999,100,200,50,10-c 999,200,300,100,12.5"
+      $check = "command[check_iostat]=/usr/lib/nagios/plugins/check_iostat.sh -d xvda -W -w 999,100,200,50,10 -c 999,200,300,100,13"
     }
   }
 
