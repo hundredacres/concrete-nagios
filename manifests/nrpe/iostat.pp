@@ -49,6 +49,7 @@ class nagios::nrpe::iostat {
   }
 
   case $::environment {
+    'production' : { $service = "generic-service-excluding-pagerduty" }
     'testing'     : { $service = "generic-service" }
     'development' : { $service = "generic-service-excluding-pagerduty" }
     default       : { $service = "generic-service-excluding-pagerduty" }
