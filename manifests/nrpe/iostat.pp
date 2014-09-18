@@ -14,8 +14,8 @@ class nagios::nrpe::iostat {
   }
 
   $drive = split($::blockdevices, ",")
-  
-  nagios::nrpe::iostat::blockdevice_check{ $drive:}
+
+  nagios::nrpe::iostat::blockdevice_check { $drive: }
 
   # Create a definition that we can loop through
   define nagios::nrpe::iostat::blockdevice_check {
@@ -46,7 +46,7 @@ class nagios::nrpe::iostat {
       }
     }
 
-    file_line { "check_iostat":
+    file_line { "check_iostat_$name":
       line   => $check,
       path   => "/etc/nagios/nrpe_local.cfg",
       match  => "command\[check_iostat_$name\]",
