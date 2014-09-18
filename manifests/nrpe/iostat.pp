@@ -3,9 +3,21 @@ class nagios::nrpe::iostat {
   require basic_server::basic_software
   include nagios::nrpe::service
 
+    
+      file { "check_iostat.sh":
+    path   => "/usr/lib/nagios/plugins/check_iostat.sh",
+    source => "puppet:///modules/nagios/check_iostat.sh",
+    owner  => root,
+    group  => root,
+    mode   => "0755",
+    ensure => present,
+  }
+
   $drive = split($::blockdevices, ",")
 
-  nagios::nrpe::iostat::blockdevice_check { $drive: }
+  nagios::nrpe::iostat::blockdevice_check { $drive:
+    require => File["check_iostat.sh"],
+  }
 
   # Create a definition that we can loop through
   define nagios::nrpe::iostat::blockdevice_check {
@@ -35,16 +47,6 @@ class nagios::nrpe::iostat {
         $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,10 -c 999,200,300,100,13"
       }
     }
-    
-      file { "check_iostat.sh":
-    path   => "/usr/lib/nagios/plugins/check_iostat.sh",
-    source => "puppet:///modules/nagios/check_iostat.sh",
-    owner  => root,
-    group  => root,
-    mode   => "0755",
-    ensure => present,
-    before => File_line["check_iostat_$name"],
-  }
 
     file_line { "check_iostat_$name":
       line   => $check,
