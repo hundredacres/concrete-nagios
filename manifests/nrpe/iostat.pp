@@ -72,9 +72,11 @@ class nagios::nrpe::iostat {
       tag                   => "${environment}",
       notifications_enabled => 0,
     }
+    
+    @basic_server::motd::register { "Nagios Diskspeed Check $name": }
 
   }
 
-  @basic_server::motd::register { "Nagios Diskspeed Check $name": }
+  
 
 }
