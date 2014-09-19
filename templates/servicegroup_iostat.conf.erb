@@ -1,8 +1,6 @@
 #servicegroup_iostat.conf.erb
-#<% @data.each do |val| %>
-#define servicegroup {
-#    name servicegroup_iostat_<%= val %>
-#}
-#<% end %>
-
-<% @data.inspect %>
+<% @data[host].each do |val| %>
+define servicegroup {
+    name servicegroup_iostat_<%= val %>
+}
+<% end %>

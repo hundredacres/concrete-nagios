@@ -25,8 +25,11 @@ class nagios::nrpe::iostat {
 
   @@datacat_fragment { "$fqdn iostat in servicegroup":
     target => "/tmp/test.cfg",
-    data   => ["${xenhost}"],
-    tag => "iostat_${environment}",
+    data   => {
+      host => ["${xenhost}"],
+    }
+    ,
+    tag    => "iostat_${environment}",
   }
 
   $drive = split($::blockdevices, ",")
