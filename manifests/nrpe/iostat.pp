@@ -25,7 +25,7 @@ class nagios::nrpe::iostat {
 
   @@datacat_fragment { "$fqdn iostat in servicegroup":
     target => "/tmp/test.cfg",
-    data   => ["","${xenhost}"],
+    data   => ["${xenhost}"],
     tag => "iostat_${environment}",
   }
 
