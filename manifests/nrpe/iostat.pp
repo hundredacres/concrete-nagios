@@ -12,6 +12,12 @@ class nagios::nrpe::iostat {
     ensure => present,
   }
 
+  @@nagios_servicegroup { "diskspeed":
+    alias  => "Disk Speed",
+    target => "servicegroup_$name",
+    tag    => "${environment}",
+  }
+
   $drive = split($::blockdevices, ",")
 
   nagios::nrpe::iostat::blockdevice_check { $drive: require => File["check_iostat.sh"], }
@@ -68,12 +74,6 @@ class nagios::nrpe::iostat {
       service_description => "${hostname}_check_iostat_$name",
       tag                 => "${environment}",
     # notifications_enabled => 0,
-    }
-
-    @@nagios_servicegroup { "diskspeed":
-      alias  => "Disk Speed",
-      target => "servicegroup_$name",
-      tag    => "${environment}",
     }
 
     @basic_server::motd::register { "Nagios Diskspeed Check $name": }
