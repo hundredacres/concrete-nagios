@@ -3,8 +3,7 @@ class nagios::nrpe::iostat {
   require basic_server::basic_software
   include nagios::nrpe::service
 
-    
-      file { "check_iostat.sh":
+  file { "check_iostat.sh":
     path   => "/usr/lib/nagios/plugins/check_iostat.sh",
     source => "puppet:///modules/nagios/check_iostat.sh",
     owner  => root,
@@ -15,9 +14,7 @@ class nagios::nrpe::iostat {
 
   $drive = split($::blockdevices, ",")
 
-  nagios::nrpe::iostat::blockdevice_check { $drive:
-    require => File["check_iostat.sh"],
-  }
+  nagios::nrpe::iostat::blockdevice_check { $drive: require => File["check_iostat.sh"], }
 
   # Create a definition that we can loop through
   define nagios::nrpe::iostat::blockdevice_check {
@@ -64,19 +61,23 @@ class nagios::nrpe::iostat {
     }
 
     @@nagios_service { "check_iostat_${hostname}_$name":
-      check_command         => "check_nrpe_1arg_longtimeout!check_iostat_$name",
-      use                   => $service,
-      host_name             => $hostname,
-      target                => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-      service_description   => "${hostname}_check_iostat_$name",
-      tag                   => "${environment}",
-      notifications_enabled => 0,
+      check_command       => "check_nrpe_1arg_longtimeout!check_iostat_$name",
+      use                 => $service,
+      host_name           => $hostname,
+      target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
+      service_description => "${hostname}_check_iostat_$name",
+      tag                 => "${environment}",
+    # notifications_enabled => 0,
     }
-    
+
+    @@nagios_servicegroup { "diskspeed":
+      alias  => "Disk Speed",
+      target => "servicegroup_$name",
+      tag    => "${environment}",
+    }
+
     @basic_server::motd::register { "Nagios Diskspeed Check $name": }
 
   }
-
-  
 
 }

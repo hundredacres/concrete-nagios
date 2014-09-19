@@ -29,6 +29,9 @@ class nagios::server::config {
 
     Nagios_command <<| tag == "${environment}" |>> {
     }
+    
+    Nagios_servicegroup <<| tag == "${environment}" |>> {
+    }
 
   }
 
