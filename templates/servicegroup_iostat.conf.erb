@@ -1,5 +1,5 @@
 #servicegroup_iostat.conf.erb
-<% @data["host"].each do |val| %>
+<% @data["host"].uniq.each do |val| %>
 define servicegroup {
     name servicegroup_iostat_<%= val %>
 }
