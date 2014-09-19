@@ -1,4 +1,4 @@
-#servicegroup_iostat.conf.erb
+#servicegroup_iostat.cfg.erb
 <% @data["host"].uniq.each do |val| %>
 define servicegroup {
     servicegroup_name servicegroup_iostat_<%= val %>
