@@ -5,6 +5,6 @@ class nagios::server::iostat {
   Datacat_fragment <<| tag == "iostat_${environment}" |>> {
   }
 
-  datacat { '/tmp/test.cfg': template => "nagios/servicegroup_iostat.conf.erb", }
+  datacat { '/etc/nagios3/conf.d/puppet/servicegroups_iostat.conf': template => "nagios/servicegroup_iostat.conf.erb", }
 
 }

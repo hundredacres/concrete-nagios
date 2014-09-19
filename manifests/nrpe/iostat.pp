@@ -24,7 +24,7 @@ class nagios::nrpe::iostat {
   # together into a single text file using datacat. Gonna add the xenhost name into the array.
 
   @@datacat_fragment { "$fqdn iostat in servicegroup":
-    target => "/tmp/test.cfg",
+    target => "/etc/nagios3/conf.d/puppet/servicegroups_iostat.conf",
     data   => {
       host => ["${xenhost}"],
     }
@@ -87,7 +87,7 @@ class nagios::nrpe::iostat {
       target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
       service_description => "${hostname}_check_iostat_$name",
       tag                 => "${environment}",
-      servicegroups => "servicegroup_iostat_${xenhost}",
+      servicegroups       => "servicegroup_iostat_${xenhost}",
     # notifications_enabled => 0,
     }
 
