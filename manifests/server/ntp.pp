@@ -1,16 +1,7 @@
 class nagios::server::ntp {
   require nagios::server::config
   include nagios::server::service
-
-  # This should be factored out when we need a second eventhandler
-  file { "/usr/lib/nagios/eventhandlers":
-    ensure  => directory,
-    recurse => true,
-    owner   => root,
-    group   => root,
-    mode    => 755,
-    before  => File["ntp_event_handler.sh"],
-  }
+  include nagios::eventhandlers
 
   file { "ntp_event_handler.sh":
     path   => "/usr/lib/nagios/eventhandlers/ntp_event_handler.sh",
@@ -20,6 +11,7 @@ class nagios::server::ntp {
     mode   => "0755",
     ensure => present,
     before => Nagios_command[ntp_event_handler],
+    require => File["/usr/lib/nagios/eventhandlers"],
   }
 
   nagios_command { 'ntp_event_handler':

@@ -2,16 +2,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::par
   require nagios::nrpe::config
   require basic_server::ntp
   include nagios::nrpe::service
-
-  # This should be factored out when we need a second eventhandler
-  file { "/usr/lib/nagios/eventhandlers":
-    ensure  => directory,
-    recurse => true,
-    owner   => root,
-    group   => root,
-    mode    => 755,
-    before => File["resync_ntp.sh"],
-  }
+	include nagios::eventhandlers
 
   file { "resync_ntp.sh":
     path   => "/usr/lib/nagios/eventhandlers/resync_ntp.sh",
@@ -21,6 +12,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server) inherits nagios::par
     mode   => "0755",
     ensure => present,
     before => File_line["resync_ntp"],
+    require => File["/usr/lib/nagios/eventhandlers"],
   }
   
   #add nagios to sudoers so it can stop/start ntp
