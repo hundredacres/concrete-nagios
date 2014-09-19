@@ -2,5 +2,6 @@
 <% @data["host"].uniq.each do |val| %>
 define servicegroup {
     servicegroup_name servicegroup_iostat_<%= val %>
+    alias	"Disk Speed <%= val %>"
 }
 <% end %>
