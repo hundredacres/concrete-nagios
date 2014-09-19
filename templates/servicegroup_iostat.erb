@@ -1,0 +1,6 @@
+  # hostgroups.cfg.erb
+<% @data.keys.sort.each do |hosts| %>
+define servicegroup {
+    name servicegroup_iostat_<%= hosts %>
+}
+<% end %>
