@@ -1,11 +1,11 @@
 class nagios::test {
   
-  datacat_fragment { "$fqdn1 iostat in servicegroup":
+  datacat_fragment { "$fqdn 1 iostat in servicegroup":
     target => "/tmp/test.cfg",
     data   => ["xen01-off"],
   }
   
-  datacat_fragment { "$fqdn2 iostat in servicegroup":
+  datacat_fragment { "$fqdn 2 iostat in servicegroup":
     target => "/tmp/test.cfg",
     data   => ["xen02-off"],
   }
