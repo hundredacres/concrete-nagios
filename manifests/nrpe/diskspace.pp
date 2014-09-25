@@ -10,6 +10,7 @@ class nagios::nrpe::diskspace {
     match  => "command\[check_root_diskspace\]",
     ensure => present,
     before => File_line[check_disk_default],
+    notify => Service[nrpe],
   }
 
   file_line { "check_disk_default":
