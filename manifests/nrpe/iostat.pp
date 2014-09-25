@@ -31,7 +31,7 @@ class nagios::nrpe::iostat {
     ,
     tag    => "iostat_${environment}",
   }
-
+	
   $drive = split($::blockdevices, ",")
 
   nagios::nrpe::iostat::blockdevice_check { $drive: require => File["check_iostat.sh"], }

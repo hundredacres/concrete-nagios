@@ -11,7 +11,7 @@ class nagios::nrpe::config (
   file_line { "allowed_hosts":
     line   => $hosts,
     path   => "/etc/nagios/nrpe.cfg",
-    match  => "allowed_hosts",
+    match  => "^allowed_hosts",
     ensure => present,
     notify => Service[nrpe],
   }
