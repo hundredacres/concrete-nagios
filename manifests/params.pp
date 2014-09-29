@@ -11,7 +11,7 @@ class nagios::params {
   if $::service_class != "" {
 	   $nagios_service = $::service_class
   } else {
-    case $::environment {}
+    case $::environment {
     'production'  : { $nagios_service = "generic_service" }
     'testing'     : { $nagios_service = "generic_service" }
     'development' : { $nagios_service = "generic_service" }
