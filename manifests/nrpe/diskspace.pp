@@ -19,7 +19,7 @@ class nagios::nrpe::diskspace {
   nagios::nrpe::diskspace::blockdevice_check { $drive: require => File_Line["check_disk_default"], }
 
   define nagios::nrpe::diskspace::blockdevice_check {
-    if $name != "xvdd" {
+    if $name != "xvdd" or $name != "sr0" {
       file_line { "check_${name}_diskspace":
         line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -E -w 20% -c 10% -R /dev/${name}*",
         path   => "/etc/nagios/nrpe_local.cfg",

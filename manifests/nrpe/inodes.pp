@@ -7,7 +7,7 @@ class nagios::nrpe::inodes {
   nagios::nrpe::inodes::blockdevice_check { $drive: }
 
   define nagios::nrpe::inodes::blockdevice_check {
-    if $name != "xvdd" {
+    if $name != "xvdd" or $name != "sr0" {
       file_line { "check_${name}_inodes":
         line   => "command[check_${name}_inodes]=/usr/lib/nagios/plugins/check_disk -E -W 15% -K 5% -R /dev/${name}*",
         path   => "/etc/nagios/nrpe_local.cfg",
