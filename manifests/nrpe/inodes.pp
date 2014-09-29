@@ -23,7 +23,7 @@ class nagios::nrpe::inodes {
       $drive = $name
     }
 
-    @@nagios_service { "check_${drive}_space_${hostname}":
+    @@nagios_service { "check_${drive}_inodes_${hostname}":
       check_command       => "check_nrpe_1arg!check_${name}_inodes",
       use                 => "generic-service",
       host_name           => $hostname,
