@@ -82,12 +82,18 @@ class nagios::nrpe::iostat {
         default       : { $service = "generic-service-excluding-pagerduty" }
       }
 
-      @@nagios_service { "check_iostat_${hostname}_$name":
+      if $name == "xvda" {
+        $drive = "sysvol"
+      } else {
+        $drive = $name
+      }
+
+      @@nagios_service { "check_${drive}_iostat_${hostname}":
         check_command       => "check_nrpe_1arg_longtimeout!check_iostat_$name",
         use                 => $service,
         host_name           => $hostname,
         target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-        service_description => "${hostname}_check_iostat_$name",
+        service_description => "${hostname}_check_${drive}_iostat",
         tag                 => "${environment}",
         servicegroups       => "servicegroup_iostat_${xenhost}",
       # notifications_enabled => 0,
