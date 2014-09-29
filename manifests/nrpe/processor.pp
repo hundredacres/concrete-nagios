@@ -19,7 +19,7 @@ class nagios::nrpe::processor (
 	$loadcritical5 = $::processorcount * 0.8
 	$loadcritical15 = $::processorcount * 0.6
 	
-	$check="command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}" }
+	$check="command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}" 
 
   file_line { "check_load":
     # have to define cases manually as puppet does not handle casting between strings and numbers well
