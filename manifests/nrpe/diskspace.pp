@@ -20,8 +20,21 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
 
   define nagios::nrpe::diskspace::blockdevice_check ($nagios_service = "generic_service"){
     if $name != "xvdd" and $name != "sr0" {
+      
+      #Going to have a different check for very large disks ( gt than 100GB)
+      
+      $size =getvar("blockdevice_${name}_size")
+      
+      if $size > 100*1024*1024*1024 {
+      	$warning = "10"
+				$critical = "5"
+      } else {
+        $warning = "20"
+        $critical = "10"
+      } 
+      
       file_line { "check_${name}_diskspace":
-        line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -E -w 20% -c 10% -R /dev/${name}*",
+        line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -E -w ${warning}% -c ${critical}% -R /dev/${name}*",
         path   => "/etc/nagios/nrpe_local.cfg",
         match  => "command\[check_${name}_diskspace\]",
         ensure => present,
