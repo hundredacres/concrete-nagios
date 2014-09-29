@@ -21,6 +21,7 @@ class nagios::nrpe::processor (
     path   => "/etc/nagios/nrpe_local.cfg",
     match  => "command\[check_load\]",
     ensure => present,
+    notify => Service[nrpe],
     before => File_line[check_load_default],
   }
 

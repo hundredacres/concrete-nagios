@@ -44,7 +44,7 @@ class nagios::nrpe::iostat {
       #Fully dynamic check:
       
       $ioloadwarning = floor(80 / $::processorcount)
-      $ioloadcritical = floor(10 / $::processorcount)
+      $ioloadcritical = floor(100 / $::processorcount)
       
       $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,75,${ioloadwarning} -c 999,200,300,150,${ioloadcritical}"
 
