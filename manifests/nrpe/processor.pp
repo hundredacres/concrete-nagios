@@ -4,13 +4,7 @@ class nagios::nrpe::processor (
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-#  case $::processorcount {
-#    '1'     : { $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w 0.9,0.7,0.5 -c 1,0.8,0.6" }
-#    '2'     : { $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w 1.8,1.4,1 -c 2,1.6,1.2" }
-#    '3'     : { $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w 2.7,2.1,1.5 -c 3,2.4,1.8" }
-#    '4'     : { $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w 3.6,2.8,2 -c 4,3.2,2.4" }
-#    default : { $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w 4.5,3.5,2.5 -c 5,4,3" }
-#  }
+	#Fully dynamic load check:
 
 	$loadwarning1 = $::processorcount * 0.9
 	$loadwarning5 = $::processorcount * 0.7

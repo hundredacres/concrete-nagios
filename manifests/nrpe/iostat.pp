@@ -40,32 +40,42 @@ class nagios::nrpe::iostat {
   # May need to review what we consider to be actionable levels for meaningful alerting on these... --Justin
   define nagios::nrpe::iostat::blockdevice_check {
     if $name != "xvdd" and $name != "sr0" {
-      case $::processorcount {
-        '1'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,80 -c 999,200,300,100,100"
-        }
-        '2'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,40 -c 999,200,300,100,50"
-        }
-        '3'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,27 -c 999,200,300,100,33"
-        }
-        '4'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,20 -c 999,200,300,100,25"
-        }
-        '5'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,16 -c 999,200,300,100,20"
-        }
-        '6'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,14 -c 999,200,300,100,16"
-        }
-        '7'     : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,12 -c 999,200,300,100,14"
-        }
-        default : {
-          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,10 -c 999,200,300,100,13"
-        }
-      }
+      
+      #Fully dynamic check:
+      
+      $ioloadwarning = floor(80 / $::processorcount)
+      $ioloadcritical = floor(10 / $::processorcount)
+      
+      $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,75,${ioloadwarning} -c 999,200,300,150,${ioloadcritical}"
+
+				#Marked for deletion:
+
+#      case $::processorcount {
+#        '1'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,80 -c 999,200,300,100,100"
+#        }
+#        '2'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,40 -c 999,200,300,100,50"
+#        }
+#        '3'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,27 -c 999,200,300,100,33"
+#        }
+#        '4'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,20 -c 999,200,300,100,25"
+#        }
+#        '5'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,16 -c 999,200,300,100,20"
+#        }
+#        '6'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,14 -c 999,200,300,100,16"
+#        }
+#        '7'     : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,12 -c 999,200,300,100,14"
+#        }
+#        default : {
+#          $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,10 -c 999,200,300,100,13"
+#        }
+#      }
 
       file_line { "check_iostat_$name":
         line   => $check,
