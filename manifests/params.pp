@@ -7,4 +7,8 @@ class nagios::params {
     'development' : { $server = "192.168.90.99" }
     default       : { $server = "192.168.90.223" }
   }
+  
+#  if $::service_class != "" {
+#    $service_class
+#  }
 }

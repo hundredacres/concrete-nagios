@@ -21,7 +21,7 @@ class nagios::nrpe::diskspace {
   define nagios::nrpe::diskspace::blockdevice_check {
     if $name != "xvdd" {
       file_line { "check_${name}_diskspace":
-        line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -x ${name}",
+        line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -E -w 20% -c 10% -R /dev/${name}*",
         path   => "/etc/nagios/nrpe_local.cfg",
         match  => "command\[check_${name}_diskspace\]",
         ensure => present,
