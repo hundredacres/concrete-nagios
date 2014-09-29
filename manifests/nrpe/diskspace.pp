@@ -16,9 +16,9 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
 
   $drive = split($::blockdevices, ",")
 
-  nagios::nrpe::diskspace::blockdevice_check { $drive: require => File_Line["check_disk_default"], }
+  nagios::nrpe::diskspace::blockdevice_check { $drive: require => File_Line["check_disk_default"], nagios_service => $nagios_service }
 
-  define nagios::nrpe::diskspace::blockdevice_check {
+  define nagios::nrpe::diskspace::blockdevice_check ($nagios_service = "generic_service"){
     if $name != "xvdd" and $name != "sr0" {
       file_line { "check_${name}_diskspace":
         line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -E -w 20% -c 10% -R /dev/${name}*",

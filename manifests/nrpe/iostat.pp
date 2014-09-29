@@ -34,7 +34,7 @@ class nagios::nrpe::iostat {
 
   $drive = split($::blockdevices, ",")
 
-  nagios::nrpe::iostat::blockdevice_check { $drive: require => File["check_iostat.sh"], }
+  nagios::nrpe::iostat::blockdevice_check { $drive: require => File["check_iostat.sh"] }
 
   # Create a definition that we can loop through
   # May need to review what we consider to be actionable levels for meaningful alerting on these... --Justin

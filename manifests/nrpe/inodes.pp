@@ -4,9 +4,9 @@ class nagios::nrpe::inodes ($nagios_service = $nagios::params::nagios_service) i
 
   $drive = split($::blockdevices, ",")
 
-  nagios::nrpe::inodes::blockdevice_check { $drive: }
+  nagios::nrpe::inodes::blockdevice_check { $drive: nagios_service => $nagios_service }
 
-  define nagios::nrpe::inodes::blockdevice_check {
+  define nagios::nrpe::inodes::blockdevice_check ($nagios_service = "generic_service") {
     if $name != "xvdd" and $name != "sr0" {
       file_line { "check_${name}_inodes":
         line   => "command[check_${name}_inodes]=/usr/lib/nagios/plugins/check_disk -E -W 15% -K 5% -R /dev/${name}*",
