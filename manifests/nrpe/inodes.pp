@@ -2,24 +2,37 @@ class nagios::nrpe::inodes {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-  file_line { "check_inodes":
-    line   => "command[check_inodes]=/usr/lib/nagios/plugins/check_disk -W 15 -C 5 -p /",
-    path   => "/etc/nagios/nrpe_local.cfg",
-    match  => "command\[check_inodes\]",
-    ensure => present,
-    notify => Service[nrpe],
-  }
+  $drive = split($::blockdevices, ",")
 
-  @@nagios_service { "check_inodes_${hostname}":
-    check_command       => "check_nrpe_1arg!check_inodes",
-    use                 => "generic-service",
-    host_name           => $hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-    service_description => "${hostname}_check_inodes",
-    tag                 => "${environment}",
-  }
+  nagios::nrpe::inodes::blockdevice_check { $drive: }
 
-  @basic_server::motd::register { 'Nagios Inodes Check': }
+  define nagios::nrpe::inodes::blockdevice_check {
+    file_line { "check_${name}_inodes":
+      line   => "command[check_${name}_inodes]=/usr/lib/nagios/plugins/check_disk -W 15% -K 5% -x ${name}",
+      path   => "/etc/nagios/nrpe_local.cfg",
+      match  => "command\[check_${name}_inodes\]",
+      ensure => present,
+      notify => Service[nrpe],
+    }
+
+    # For neatness :
+
+    if $name == "xvda" {
+      $drive = "sysvol"
+    } else {
+      $drive = $name
+    }
+
+    @@nagios_service { "check_${drive}_space_${hostname}":
+      check_command       => "check_nrpe_1arg!check_${name}_inodes",
+      use                 => "generic-service",
+      host_name           => $hostname,
+      target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
+      service_description => "${hostname}_check_${drive}_inodes",
+      tag                 => "${environment}",
+    }
+
+    @basic_server::motd::register { "Nagios Inodes Check ${name}": }
+  }
 
 }
-

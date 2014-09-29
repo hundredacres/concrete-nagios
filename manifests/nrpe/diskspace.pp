@@ -4,14 +4,7 @@ class nagios::nrpe::diskspace {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-  file_line { "check_root_diskspace":
-    line   => "command[check_root_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /",
-    path   => "/etc/nagios/nrpe_local.cfg",
-    match  => "command\[check_root_diskspace\]",
-    ensure => present,
-    before => File_line[check_disk_default],
-    notify => Service[nrpe],
-  }
+  # Remove the default check_disk
 
   file_line { "check_disk_default":
     line   => "command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /",
@@ -21,16 +14,39 @@ class nagios::nrpe::diskspace {
     notify => Service[nrpe],
   }
 
-  @@nagios_service { "check_sysvol_space_${hostname}":
-    check_command       => "check_nrpe_1arg!check_root_diskspace",
-    use                 => "generic-service",
-    host_name           => $hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-    service_description => "${hostname}_check_sysvol_space",
-    tag                 => "${environment}",
-  }
+  $drive = split($::blockdevices, ",")
 
-  @basic_server::motd::register { 'Nagios Diskspace Check': }
+  nagios::nrpe::diskspace::blockdevice_check { $drive: require => File_Line["check_disk_default"], }
+
+  define nagios::nrpe::diskspace::blockdevice_check {
+    file_line { "check_${name}_diskspace":
+      line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -x ${name}",
+      path   => "/etc/nagios/nrpe_local.cfg",
+      match  => "command\[check_${name}_diskspace\]",
+      ensure => present,
+      notify => Service[nrpe],
+    }
+
+    # For neatness :
+
+    if $name == "xvda" {
+      $drive = "sysvol"
+    } else {
+      $drive = $name
+    }
+
+    @@nagios_service { "check_${drive}_space_${hostname}":
+      check_command       => "check_nrpe_1arg!check_${name}_diskspace",
+      use                 => "generic-service",
+      host_name           => $hostname,
+      target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
+      service_description => "${hostname}_check_${drive}_space",
+      tag                 => "${environment}",
+    }
+
+    @basic_server::motd::register { "Nagios Diskspace Check $name": }
+
+  }
 
 }
 
