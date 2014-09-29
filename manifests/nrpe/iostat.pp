@@ -39,7 +39,7 @@ class nagios::nrpe::iostat {
   # Create a definition that we can loop through
   # May need to review what we consider to be actionable levels for meaningful alerting on these... --Justin
   define nagios::nrpe::iostat::blockdevice_check {
-    if $name != "xvdd" or $name != "sr0" {
+    if $name != "xvdd" and $name != "sr0" {
       case $::processorcount {
         '1'     : {
           $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,50,80 -c 999,200,300,100,100"
