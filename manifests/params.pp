@@ -11,11 +11,12 @@ class nagios::params {
   if $::service_class != "" {
 	   $nagios_service = $::service_class
   } else {
+    #Casing this in case we decide to unify our generic definitions.
     case $::environment {
-    'production'  : { $nagios_service = "generic_service" }
-    'testing'     : { $nagios_service = "generic_service" }
-    'development' : { $nagios_service = "generic_service" }
-    default       : { $nagios_service = "generic_service" }
+    'production'  : { $nagios_service = "generic-service" }
+    'testing'     : { $nagios_service = "generic-service" }
+    'development' : { $nagios_service = "generic-service" }
+    default       : { $nagios_service = "generic-service" }
   }
   
   
