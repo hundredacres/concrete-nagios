@@ -1,4 +1,6 @@
-class nagios::nrpe::processor {
+class nagios::nrpe::processor (
+  $nagios_service = $nagios::params::nagios_service
+  ) inherits nagios::params{
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -30,7 +32,7 @@ class nagios::nrpe::processor {
 
   @@nagios_service { "check_load_${hostname}":
     check_command       => "check_nrpe_1arg!check_load",
-    use                 => "generic-service",
+    use                 => "${nagios_service}",
     host_name           => $hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
     service_description => "${hostname}_check_load",

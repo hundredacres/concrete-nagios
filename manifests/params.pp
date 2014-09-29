@@ -8,7 +8,16 @@ class nagios::params {
     default       : { $server = "192.168.90.223" }
   }
   
-#  if $::service_class != "" {
-#    $service_class
-#  }
+  if $::service_class != "" {
+	   $nagios_service = $::service_class
+  } else {
+    case $::environment {}
+    'production'  : { $nagios_service = "generic_service" }
+    'testing'     : { $nagios_service = "generic_service" }
+    'development' : { $nagios_service = "generic_service" }
+    default       : { $nagios_service = "generic_service" }
+  }
+  
+  
+  }
 }

@@ -1,6 +1,6 @@
 # Use the default diskspace check (warn on 20%, critical on 10%). I believe this automatically checks sysvol.
 
-class nagios::nrpe::diskspace {
+class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service) inherits nagios::params {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -38,7 +38,7 @@ class nagios::nrpe::diskspace {
 
       @@nagios_service { "check_${drive}_space_${hostname}":
         check_command       => "check_nrpe_1arg!check_${name}_diskspace",
-        use                 => "generic-service",
+        use                 => "${nagios_service}",
         host_name           => $hostname,
         target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
         service_description => "${hostname}_check_${drive}_space",

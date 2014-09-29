@@ -1,4 +1,4 @@
-class nagios::nrpe::inodes {
+class nagios::nrpe::inodes ($nagios_service = $nagios::params::nagios_service) inherits nagios::params {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -26,7 +26,7 @@ class nagios::nrpe::inodes {
 
       @@nagios_service { "check_${drive}_inodes_${hostname}":
         check_command       => "check_nrpe_1arg!check_${name}_inodes",
-        use                 => "generic-service",
+        use                 => "${nagios_service}",
         host_name           => $hostname,
         target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
         service_description => "${hostname}_check_${drive}_inodes",

@@ -1,4 +1,6 @@
-class nagios::client {
+class nagios::client (
+  $nagios_service = $nagios::params::nagios_service
+  ) inherits nagios::params {
   @@nagios_host { $hostname:
     target          => "/etc/nagios3/conf.d/puppet/host_${fqdn}.cfg",
     ensure          => present,
@@ -14,14 +16,13 @@ class nagios::client {
   @@nagios_service { "check_ping_${hostname}":
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
     check_command       => "check_ping!100.0,20%!500.0,60%",
-    use                 => "generic-service",
+    use                 => "${nagios_service}",
     host_name           => "$hostname",
-    notification_period => "24x7",
     service_description => "${hostname}_check_ping",
     require             => nagios_host[$hostname],
     tag                 => "${environment}",
   }
 
-  @basic_server::motd::register { 'Nagios Host Check': }
+  @basic_server::motd::register { 'Nagios Ping Check': }
 
 }
