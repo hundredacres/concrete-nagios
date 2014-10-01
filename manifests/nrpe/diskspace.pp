@@ -69,7 +69,7 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
 	notify{ "${lvm}" :}
 
   if $lvm == true or $hostname == "bendev" {
-    $excludedDrives = join(prefix(${drive}, "-I "), " ")
+    $excludedDrives = join(prefix( $drive, "-I "), " ")
 
     file_line { "check_lvm_diskspace":
       line   => "command[check_lvm_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p / ${excludedDrives}",
