@@ -66,9 +66,9 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
 
   }
 
-	notify{ ${lvm}:}
+	notify{ "${lvm}" :}
 
-  if ${lvm} == true or ${hostname} == "bendev" {
+  if $lvm == true or $hostname == "bendev" {
     $excludedDrives = join(prefix(${drive}, "-I "), " ")
 
     file_line { "check_lvm_diskspace":
