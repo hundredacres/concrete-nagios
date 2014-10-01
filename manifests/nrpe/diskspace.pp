@@ -65,9 +65,9 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
     }
 
   }
-  
+
   if $lvm == "true" {
-    $excludedDrives = join(prefix( $drive, "-I "), " ")
+    $excludedDrives = join(prefix($drive, "-I "), " ")
 
     file_line { "check_LVM_diskspace":
       line   => "command[check_LVM_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p / ${excludedDrives}",
@@ -85,7 +85,7 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
       service_description => "${hostname}_check_LVM_space",
       tag                 => "${environment}",
     }
-    
+
     @basic_server::motd::register { "Nagios Diskspace Check LVM": }
   }
 }
