@@ -54,7 +54,7 @@ class nagios::nrpe::inodes ($nagios_service = $nagios::params::nagios_service) i
       use                 => "${nagios_service}",
       host_name           => $hostname,
       target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-      service_description => "${hostname}_check_LVM_space",
+      service_description => "${hostname}_check_LVM_inodes",
       tag                 => "${environment}",
     }
 
