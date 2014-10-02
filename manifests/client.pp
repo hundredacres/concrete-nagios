@@ -29,7 +29,6 @@ class nagios::client ($nagios_service = $nagios::params::nagios_service) inherit
       use             => "generic-host",
       alias           => $hostname,
       tag             => "${environment}",
-      parents         => "${parent}",
       icon_image      => "base/linux40.png",
       statusmap_image => "base/linux40.gd2",
     }
