@@ -1,14 +1,25 @@
 class nagios::client (
   $nagios_service = $nagios::params::nagios_service
   ) inherits nagios::params {
-  @@nagios_host { $hostname:
+    
+    #Gonna take in a nagios_parent variable as an override
+    
+    if $::nagios_parent != "" {
+      $parent = $::nagios_parent
+    } else {
+      $parent = $xenhost
+    } 
+    
+  @@nagios_host { $hostname :
     target          => "/etc/nagios3/conf.d/puppet/host_${fqdn}.cfg",
     ensure          => present,
     address         => $ipaddress_eth0,
     use             => "generic-host",
     alias           => $hostname,
     tag             => "${environment}",
-    parents         => "${xenhost}",
+    if $parent != "" {
+    parents         => "${parent}",
+    }
     icon_image      => "base/linux40.png",
     statusmap_image => "base/linux40.gd2",
   }
