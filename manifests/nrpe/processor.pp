@@ -6,24 +6,26 @@ class nagios::nrpe::processor (
 
 	#Fully dynamic load check:
 
-	#$loadwarning1 = $::processorcount * 0.9
-	#$loadwarning5 = $::processorcount * 0.7
-	#$loadwarning15 = $::processorcount * 0.5
-	#$loadcritical1 = $::processorcount * 1
-	#$loadcritical5 = $::processorcount * 0.8
-	#$loadcritical15 = $::processorcount * 0.6
+	$loadwarning1 = $::processorcount * 0.9
+	$loadwarning5 = $::processorcount * 0.8
+	$loadwarning15 = $::processorcount * 0.7
+	$loadcritical1 = $::processorcount * 1
+	$loadcritical5 = $::processorcount * 0.9
+	$loadcritical15 = $::processorcount * 0.8
 	
 	# Changing this based on rational that poor disk IO 
 	# or poor network share IO
 	# will bump up calculated load up as well as CPU usage
 	# see http://en.wikipedia.org/wiki/Load_(computing)
 	
-	$loadwarning1 = $::processorcount * 1.3
-	$loadwarning5 = $::processorcount * 1.1
-	$loadwarning15 = $::processorcount * 0.9
-	$loadcritical1 = $::processorcount * 1.8
-	$loadcritical5 = $::processorcount * 1.5
-	$loadcritical15 = $::processorcount * 1.1
+	#THis is true, but this also means that the load check will not proc when there is NOT IO issues. Correct response is to check iostat / correlate with that.
+	
+	#$loadwarning1 = $::processorcount * 1.3
+	#$loadwarning5 = $::processorcount * 1.1
+	#$loadwarning15 = $::processorcount * 0.9
+	#$loadcritical1 = $::processorcount * 1.8
+	#$loadcritical5 = $::processorcount * 1.5
+	#$loadcritical15 = $::processorcount * 1.1
 	
 	$check="command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}" 
 
