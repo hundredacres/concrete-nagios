@@ -13,7 +13,7 @@ class nagios::nrpe::zombie_procs (
     tag                 => "${environment}",
   }
 
-  @basic_server::motd::register { 'Nagios Zombie Processes Check': }
+  @motd::register { 'Nagios Zombie Processes Check': }
 
 }
 

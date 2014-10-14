@@ -27,6 +27,6 @@ class nagios::nrpe::total_procs ($nagios_service = $nagios::params::nagios_servi
     notify => Service[nrpe],
   }
 
-  @basic_server::motd::register { 'Nagios Total Processes Check': }
+  @motd::register { 'Nagios Total Processes Check': }
 
 }

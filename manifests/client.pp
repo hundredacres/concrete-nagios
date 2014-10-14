@@ -44,6 +44,6 @@ class nagios::client ($nagios_service = $nagios::params::nagios_service) inherit
     tag                 => "${environment}",
   }
 
-  @basic_server::motd::register { 'Nagios Ping Check': }
+  @motd::register { 'Nagios Ping Check': }
 
 }

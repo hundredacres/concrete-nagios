@@ -60,7 +60,7 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
         tag                 => "${environment}",
       }
 
-      @basic_server::motd::register { "Nagios Diskspace Check $name": }
+      @motd::register { "Nagios Diskspace Check $name": }
 
     }
 
@@ -86,7 +86,7 @@ class nagios::nrpe::diskspace ($nagios_service = $nagios::params::nagios_service
       tag                 => "${environment}",
     }
 
-    @basic_server::motd::register { "Nagios Diskspace Check LVM": }
+    @motd::register { "Nagios Diskspace Check LVM": }
   }
 }
 

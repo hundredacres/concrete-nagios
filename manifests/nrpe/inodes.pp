@@ -33,7 +33,7 @@ class nagios::nrpe::inodes ($nagios_service = $nagios::params::nagios_service) i
         tag                 => "${environment}",
       }
 
-      @basic_server::motd::register { "Nagios Inodes Check ${name}": }
+      @motd::register { "Nagios Inodes Check ${name}": }
     }
 
   }
@@ -58,7 +58,7 @@ class nagios::nrpe::inodes ($nagios_service = $nagios::params::nagios_service) i
       tag                 => "${environment}",
     }
 
-    @basic_server::motd::register { "Nagios Inodes Check LVM": }
+    @motd::register { "Nagios Inodes Check LVM": }
   }
 
 }
