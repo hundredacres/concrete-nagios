@@ -5,7 +5,7 @@ class nagios::nrpe::reboot ($nagios_service = $nagios::params::nagios_service) i
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-  file { "check_mem.sh":
+  file { "check_reboot.sh":
     path   => "/usr/lib/nagios/plugins/check_reboot.sh",
     source => "puppet:///modules/nagios/check_reboot.sh",
     owner  => root,
@@ -16,7 +16,7 @@ class nagios::nrpe::reboot ($nagios_service = $nagios::params::nagios_service) i
   }
 
   file_line { "check_reboot":
-    line   => "command[check_reboot]=/usr/lib/nagios/plugins/check_mem.sh -w 85 -c 95",
+    line   => "command[check_reboot]=/usr/lib/nagios/plugins/check_reboot.sh",
     path   => "/etc/nagios/nrpe_local.cfg",
     match  => "command\[check_reboot\]",
     ensure => present,
