@@ -30,6 +30,7 @@ class nagios::nrpe::reboot ($nagios_service = $nagios::params::nagios_service) i
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
     service_description => "${hostname}_check_reboot",
     tag                 => "${environment}",
+    notifications_enabled => 0,
   }
 
   @motd::register { 'Nagios Reboot Check': }
