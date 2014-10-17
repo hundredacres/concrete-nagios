@@ -48,5 +48,5 @@ class nagios::nrpe::ntp ($server = $nagios::params::server, $nagios_service = $n
     event_handler				=> "resync_ntp",
   }
   
-  @motd::register { 'NTP Check and Restart scrpit': }
+  @motd::register { 'NTP Check and Restart script': }
 }
