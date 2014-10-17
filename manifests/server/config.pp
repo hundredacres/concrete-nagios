@@ -32,7 +32,10 @@ class nagios::server::config {
     
     Nagios_servicegroup <<| tag == "${environment}" |>> {
     }
-
+		
+		Nagios_servicedependency <<| tag == "${environment}" |>> {
+    }
+    
   }
 
   nagios_collector { "collect_it":
