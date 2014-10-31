@@ -1,7 +1,6 @@
 class nagios::nrpe::pacemaker ($nagios_service = $nagios::params::nagios_service) inherits nagios::params {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  require heartbeat::virtualip
   
   file_line { "pacemaker_sudoers":
 		line => "nagios ALL=(ALL) NOPASSWD: /usr/sbin/crm_mon -s",
