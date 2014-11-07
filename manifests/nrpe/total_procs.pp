@@ -20,7 +20,7 @@ class nagios::nrpe::total_procs ($nagios_service = $nagios::params::nagios_servi
   }
 
   file_line { "check_total_procs":
-    line   => "command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 200 -c 250",
+    line   => "command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 500 -c 600",
     path   => "/etc/nagios/nrpe_local.cfg",
     match  => "command\[check_total_procs\]",
     ensure => present,
