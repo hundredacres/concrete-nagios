@@ -18,7 +18,6 @@ class nagios::nrpe::iostat {
   #   tag    => "${environment}",
   #}
 
-
   # This is a bit dirty. We could use nagios_servicegroups, but we want some way to be dynamic with our iostat service groups.
   # Easiest way is to throw it all
   # together into a single text file using datacat. Gonna add the xenhost name into the array.
