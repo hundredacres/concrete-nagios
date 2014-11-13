@@ -88,7 +88,7 @@ class nagios::nrpe::iostat {
         service_description           => "${hostname}_check_${drive}_iostat",
         execution_failure_criteria    => "w,c",
         notification_failure_criteria => "w,c",
-        target    => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
+        target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${fqdn}.cfg",
         tag       => "${environment}",
       }
 
