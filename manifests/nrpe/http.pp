@@ -16,7 +16,7 @@ define nagios::nrpe::http ($health_check_uri = "/", $port = "80", $has_parent = 
   # usecase
 
   @@nagios_service { "check_${name}_${protocol}_on_${hostname}":
-    check_command       => "${command}!${hostname}!${health_check_uri}!${port}",
+    check_command       => "${command}!${name}!${health_check_uri}!${port}",
     use                 => "${nagios_service}",
     host_name           => $hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
