@@ -20,14 +20,14 @@ define nagios::nrpe::http ($health_check_uri = "/", $port = "80", $has_parent = 
     use                 => "${nagios_service}",
     host_name           => $hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-    service_description => "${hostname}_check_workspacesapi_http",
+    service_description => "${hostname}_check_${name}_${protocol}",
     tag                 => "${environment}",
   }
 
   if $has_parent == true {
     @@nagios_servicedependency { "${name}_on_${hostname}_depencency_process":
       dependent_host_name           => $hostname,
-      dependent_service_description => "${name}",
+      dependent_service_description => "${hostname}_check_${name}_${protocol}",
       host_name => $hostname,
       service_description           => "${parent_service}",
       execution_failure_criteria    => "c",
@@ -38,8 +38,8 @@ define nagios::nrpe::http ($health_check_uri = "/", $port = "80", $has_parent = 
   }
 
   if $has_parent == true {
-    @motd::register { "Nagios HTTP Check for ${name} and service dependency on ${parent_service}": }
+    @motd::register { "Nagios ${protocol} Check for ${name} and service dependency on ${parent_service}": }
   } else {
-    @motd::register { "Nagios HTTP Check for ${name}": }
+    @motd::register { "Nagios ${protocol} Check for ${name}": }
   }
 }
