@@ -11,7 +11,7 @@ define nagios::nrpe::process (
 
   $nagios_service = $::nagios::params::nagios_service
 
-  if $restart_command = "" {
+  if $restart_command == "" {
     $restart_command = "/etc/init.d/${process} restart"
   }
 
