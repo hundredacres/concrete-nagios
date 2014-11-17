@@ -44,7 +44,7 @@ class nagios::nrpe::ntp ($server = $nagios::params::server, $nagios_service = $n
     target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
     service_description => "${hostname}_check_time_sync",
     tag                 => "${environment}",
-    event_handler				=> "resync_ntp",
+    event_handler				=> "event_handler!resync_ntp",
   }
   
   @motd::register { 'NTP Check and Restart script': }

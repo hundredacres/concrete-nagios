@@ -1,4 +1,16 @@
 class nagios::server::clean {
+  # This class is for newbuilt nagios servers. If we decide to rebuild/clean our prod servers, we should stop this being a seperate
+  # class.
+
+  #       Automatically added in ubuntu install
+  #
+  #               nagios_command { 'Check Nrpe':
+  #                       command_name => 'check_nrpe',
+  #                       ensure       => 'present',
+  #                       command_line => '/usr/lib64/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$',
+  #                       target => "/etc/nagios3/conf.d/nagios_commands.cfg",
+  #               }
+
   nagios_command { 'Check Nrpe Longtimeout':
     command_name => 'check_nrpe_1arg_longtimeout',
     ensure       => 'present',

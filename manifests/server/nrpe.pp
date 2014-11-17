@@ -16,9 +16,6 @@ class nagios::server::nrpe {
   #                       target => "/etc/nagios3/conf.d/nagios_commands.cfg",
   #               }
 
-  # This class is for newbuilt nagios servers. If we decide to rebuild/clean our prod servers, we should stop this being a seperate
-  # class.
-
   class clean {
 
 
