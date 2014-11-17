@@ -91,12 +91,12 @@ case $STATE in
 				case $ATTEMPT in
 					#Will run command on the 3rd soft warning
 					3)	
-						/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $command
+						/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $COMMAND
 						;;
 				esac
 				;;
 			HARD)
-				/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $command
+				/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $COMMAND
 				;;
 		esac
 		;;
@@ -106,12 +106,12 @@ case $STATE in
 				case $ATTEMPT in
 					#Will run command on the 3rd soft warning
 					3)	
-						/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $command
+						/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $COMMAND
 						;;
 				esac
 				;;
 			HARD)
-				/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $command
+				/usr/lib/nagios/plugins/check_nrpe -H $HOST -c $COMMAND
 				;;
 		esac
 		;;
