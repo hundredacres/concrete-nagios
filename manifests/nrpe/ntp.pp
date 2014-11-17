@@ -2,7 +2,6 @@ class nagios::nrpe::ntp ($server = $nagios::params::server, $nagios_service = $n
   require nagios::nrpe::config
   require basic_server::ntp
   include nagios::nrpe::service
-	include nagios::eventhandlers
 
   file { "resync_ntp.sh":
     path   => "/usr/lib/nagios/eventhandlers/resync_ntp.sh",

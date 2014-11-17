@@ -1,7 +1,6 @@
 class nagios::server::ntp {
   require nagios::server::config
   include nagios::server::service
-  include nagios::eventhandlers
 
   file { "ntp_event_handler.sh":
     path   => "/usr/lib/nagios/eventhandlers/ntp_event_handler.sh",

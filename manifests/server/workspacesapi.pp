@@ -1,7 +1,6 @@
 class nagios::server::workspacesapi {
   require nagios::server::config
   include nagios::server::service
-  include nagios::eventhandlers
 
   file { "workspacesapi_event_handler.sh":
     path    => "/usr/lib/nagios/eventhandlers/workspacesapi_event_handler.sh",

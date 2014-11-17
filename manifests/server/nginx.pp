@@ -1,7 +1,6 @@
 class nagios::server::nginx {
   require nagios::server::config
   include nagios::server::service
-  include nagios::eventhandlers
 
   file { "nginx_event_handler.sh":
     path    => "/usr/lib/nagios/eventhandlers/nginx_event_handler.sh",
