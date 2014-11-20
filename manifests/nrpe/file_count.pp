@@ -9,16 +9,8 @@ define nagios::nrpe::file_count ($directory         = $name,
   include nagios::nrpe::service
   include nagios::params
   $nagios_service = $::nagios::params::nagios_service
-
-  file { "check_file_count.sh":
-    path   => "/usr/lib/nagios/plugins/check_file_count.sh",
-    source => "puppet:///modules/nagios/check_file_count.sh",
-    owner  => nagios,
-    group  => nagios,
-    mode   => "0755",
-    ensure => present,
-    before => File_line[check_file_count],
-  }
+  
+  require nagios::nrpe::file_count::package
 
 	if $recurse == true {
 	  $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} -c ${critical} -r -d ${directory}"
