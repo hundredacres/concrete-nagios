@@ -1,8 +1,8 @@
 #Gonna make a generic check that can use the check_file_count script
 
 define nagios::nrpe::file_count ($directory         = $name,
-  $warning         = "2",
-  $critical        = "1",
+  $warning         = "5",
+  $critical        = "10",
   $recurse          = true
   ) {
   require nagios::nrpe::config
