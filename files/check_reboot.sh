@@ -10,7 +10,7 @@ if [ ! -f /var/run/reboot-required ]; then
 else
         # a reboot required
         echo "WARNING: $(cat /var/run/reboot-required*)"
-        exit 1
+        exit 0
 fi
 
 
