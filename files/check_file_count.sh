@@ -24,8 +24,7 @@ function help {
 	-w,-c = Warning and critical levels respectively. Required parameter.
 		
 	-r = recursive mode.
-
-	-h = This help
+ 
 	"
 	exit -1
 }
@@ -71,7 +70,7 @@ if ! $CRITICALFLAG; then
 	echo "UNKNOWN - Critical level parameter required" >&2
 	ARGUMENTFLAG=true
 fi
-if ! $IPFLAG; then
+if ! $DIRECTORYFLAG; then
 	echo "UNKNOWN - Directory parameter required" >&2
 	ARGUMENTFLAG=true
 fi
