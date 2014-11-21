@@ -24,7 +24,8 @@ function help {
 	-w,-c = Warning and critical levels respectively. Required parameter.
 		
 	-r = recursive mode.
- 
+ 	
+ 	-h = This help
 	"
 	exit -1
 }
