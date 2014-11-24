@@ -7,23 +7,62 @@
 # === Parameters
 #
 # [*process*]
-#   The name of the process you would like to test
+#   The name of the process you would like to test:
+# 	Uses -C from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   Required. Note: Not currently tested.
+#
+# [*warning_low*]
+#   The low bound of the process count, for warning level
+# 	Uses -w from https://www.monitoring-plugins.org/doc/man/check_procs.html
+# 	Defaults to 1. Not required.
+#
+# [*critical_low*]
+#   The low bound of the process count, for critical level
+# 	Uses -c from https://www.monitoring-plugins.org/doc/man/check_procs.html
+# 	Defaults to 1. Not required.
+#
+# [*warning_high*]
+#   The high bound of the process count, for warning level
+# 	Uses -w from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   Defaults to "". Not required.
+#
+# [*critical_high*]
+#   The high bound of the process count, for critical level
+# 	Uses -c from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   Defaults to "". Not required
+#
+# [*event_handler*]
+# 	A boolean value. Whether or not you would like to trigger an event_handler on
+#   service failure. This will run the restart_command you specified on detecting a failure.
+#   Defaults to false. Not required.
+#
+# [*restart_command*]
+# 	The command you wish to run on service failure. Typically a restart command.
+# 	Do not add use sudo in the command, sudo_required will do this automatically
+#   for you.
+#   Defaults to "/etc/init.d/$process restart". Not required.
+#
+# [*sudo_required*]
+# 	Whether the restart command requires do. If true, will add nagios user to the sudoers file for that command,
+#  	as well as adding it to the command the event handler will run.
+#   Defaults to true. Not required.
 #
 # === Examples
 #
-# Provide some examples on how to use this type:
+# To check the nginx process and restart if down:
 #
-#   example_class::example_resource { 'namevar':
-#     basedir => '/tmp/src',
-#   }
+#   nagios::nrpe::process { "${hostname} nginx process":
+#    process         => "nginx",
+#    warning_low         => $warningprocesses,
+#    critical_low        => "1",
+#    event_handler   => true,
+#    restart_command => "/etc/init.d/nginx restart",
+#    sudo_required   => true
+#  }
 #
 # === Authors
 #
-# Author Name <author@example.com>
-#
-# === Copyright
-#
-# Copyright 2011 Your name here, unless otherwise noted.
+# Ben Field <ben.field@concreteplatform.com
 #
 
 define nagios::nrpe::process (
