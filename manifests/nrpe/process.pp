@@ -44,8 +44,9 @@
 #
 # [*sudo_required*]
 # 	Whether the restart command requires do. If true, will add nagios user to the sudoers file for that command,
-#  	as well as adding it to the command the event handler will run.
-#   Defaults to true. Not required.
+#  	as well as adding it to the command the event handler will run. Note: This will use the specific user if one has
+#   been defined.
+#   Defaults to true. Not required. 
 #
 # === Examples
 #
@@ -53,8 +54,8 @@
 #
 #   nagios::nrpe::process { "${hostname} nginx process":
 #    process         => "nginx",
-#    warning_low         => $warningprocesses,
-#    critical_low        => "1",
+#    warning_low     => $warningprocesses,
+#    critical_low    => "1",
 #    event_handler   => true,
 #    restart_command => "/etc/init.d/nginx restart",
 #    sudo_required   => true
@@ -65,11 +66,12 @@
 # Ben Field <ben.field@concreteplatform.com
 #
 define nagios::nrpe::process (
-  $process         = "",
+  $process,
   $warning_low     = "1",
   $critical_low    = "1",
   $warning_high    = "",
   $critical_high   = "",
+  $user            = "",
   $event_handler   = false,
   $restart_command = "",
   $sudo_required   = true) {
@@ -82,12 +84,18 @@ define nagios::nrpe::process (
   if $restart_command == "" and $event_handler == true {
     $restart_command = "/etc/init.d/${process} restart"
   }
-
+	
+	if $user == "" {
+	  $user_command = ""
+	} else {
+	  $user_command = "-u $user "
+	}
+	
   file_line { "check_${process}_processes":
-    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs -w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -C ${process}",
-    path   => "/etc/nagios/nrpe_local.cfg",
-    match  => "command\[check_${process}_processes\]",
     ensure => present,
+    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs ${user_command}-w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -C ${process}",
+    path   => '/etc/nagios/nrpe_local.cfg',
+    match  => "command\[check_${process}_processes\]",
     notify => Service[nrpe],
   }
 
@@ -95,32 +103,33 @@ define nagios::nrpe::process (
     if $sudo_required == true {
       # add nagios to sudoers so it can run $restart_command}
       file_line { "${process}_sudoers":
+        ensure => present,
         line   => "nagios ALL=(ALL) NOPASSWD: ${restart_command}",
         path   => "/etc/sudoers",
-        ensure => present,
         before => File_line["restart_${process}"],
       }
 
-      $final_restart_command = "sudo ${restart_command}"
+      # add sudo to beginning of command
+      $final_restart_command = "sudo ${user_command}${restart_command}"
     } else {
       $final_restart_command = $restart_command
     }
 
     file { "restart_${process}.sh":
+      ensure  => present,
       path    => "/usr/lib/nagios/eventhandlers/restart_${process}.sh",
       content => template('nagios/restart_service.conf.erb'),
       owner   => nagios,
       group   => nagios,
       mode    => "0755",
-      ensure  => present,
       before  => File_line["restart_${process}"],
       require => File["/usr/lib/nagios/eventhandlers"],
     }
 
     file_line { "restart_${process}":
+      ensure => present,
       line   => "command[restart_${process}]=/usr/lib/nagios/eventhandlers/restart_${process}.sh",
       path   => "/etc/nagios/nrpe_local.cfg",
-      ensure => present,
       notify => Service[nrpe],
     }
 
