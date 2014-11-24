@@ -1,7 +1,37 @@
+# == Define: nagios::nrpe::process
+#
+# This will build a nagios check for the process specified. This will handle the configuration both client and server side.
+# It will also allow you to use an event handler with the restart command specified, and will allow you to decide whether
+# this command should be added to the sudoers file for the nagios user.
+#
+# === Parameters
+#
+# [*process*]
+#   The name of the process you would like to test
+#
+# === Examples
+#
+# Provide some examples on how to use this type:
+#
+#   example_class::example_resource { 'namevar':
+#     basedir => '/tmp/src',
+#   }
+#
+# === Authors
+#
+# Author Name <author@example.com>
+#
+# === Copyright
+#
+# Copyright 2011 Your name here, unless otherwise noted.
+#
+
 define nagios::nrpe::process (
   $process         = "",
-  $warning         = "2",
-  $critical        = "1",
+  $warning_low     = "1",
+  $critical_low    = "1",
+  $warning_high    = "",
+  $critical_high   = "",
   $event_handler   = false,
   $restart_command = "",
   $sudo_required   = true) {
@@ -11,12 +41,12 @@ define nagios::nrpe::process (
 
   $nagios_service = $::nagios::params::nagios_service
 
-  if $restart_command == "" and $event_handler == true{
+  if $restart_command == "" and $event_handler == true {
     $restart_command = "/etc/init.d/${process} restart"
   }
 
   file_line { "check_${process}_processes":
-    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs -w ${warning}: -c ${critical}: -C ${process}",
+    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs -w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -C ${process}",
     path   => "/etc/nagios/nrpe_local.cfg",
     match  => "command\[check_${process}_processes\]",
     ensure => present,
