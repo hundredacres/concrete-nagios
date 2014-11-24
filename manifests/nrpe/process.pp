@@ -48,6 +48,12 @@
 #   been defined.
 #   Defaults to true. Not required. 
 #
+# === Variables
+#
+# [*nagios_service*]
+#   This is the generic service it will implement. This is set from nagios::params.
+#   This should be set by heira in the future.
+#
 # === Examples
 #
 # To check the nginx process and restart if down:
