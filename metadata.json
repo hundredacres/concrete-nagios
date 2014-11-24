@@ -14,11 +14,17 @@
 		}],
   "license": "",
   "name": "concrete-nagios",
-  "operatingsystem_support": [],
-  "project_page": "",
-  "requirements": [],
-  "source": "",
-  "summary": "",
-  "tags": [],
-  "version": "1.0.0"
+ 	"operatingsystem_support": [{
+			"operatingsystem": "Ubuntu",
+			"operatingsystemrelease": [ "12.04",
+				"10.04"
+			]
+		}
+	],
+	"project_page": "",
+	"requirements": [],
+	"source": "https://src01.office.concreteplatform.net/puppet/nagios",
+	"summary": "A basic nagios that contains a collection of checks and configurations for nagios.",
+	"tags": [],
+	"version": "1.0.0"
 }
