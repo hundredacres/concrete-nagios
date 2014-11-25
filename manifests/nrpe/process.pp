@@ -72,7 +72,7 @@
 # Ben Field <ben.field@concreteplatform.com
 #
 define nagios::nrpe::process (
-  $process,
+  $process = "",
   $warning_low     = "1",
   $critical_low    = "1",
   $warning_high    = "",
