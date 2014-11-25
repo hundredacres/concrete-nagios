@@ -46,7 +46,7 @@
 # 	Whether the restart command requires do. If true, will add nagios user to the sudoers file for that command,
 #  	as well as adding it to the command the event handler will run. Note: This will use the specific user if one has
 #   been defined.
-#   Defaults to true. Not required. 
+#   Defaults to true. Not required.
 #
 # === Variables
 #
@@ -72,7 +72,7 @@
 # Ben Field <ben.field@concreteplatform.com
 #
 define nagios::nrpe::process (
-  $process = "",
+  $process,
   $warning_low     = "1",
   $critical_low    = "1",
   $warning_high    = "",
@@ -90,13 +90,13 @@ define nagios::nrpe::process (
   if $restart_command == "" and $event_handler == true {
     $restart_command = "/etc/init.d/${process} restart"
   }
-	
-	if $user == "" {
-	  $user_command = ""
-	} else {
-	  $user_command = "-u $user "
-	}
-	
+
+  if $user == "" {
+    $user_command = ""
+  } else {
+    $user_command = "-u $user "
+  }
+
   file_line { "check_${process}_processes":
     ensure => present,
     line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs ${user_command}-w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -C ${process}",
