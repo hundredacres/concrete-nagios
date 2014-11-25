@@ -43,11 +43,15 @@
 #   Defaults to "/etc/init.d/$process restart". Not required.
 #
 # [*sudo_required*]
-# 	Whether the restart command requires do. If true, will add nagios user to the sudoers file for that command,
+# 	Whether the restart command requires sudo. If true, will add nagios user to the sudoers file for that command,
 #  	as well as adding it to the command the event handler will run. Note: This will use the specific user if one has
 #   been defined.
 #   Defaults to true. Not required.
 #
+# [*sudo_required*]
+# 	Whether the restart command should sudo to the user specified. This requires you to have set sudo_required to true initally.
+# 	If you want to restart using root (standard behaviour for most applications i.e. nginx) set it to false.
+#   Defaults to false. Not required.
 # === Variables
 #
 # [*nagios_service*]
@@ -73,14 +77,15 @@
 #
 define nagios::nrpe::process (
   $process,
-  $warning_low     = "1",
-  $critical_low    = "1",
-  $warning_high    = "",
-  $critical_high   = "",
-  $user            = "",
-  $event_handler   = false,
-  $restart_command = "",
-  $sudo_required   = true) {
+  $warning_low        = "1",
+  $critical_low       = "1",
+  $warning_high       = "",
+  $critical_high      = "",
+  $user               = "",
+  $event_handler      = false,
+  $restart_command    = "",
+  $sudo_required      = true,
+  $sudo_user_required = false) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
@@ -116,7 +121,11 @@ define nagios::nrpe::process (
       }
 
       # add sudo to beginning of command
-      $final_restart_command = "sudo ${user_command}${restart_command}"
+      if $sudo_user_required == true {
+        $final_restart_command = "sudo ${user_command}${restart_command}"
+      } else {
+        $final_restart_command = "sudo ${restart_command}"
+      }
     } else {
       $final_restart_command = $restart_command
     }
