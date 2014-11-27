@@ -5,8 +5,8 @@
 # === Variables
 #
 # [*hosts*]
-#   This will use the variable ${server} from nagios::params to build an allowed hosts string.
-#   This should be changed to use heira.
+#   This will use the variable ${server} from nagios::params to build an allowed hosts string. This should be changed to
+#   use heira.
 #
 # === Authors
 #

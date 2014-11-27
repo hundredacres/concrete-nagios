@@ -8,14 +8,14 @@
 # === Parameters
 #
 # [*namevar*]
-#   This will provide the drive reference (ie xvda from xen machines). Note: this will ignore
-#   xvdd and sr0 as these are names for cd drives by default and could cause errors
+#   This will provide the drive reference (ie xvda from xen machines). Note: this will ignore xvdd and sr0 as these are
+#   names for cd drives by default and could cause errors
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params.
-#   This should be set by heira in the future.
+#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
+#   future.
 #
 # === Examples
 #

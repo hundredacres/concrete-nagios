@@ -1,62 +1,62 @@
 # == Define: nagios::nrpe::process
 #
-# This will build a nagios check for the process specified. This will handle the configuration both client and server side.
-# It will also allow you to use an event handler with the restart command specified, and will allow you to decide whether
-# this command should be added to the sudoers file for the nagios user.
+# This will build a nagios check for the process specified. This will handle the configuration both client and server
+# side.It will also allow you to use an event handler with the restart command specified, and will allow you to decide
+# whether this command should be added to the sudoers file for the nagios user.
 #
 # === Parameters
 #
 # [*process*]
-#   The name of the process you would like to test:
-# 	Uses -C from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   The name of the process you would like to test. Uses -C from
+#   https://www.monitoring-plugins.org/doc/man/check_procs.html
 #   Required. Note: Not currently tested.
 #
 # [*warning_low*]
-#   The low bound of the process count, for warning level
-# 	Uses -w from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   The low bound of the process count, for warning level. Uses -w from
+#   https://www.monitoring-plugins.org/doc/man/check_procs.html
 # 	Defaults to 1. Not required.
 #
 # [*critical_low*]
-#   The low bound of the process count, for critical level
-# 	Uses -c from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   The low bound of the process count, for critical level. Uses -c from
+#   https://www.monitoring-plugins.org/doc/man/check_procs.html
 # 	Defaults to 1. Not required.
 #
 # [*warning_high*]
-#   The high bound of the process count, for warning level
-# 	Uses -w from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   The high bound of the process count, for warning level. Uses -w from
+#   https://www.monitoring-plugins.org/doc/man/check_procs.html
 #   Defaults to "". Not required.
 #
 # [*critical_high*]
-#   The high bound of the process count, for critical level
-# 	Uses -c from https://www.monitoring-plugins.org/doc/man/check_procs.html
+#   The high bound of the process count, for critical level. Uses -c from
+#   https://www.monitoring-plugins.org/doc/man/check_procs.html
 #   Defaults to "". Not required
 #
 # [*event_handler*]
-# 	A boolean value. Whether or not you would like to trigger an event_handler on
-#   service failure. This will run the restart_command you specified on detecting a failure.
+# 	A boolean value. Whether or not you would like to trigger an event_handler on service failure. This will run the
+#  restart_command you specified on detecting a failure.
 #   Defaults to false. Not required.
 #
 # [*restart_command*]
-# 	The command you wish to run on service failure. Typically a restart command.
-# 	Do not add use sudo in the command, sudo_required will do this automatically
-#   for you.
+# 	The command you wish to run on service failure. Typically a restart command. Do not add use sudo in the command,
+#  sudo_required will do this automatically for you.
 #   Defaults to "/etc/init.d/$process restart". Not required.
 #
 # [*sudo_required*]
-# 	Whether the restart command requires sudo. If true, will add nagios user to the sudoers file for that command,
-#  	as well as adding it to the command the event handler will run. Note: This will use the specific user if one has
-#   been defined.
+# 	Whether the restart command requires sudo. If true, will add nagios user to the sudoers file for that command, as
+#  well as adding it to the command the event handler will run. Note: This will use the specific user if one has been
+#  defined.
 #   Defaults to true. Not required.
 #
-# [*sudo_required*]
-# 	Whether the restart command should sudo to the user specified. This requires you to have set sudo_required to true initally.
-# 	If you want to restart using root (standard behaviour for most applications i.e. nginx) set it to false.
+# [*sudo_user_required*]
+# 	Whether the restart command should sudo to the user specified. This requires you to have set sudo_required to true
+#  initally.If you want to restart using root (standard behaviour for most applications i.e. nginx) set it to false.
 #   Defaults to false. Not required.
+#
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params.
-#   This should be set by heira in the future.
+#   This is the generic service it will implement. This is set from nagios::params.This should be set by heira in the
+#   future.
 #
 # === Examples
 #
