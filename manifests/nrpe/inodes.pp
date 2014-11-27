@@ -1,3 +1,27 @@
+# == Class: nagios::nrpe::inodes
+#
+# A wrapper class that will break up the fact $::blockdevices into its constituent parts and pass it to the inodes
+# check nagios::nrpe::blockdevice::diskspace. It also has one extra - and an extra section that tests for lvm usage and adds checks for these.
+#
+# It would be sensible in the future to combine this with iostat and diskspace into a single blockdevice check, but all
+# have exceptional sections that would be then branched out.
+#
+# === Variables
+#
+# [*nagios_service*]
+#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
+#   future.
+#
+# [*drive*]
+#   This is an array built from the blockdevices fact. It should be an array of all the drives.
+#
+# [*excludedDrives*]
+#   A string of all the drives with -I prepended. ie "-I xvda -I xvdb". This is then used to generate a space check for
+#   the lvm spaces. There may be a better way of including LVM drives rather than excluding them.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::inodes {
   require nagios::nrpe::config
   include nagios::nrpe::service

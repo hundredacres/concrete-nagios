@@ -5,8 +5,7 @@
 # would otherwise confuse nrpe, and an extra section that tests for lvm usage and adds checks for these.
 #
 # It would be sensible in the future to combine this with iostat and inodes into a single blockdevice check, but all
-# have
-# exceptional sections that would be then branched out.
+# have exceptional sections that would be then branched out.
 #
 # === Variables
 #
