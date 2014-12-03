@@ -32,39 +32,39 @@ class nagios::nrpe::diskspace {
 
   # Remove the default check_disk
 
-  file_line { "check_disk_default":
-    line   => "command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /",
-    path   => "/etc/nagios/nrpe.cfg",
-    match  => "command\[check_disk\]",
+  file_line { 'check_disk_default':
     ensure => absent,
+    line   => "command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /",
+    path   => '/etc/nagios/nrpe.cfg',
+    match  => "command\[check_disk\]",
     notify => Service[nrpe],
   }
 
-  $drive = split($::blockdevices, ",")
+  $drive = split($::blockdevices, ',')
 
-  nagios::nrpe::blockdevice::diskspace { $drive: require => File_Line["check_disk_default"], }
+  nagios::nrpe::blockdevice::diskspace { $drive: require => File_Line['check_disk_default'], }
 
-  if $::lvm == "true" {
-    $excludedDrives = join(prefix($drive, "-I "), " ")
+  if $::lvm == 'true' {
+    $excludedDrives = join(prefix($drive, '-I '), ' ')
 
-    file_line { "check_LVM_diskspace":
-      line   => "command[check_LVM_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p / ${excludedDrives}",
-      path   => "/etc/nagios/nrpe_local.cfg",
-      match  => "command\[check_LVM_diskspace\]",
+    file_line { 'check_LVM_diskspace':
       ensure => present,
-      notify => Service[nrpe],
+      line   => "command[check_LVM_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p / ${excludedDrives}",
+      path   => '/etc/nagios/nrpe_local.cfg',
+      match  => "command\[check_LVM_diskspace\]",
+      notify => Service['nrpe'],
     }
 
-    @@nagios_service { "check_LVM_space_${hostname}":
-      check_command       => "check_nrpe_1arg!check_LVM_diskspace",
-      use                 => "${nagios_service}",
-      host_name           => $hostname,
-      target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-      service_description => "${hostname}_check_LVM_space",
-      tag                 => "${environment}",
+    @@nagios_service { "check_LVM_space_${::hostname}":
+      check_command       => 'check_nrpe_1arg!check_LVM_diskspace',
+      use                 => $nagios_service,
+      host_name           => $::hostname,
+      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+      service_description => "${::hostname}_check_LVM_space",
+      tag                 => $::environment,
     }
 
-    @motd::register { "Nagios Diskspace Check LVM": }
+    @motd::register { 'Nagios Diskspace Check LVM': }
   }
 }
 

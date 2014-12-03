@@ -26,54 +26,58 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::blockdevice::iostat {
-  if $name != "xvdd" and $name != "sr0" {
+  require nagios::nrpe::checks::iostat
+
+  if $name != 'xvdd' and $name != 'sr0' {
     $ioloadwarning = floor(80 / $::processorcount)
     $ioloadcritical = floor(100 / $::processorcount)
 
-    $check = "command[check_iostat_$name]=/usr/lib/nagios/plugins/check_iostat.sh -d $name -W -w 999,100,200,75,${ioloadwarning} -c 999,200,300,150,${ioloadcritical}"
+    $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,75,${ioloadwarning} -c 999,200,300,150,${ioloadcritical}"
 
-    file_line { "check_iostat_$name":
+    file_line { "check_iostat_${name}":
       line   => $check,
-      path   => "/etc/nagios/nrpe_local.cfg",
-      match  => "command\[check_iostat_$name\]",
+      path   => '/etc/nagios/nrpe_local.cfg',
+      match  => "command\[check_iostat_${name}\]",
       ensure => present,
-      notify => Service[nrpe],
+      notify => Service['nrpe'],
     }
+
+    # Only used for testing purposes
 
     case $::environment {
-      'production'  : { $service = "generic-service-excluding-pagerduty" }
-      'testing'     : { $service = "generic-service" }
-      'development' : { $service = "generic-service-excluding-pagerduty" }
-      default       : { $service = "generic-service-excluding-pagerduty" }
+      'production'  : { $service = 'generic-service-excluding-pagerduty' }
+      'testing'     : { $service = 'generic-service' }
+      'development' : { $service = 'generic-service-excluding-pagerduty' }
+      default       : { $service = 'generic-service-excluding-pagerduty' }
     }
 
-    if $name == "xvda" {
-      $drive = "sysvol"
+    if $name == 'xvda' {
+      $drive = 'sysvol'
     } else {
       $drive = $name
     }
 
-    @@nagios_service { "check_${drive}_iostat_${hostname}":
+    @@nagios_service { "check_${drive}_iostat_${::hostname}":
       check_command       => "check_nrpe_1arg_longtimeout!check_iostat_$name",
       use                 => $service,
-      host_name           => $hostname,
-      target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-      service_description => "${hostname}_check_${drive}_iostat",
-      tag                 => "${environment}",
-      servicegroups       => "servicegroup_iostat_${xenhost}",
+      host_name           => $::hostname,
+      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+      service_description => "${::hostname}_check_${drive}_iostat",
+      tag                 => $::environment,
+      servicegroups       => "servicegroup_iostat_${::xenhost}",
     }
 
-    @@nagios_servicedependency { "load_${name}_on_${hostname}_depencency_iostat":
-      dependent_host_name           => $hostname,
-      dependent_service_description => "${hostname}_check_load",
+    @@nagios_servicedependency { "load_${name}_on_${::hostname}_depencency_iostat":
+      dependent_host_name           => $::hostname,
+      dependent_service_description => "${::hostname}_check_load",
       host_name => $hostname,
-      service_description           => "${hostname}_check_${drive}_iostat",
-      execution_failure_criteria    => "w,c",
-      notification_failure_criteria => "w,c",
-      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${fqdn}.cfg",
-      tag       => "${environment}",
+      service_description           => "${::hostname}_check_${drive}_iostat",
+      execution_failure_criteria    => 'w,c',
+      notification_failure_criteria => 'w,c',
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
+      tag       => $::environment,
     }
 
-    @motd::register { "Nagios Diskspeed Check $name": }
+    @motd::register { "Nagios Diskspeed Check ${name}": }
   }
 }

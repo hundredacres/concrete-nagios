@@ -40,12 +40,12 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-define nagios::nrpe::file_count ($directory = $name, $warning = "5", $critical = "10", $recurse = true) {
+define nagios::nrpe::file_count ($directory = $name, $warning = '5', $critical = '10', $recurse = true) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
 
-  require nagios::nrpe::file_count::package
+  require nagios::nrpe::checks::file_count
 
   $nagios_service = $::nagios::params::nagios_service
 
@@ -57,19 +57,19 @@ define nagios::nrpe::file_count ($directory = $name, $warning = "5", $critical =
 
   file_line { "check_file_count_${directory}":
     line   => $command,
-    path   => "/etc/nagios/nrpe_local.cfg",
+    path   => '/etc/nagios/nrpe_local.cfg',
     match  => "command\[check_file_count_${directory}\]",
     ensure => present,
     notify => Service[nrpe],
   }
 
-  @@nagios_service { "check_file_count_${directory}_on_${hostname}":
+  @@nagios_service { "check_file_count_${directory}_on_${::hostname}":
     check_command       => "check_nrpe_1arg!check_file_count_${directory}",
-    use                 => "${nagios_service}",
-    host_name           => $hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-    service_description => "${hostname}_check_file_count_${directory}",
-    tag                 => "${environment}",
+    use                 => $nagios_service,
+    host_name           => $::hostname,
+    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    service_description => "${::hostname}_check_file_count_${directory}",
+    tag                 => $::environment,
   }
 
   @motd::register { "Nagios File Count Check on ${directory}": }

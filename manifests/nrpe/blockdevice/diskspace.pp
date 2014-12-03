@@ -43,11 +43,11 @@ define nagios::nrpe::blockdevice::diskspace {
 
     # Going to have a different check for very large disks ( gt than 100GB)
     if $size > 100 * 1024 * 1024 * 1024 {
-      $warning = "10"
-      $critical = "5"
+      $warning = '10'
+      $critical = '5'
     } else {
-      $warning = "20"
-      $critical = "10"
+      $warning = '20'
+      $critical = '10'
     }
 
     file_line { "check_${name}_diskspace":
@@ -55,23 +55,23 @@ define nagios::nrpe::blockdevice::diskspace {
       path   => '/etc/nagios/nrpe_local.cfg',
       match  => "command\[check_${name}_diskspace\]",
       ensure => present,
-      notify => Service[nrpe],
+      notify => Service['nrpe'],
     }
 
     # For neatness in nagios interface:
-    if $name == "xvda" {
-      $drive = "sysvol"
+    if $name == 'xvda' {
+      $drive = 'sysvol'
     } else {
       $drive = $name
     }
 
-    @@nagios_service { "check_${drive}_space_${hostname}":
+    @@nagios_service { "check_${drive}_space_${::hostname}":
       check_command       => "check_nrpe_1arg!check_${name}_diskspace",
-      use                 => "${nagios_service}",
-      host_name           => $hostname,
-      target              => "/etc/nagios3/conf.d/puppet/service_${fqdn}.cfg",
-      service_description => "${hostname}_check_${drive}_space",
-      tag                 => "${environment}",
+      use                 => $nagios_service,
+      host_name           => $::hostname,
+      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+      service_description => "${::hostname}_check_${drive}_space",
+      tag                 => $::environment,
     }
 
     @motd::register { "Nagios Diskspace Check $name": }

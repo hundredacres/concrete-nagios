@@ -53,10 +53,10 @@
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::http (
   $host         = $name,
-  $health_check_uri = "/",
-  $port             = "80",
+  $health_check_uri = '/',
+  $port             = '80',
   $has_parent       = false,
-  $parent_service   = "",
+  $parent_service   = '',
   $ssl              = false,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
@@ -65,24 +65,23 @@ define nagios::nrpe::http (
   $nagios_service = $::nagios::params::nagios_service
 
   if $ssl == true {
-    $protocol = "HTTPS"
-    $command = "check_https_nonroot_custom_port"
+    $protocol = 'HTTPS'
+    $command = 'check_https_nonroot_custom_port'
   } else {
-    $protocol = "HTTP"
-    $command = "check_http_nonroot_custom_port"
+    $protocol = 'HTTP'
+    $command = 'check_http_nonroot_custom_port'
   }
 
   # This will use the name as the hostname to check ( this is really important with ssl! Can add a parameter if we thing
-  # of a
-  # usecase
+  # of a usecase
 
   @@nagios_service { "check_${host}_${protocol}_on_${::hostname}":
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
-    use                 => "${nagios_service}",
+    use                 => $nagios_service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${host}_${protocol}",
-    tag                 => "${::environment}",
+    tag                 => $::environment,
   }
 
   if $has_parent == true {
@@ -90,11 +89,11 @@ define nagios::nrpe::http (
       dependent_host_name           => $::hostname,
       dependent_service_description => "${::hostname}_check_${host}_${protocol}",
       host_name => $hostname,
-      service_description           => "${parent_service}",
-      execution_failure_criteria    => "c",
-      notification_failure_criteria => "c",
+      service_description           => $parent_service,
+      execution_failure_criteria    => 'c',
+      notification_failure_criteria => 'c',
       target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
-      tag       => "${::environment}",
+      tag       => $::environment,
     }
   }
 

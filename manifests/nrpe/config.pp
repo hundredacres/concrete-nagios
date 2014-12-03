@@ -19,12 +19,12 @@ class nagios::nrpe::config {
 
   $hosts = "allowed_hosts = 127.0.0.1,${::nagios::params::server}"
 
-  file_line { "allowed_hosts":
-    line   => $hosts,
-    path   => "/etc/nagios/nrpe.cfg",
-    match  => "^allowed_hosts",
+  file_line { 'allowed_hosts':
     ensure => present,
-    notify => Service[nrpe],
+    line   => $hosts,
+    path   => '/etc/nagios/nrpe.cfg',
+    match  => "^allowed_hosts",
+    notify => Service['nrpe'],
   }
 
   @motd::register { 'NRPE End Point': }
