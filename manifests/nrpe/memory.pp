@@ -1,4 +1,3 @@
-
 # == Class: nagios::nrpe::memory
 #
 # Uses a simple check mem script from nagios exchange (could potentially do with cleaning up). Will warn if less than
@@ -6,7 +5,6 @@
 #
 # It will deploy the check, add the command and then create the service on the nagios server
 #
-
 # === Variables
 #
 # [*nagios_service*]

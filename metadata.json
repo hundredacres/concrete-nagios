@@ -9,6 +9,9 @@
 		},{
 			"name": "concrete-motd",
 			"version_requirement": ">=1.0.0"
+		},{
+			"name": "concrete-basic_server",
+			"version_requirement": ">=0.1.0"
 		}
 	],
 	"license": "",
