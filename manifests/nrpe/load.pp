@@ -2,9 +2,9 @@
 #
 # This manifest will configure a load check, using the built in nagios load check. It will use fairly liberal levels:
 #
-# warning - 90% of available schedule, 1 minute average. critical - 100% of available schedule, 1 minute average
-# warning - 80% of available schedule, 5 minute average. critical - 90% of available schedule, 5 minute average
-# warning - 70% of available schedule, 15 minute average. critical - 80% of available schedule, 15 minute average
+# *warning - 90% of available schedule, 1 minute average. critical - 100% of available schedule, 1 minute average
+# *warning - 80% of available schedule, 5 minute average. critical - 90% of available schedule, 5 minute average
+# *warning - 70% of available schedule, 15 minute average. critical - 80% of available schedule, 15 minute average
 #
 # However this will still give false postives in 2 situations:
 #

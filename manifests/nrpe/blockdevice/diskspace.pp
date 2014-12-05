@@ -3,12 +3,12 @@
 # This will take a drive reference as the name, and use it to create a diskspace check. It will also look up the size of
 # the drive to determine the warning/critical thresholds as follows:
 #
-# Disk Size  < 100GB:
-#   Warning  = 20%
-#   Critical = 10%
-# Disk Size  > 100GB:
-#   Warning  = 10%
-#   Critical = 5%#
+# *Disk Size  < 100GB:
+#   -Warning  = 20%
+#   -Critical = 10%
+# *Disk Size  > 100GB:
+#   -Warning  = 10%
+#   -Critical = 5%#
 #
 # Note: It will set the name of the check to reference sysvol not xvda for cleanness in the nagios server
 #
