@@ -33,7 +33,7 @@ class nagios::nrpe::reboot {
     ensure => present,
     line   => 'command[check_reboot]=/usr/lib/nagios/plugins/check_reboot.sh',
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_reboot\]",
+    match  => 'command\[check_reboot\]',
     notify => Service[nrpe],
   }
 

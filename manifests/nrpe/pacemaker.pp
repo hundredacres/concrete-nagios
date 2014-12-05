@@ -28,10 +28,10 @@ class nagios::nrpe::pacemaker {
   }
 
   file_line { 'check_pacemaker':
+    ensure => present,
     line   => 'command[check_pacemaker]=/usr/bin/sudo /usr/sbin/crm_mon -s',
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_pacemaker\]",
-    ensure => present,
+    match  => 'command\[check_pacemaker\]',
     notify => Service['nrpe'],
   }
 

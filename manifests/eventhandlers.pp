@@ -2,12 +2,12 @@
 
 class nagios::eventhandlers{
   
-    file { "/usr/lib/nagios/eventhandlers":
+    file { '/usr/lib/nagios/eventhandlers':
     ensure  => directory,
     recurse => true,
-    owner   => root,
-    group   => root,
-    mode    => 755,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
   }
   
 }

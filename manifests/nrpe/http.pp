@@ -52,7 +52,7 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::http (
-  $host         = $name,
+  $host             = $name,
   $health_check_uri = '/',
   $port             = '80',
   $has_parent       = false,

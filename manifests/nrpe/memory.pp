@@ -35,7 +35,7 @@ class nagios::nrpe::memory {
     ensure => present,
     line   => 'command[check_mem]=/usr/lib/nagios/plugins/check_mem.sh -w 85 -c 95',
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_mem\]",
+    match  => 'command\[check_mem\]',
     notify => Service['nrpe'],
   }
 

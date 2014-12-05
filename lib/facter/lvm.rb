@@ -5,9 +5,9 @@ Facter.add('lvm') do
     virtualtype = Facter.value(:virtual)
     lvscan = Facter::Util::Resolution.exec('/sbin/lvscan 2>/dev/null | grep ACTIVE')
    if lvscan != "" and !lvscan.nil?
-      'true'
+      true
     else
-      'false'
+      false
     end
   end
 end

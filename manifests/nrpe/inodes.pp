@@ -34,14 +34,14 @@ class nagios::nrpe::inodes {
 
   nagios::nrpe::blockdevice::inodes { $drive: }
 
-  if $::lvm == 'true' {
+  if $::lvm == true {
     $excludedDrives = join(prefix($drive, '-I '), ' ')
 
     file_line { 'check_LVM_inodes':
       ensure => present,
       line   => "command[check_LVM_inodes]=/usr/lib/nagios/plugins/check_disk -W 15% -K 5% -p / ${excludedDrives}",
       path   => '/etc/nagios/nrpe_local.cfg',
-      match  => "command\[check_LVM_inodes\]",
+      match  => 'command\[check_LVM_inodes\]',
       notify => Service['nrpe'],
     }
 

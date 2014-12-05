@@ -50,17 +50,17 @@ class nagios::nrpe::ntp {
   }
 
   file_line { 'check_time_sync':
+    ensure => present,
     line   => "command[check_time_sync]=/usr/lib/nagios/plugins/check_ntp_time -H ${server} -w 0.5 -c 1",
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_time_sync\]",
-    ensure => present,
+    match  => 'command\[check_time_sync\]',
     notify => Service['nrpe'],
   }
 
   file_line { 'resync_ntp':
+    ensure => present,
     line   => 'command[resync_ntp]=/usr/lib/nagios/eventhandlers/resync_ntp.sh',
     path   => '/etc/nagios/nrpe_local.cfg',
-    ensure => present,
     notify => Service['nrpe'],
   }
 

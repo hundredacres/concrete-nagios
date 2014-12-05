@@ -44,14 +44,14 @@ class nagios::nrpe::diskspace {
 
   nagios::nrpe::blockdevice::diskspace { $drive: require => File_Line['check_disk_default'], }
 
-  if $::lvm == 'true' {
+  if $::lvm == true {
     $excludedDrives = join(prefix($drive, '-I '), ' ')
 
     file_line { 'check_LVM_diskspace':
       ensure => present,
       line   => "command[check_LVM_diskspace]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p / ${excludedDrives}",
       path   => '/etc/nagios/nrpe_local.cfg',
-      match  => "command\[check_LVM_diskspace\]",
+      match  => 'command\[check_LVM_diskspace\]',
       notify => Service['nrpe'],
     }
 
