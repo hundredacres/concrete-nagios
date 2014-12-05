@@ -1,7 +1,6 @@
 # == Class: nagios::client
 #
-# Checks if a host needs to be rebooted as a result of updates.  The script checks for /var/run/reboot-required and
-# raises a warning if present. It never raises a critical in order to minimise unnecessary emails etc.
+# This is going to create the host definition for each client.
 #
 # === Variables
 #

@@ -22,7 +22,7 @@ class nagios::nrpe::memory {
   $nagios_service = $::nagios::params::nagios_service
 
   file { 'check_mem.sh':
-    ensure => present,F
+    ensure => present,
     path   => '/usr/lib/nagios/plugins/check_mem.sh',
     source => 'puppet:///modules/nagios/check_mem.sh',
     owner  => 'root',
