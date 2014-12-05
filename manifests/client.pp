@@ -15,7 +15,7 @@ class nagios::client {
   # Gonna take in a nagios_parent variable as an override
   include nagios::params
 
-  $nagios_service = $::nagios::params::nagios_servicef
+  $nagios_service = $::nagios::params::nagios_service
 
   if $::nagios_parent != "" {
     $parent = $::nagios_parent
