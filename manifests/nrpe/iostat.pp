@@ -36,7 +36,7 @@ class nagios::nrpe::iostat {
   @@datacat_fragment { "${::fqdn} iostat in servicegroup":
     target => '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg',
     data   => {
-      host => ["${::xenhost}"],
+      host => [$::xenhost],
     }
     ,
     tag    => "iostat_${::environment}",
