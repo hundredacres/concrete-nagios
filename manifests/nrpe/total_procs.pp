@@ -13,7 +13,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::total_procs ($nagios_service = $nagios::params::nagios_service) inherits nagios::params {
+class nagios::nrpe::total_procs {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
