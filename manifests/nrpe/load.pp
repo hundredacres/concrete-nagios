@@ -42,7 +42,7 @@ class nagios::nrpe::load {
     ensure => present,
     line   => $check,
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_load\]",
+    match  => 'command\[check_load\]',
     notify => Service['nrpe'],
     before => File_line['check_load_default'],
   }
@@ -51,7 +51,7 @@ class nagios::nrpe::load {
     ensure => absent,
     line   => 'command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20',
     path   => '/etc/nagios/nrpe.cfg',
-    match  => "command\[check_load\]",
+    match  => 'command\[check_load\]',
     notify => Service['nrpe'],
   }
 
