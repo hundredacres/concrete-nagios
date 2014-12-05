@@ -66,7 +66,7 @@ class nagios::nrpe::ntp {
 
   @@nagios_service { "check_time_sync_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_time_sync',
-    use                 => $::nagios_service,
+    use                 => $nagios_service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_time_sync",
