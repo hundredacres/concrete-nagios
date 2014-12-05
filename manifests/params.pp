@@ -1,6 +1,7 @@
 # == Class: nagios::params
 #
-# This creates the eventhandlers folder for the clients and the servers that require it. Has been factored into a single folder for simplicity.
+# This creates the eventhandlers folder for the clients and the servers that require it. Has been factored into a single
+# folder for simplicity.
 #
 # === Parameters
 #
@@ -25,18 +26,17 @@ class nagios::params {
     'development' : { $server = '192.168.90.99' }
     default       : { $server = '192.168.90.223' }
   }
-  
-  if $::service_class != "" {
-	   $nagios_service = $::service_class
+
+  if $::service_class != '' {
+    $nagios_service = $::service_class
   } else {
-    #Casing this in case we decide to unify our generic definitions.
+    # Casing this in case we decide to unify our generic definitions.
     case $::environment {
-    'production'  : { $nagios_service = 'generic-service' }
-    'testing'     : { $nagios_service = 'generic-service' }
-    'development' : { $nagios_service = 'generic-service' }
-    default       : { $nagios_service = 'generic-service' }
-  }
-  
-  
+      'production'  : { $nagios_service = 'generic-service' }
+      'testing'     : { $nagios_service = 'generic-service' }
+      'development' : { $nagios_service = 'generic-service' }
+      default       : { $nagios_service = 'generic-service' }
+    }
+
   }
 }
