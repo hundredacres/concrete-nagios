@@ -56,10 +56,10 @@ define nagios::nrpe::file_count ($directory = $name, $warning = '5', $critical =
   }
 
   file_line { "check_file_count_${directory}":
+    ensure => present,
     line   => $command,
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => "command\[check_file_count_${directory}\]",
-    ensure => present,
     notify => Service[nrpe],
   }
 

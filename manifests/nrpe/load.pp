@@ -1,6 +1,31 @@
-class nagios::nrpe::processor ($nagios_service = $nagios::params::nagios_service) inherits nagios::params {
+# == Class: nagios::nrpe::load
+#
+# This manifest will configure a load check, using the built in nagios load check. It will use fairly liberal levels:
+#
+# warning - 90% of available schedule, 1 minute average. critical - 100% of available schedule, 1 minute average
+# warning - 80% of available schedule, 5 minute average. critical - 90% of available schedule, 5 minute average
+# warning - 70% of available schedule, 15 minute average. critical - 80% of available schedule, 15 minute average
+#
+# However this will still give false postives in 2 situations:
+#
+# High iowait/network wait. This should be alleviated by io check.
+# Short running batch jobs. This is a limitation of load as a metric.
+#
+# === Variables
+#
+# [*nagios_service*]
+#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
+#   future.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com
+class nagios::nrpe::load {
   require nagios::nrpe::config
   include nagios::nrpe::service
+  include nagios::params
+
+  $nagios_service = $::nagios::params::nagios_service
 
   # Fully dynamic load check:
 
@@ -11,39 +36,22 @@ class nagios::nrpe::processor ($nagios_service = $nagios::params::nagios_service
   $loadcritical5 = $::processorcount * 0.9
   $loadcritical15 = $::processorcount * 0.8
 
-  # Changing this based on rational that poor disk IO
-  # or poor network share IO
-  # will bump up calculated load up as well as CPU usage
-  # see http://en.wikipedia.org/wiki/Load_(computing)
-
-  # THis is true, but this also means that the load check will not proc when there is NOT IO issues. Correct response is to check
-  # iostat / correlate with that.
-
-  # $loadwarning1 = $::processorcount * 1.3
-  # $loadwarning5 = $::processorcount * 1.1
-  # $loadwarning15 = $::processorcount * 0.9
-  # $loadcritical1 = $::processorcount * 1.8
-  # $loadcritical5 = $::processorcount * 1.5
-  # $loadcritical15 = $::processorcount * 1.1
-
   $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}"
 
   file_line { "check_load":
-    # have to define cases manually as puppet does not handle casting between strings and numbers well
+    ensure => present,
     line   => $check,
     path   => "/etc/nagios/nrpe_local.cfg",
     match  => "command\[check_load\]",
-    ensure => present,
     notify => Service[nrpe],
     before => File_line[check_load_default],
   }
 
   file_line { "check_load_default":
-    # have to define cases manually as puppet does not handle casting between strings and numbers well
+    ensure => absent,
     line   => "command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20",
     path   => "/etc/nagios/nrpe.cfg",
     match  => "command\[check_load\]",
-    ensure => absent,
     notify => Service[nrpe],
   }
 

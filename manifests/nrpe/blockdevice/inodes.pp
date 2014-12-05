@@ -32,10 +32,10 @@ define nagios::nrpe::blockdevice::inodes {
 
   if $name != 'xvdd' and $name != 'sr0' {
     file_line { "check_${name}_inodes":
+      ensure => present,
       line   => "command[check_${name}_inodes]=/usr/lib/nagios/plugins/check_disk -E -W 15% -K 5% -R /dev/${name}*",
       path   => '/etc/nagios/nrpe_local.cfg',
       match  => "command\[check_${name}_inodes\]",
-      ensure => present,
       notify => Service['nrpe'],
     }
 

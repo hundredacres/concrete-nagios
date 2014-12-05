@@ -1,4 +1,4 @@
-# == Class: nagios::nrpe::diskspace
+# == Class: nagios::nrpe::iostat
 #
 # A wrapper class that will break up the fact $::blockdevices into its constituent parts and pass it to the iostat
 # check nagios::nrpe::blockdevice::iostat. It also has one extra bit - an extra section that tests for lvm usage and
@@ -10,6 +10,8 @@
 # It also has a slightly complicated section that generates a service group per xen host on the nagios server. This
 # requires server logic (and some interesting logic here) to ensure that it does not try and create a single service
 # group multiple times. This requires the nagios::server::iostat class.
+#
+# It will also make sure load not also trigger if this has triggered, and so requires nagios::nrpe::load.
 #
 # === Variables
 #

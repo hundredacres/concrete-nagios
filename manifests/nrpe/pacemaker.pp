@@ -1,4 +1,4 @@
-# == Class: nagios::nrpe::memory
+# == Class: nagios::nrpe::pacemaker
 #
 # This is going to check that all members are correctly connected to the pacemaker cluster. This uses a built in feature
 # in pacemaker that provides nagios compatible monitoring. This is fully compatible with heartbeat and corosync. This

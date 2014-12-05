@@ -1,7 +1,8 @@
-# == Define: nagios::nrpe::blockdevice::diskspace
+# == Define: nagios::nrpe::blockdevice::iostat
 #
 # This will take a drive reference as the name, and use it to create a diskspeed check. The warning level for io load
-# will be 80% of one core and 100% of one core for critical
+# will be 80% of one core and 100% of one core for critical. It will also make sure load not also trigger if this has
+# triggered, and so requires nagios::nrpe::load.
 #
 # Note: It will set the name of the check to reference sysvol not xvda for cleanness in the nagios server
 #
@@ -27,6 +28,7 @@
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::blockdevice::iostat {
   require nagios::nrpe::checks::iostat
+  require nagios::nrpe::load
 
   if $name != 'xvdd' and $name != 'sr0' {
     $ioloadwarning = floor(80 / $::processorcount)
@@ -35,10 +37,10 @@ define nagios::nrpe::blockdevice::iostat {
     $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,75,${ioloadwarning} -c 999,200,300,150,${ioloadcritical}"
 
     file_line { "check_iostat_${name}":
+      ensure => present,
       line   => $check,
       path   => '/etc/nagios/nrpe_local.cfg',
       match  => "command\[check_iostat_${name}\]",
-      ensure => present,
       notify => Service['nrpe'],
     }
 

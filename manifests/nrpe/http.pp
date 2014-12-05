@@ -1,4 +1,4 @@
-# == Define: nagios::nrpe::file_count
+# == Define: nagios::nrpe::http
 #
 # This class will allow us to check the http response from a server. This will currently respond with OK for a 200/300
 # response, Warning for a 400 response, and Critical for no response. This  may want to be tuned. There is also an

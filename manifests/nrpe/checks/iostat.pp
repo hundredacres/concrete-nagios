@@ -1,4 +1,4 @@
-# == Class: nagios::nrpe::checks::check_iostat
+# == Class: nagios::nrpe::checks::iostat
 #
 # A simple class, this will deploy the check_iostat script to the server and permission it correctly. This allows a
 # define to be used as many times as you like for the nagios check itself, without any name/ duplicate decleration

@@ -51,10 +51,10 @@ define nagios::nrpe::blockdevice::diskspace {
     }
 
     file_line { "check_${name}_diskspace":
+      ensure => present,
       line   => "command[check_${name}_diskspace]=/usr/lib/nagios/plugins/check_disk -E -w ${warning}% -c ${critical}% -R /dev/${name}*",
       path   => '/etc/nagios/nrpe_local.cfg',
       match  => "command\[check_${name}_diskspace\]",
-      ensure => present,
       notify => Service['nrpe'],
     }
 

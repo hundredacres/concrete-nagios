@@ -1,7 +1,8 @@
 # == Class: nagios::nrpe::inodes
 #
 # A wrapper class that will break up the fact $::blockdevices into its constituent parts and pass it to the inodes
-# check nagios::nrpe::blockdevice::diskspace. It also has one extra - and an extra section that tests for lvm usage and adds checks for these.
+# check nagios::nrpe::blockdevice::diskspace. It also has one extra - and an extra section that tests for lvm usage and
+# adds checks for these.
 #
 # It would be sensible in the future to combine this with iostat and diskspace into a single blockdevice check, but all
 # have exceptional sections that would be then branched out.
@@ -37,10 +38,10 @@ class nagios::nrpe::inodes {
     $excludedDrives = join(prefix($drive, '-I '), ' ')
 
     file_line { 'check_LVM_inodes':
+      ensure => present,
       line   => "command[check_LVM_inodes]=/usr/lib/nagios/plugins/check_disk -W 15% -K 5% -p / ${excludedDrives}",
       path   => '/etc/nagios/nrpe_local.cfg',
       match  => "command\[check_LVM_inodes\]",
-      ensure => present,
       notify => Service['nrpe'],
     }
 
