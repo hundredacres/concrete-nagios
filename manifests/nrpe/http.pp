@@ -88,7 +88,7 @@ define nagios::nrpe::http (
     @@nagios_servicedependency { "${host}_on_${::hostname}_depencency_process":
       dependent_host_name           => $::hostname,
       dependent_service_description => "${::hostname}_check_${host}_${protocol}",
-      host_name => $hostname,
+      host_name => $::hostname,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',

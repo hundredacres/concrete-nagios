@@ -34,9 +34,9 @@ class nagios::nrpe::diskspace {
 
   file_line { 'check_disk_default':
     ensure => absent,
-    line   => "command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /",
+    line   => 'command[check_disk]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /',
     path   => '/etc/nagios/nrpe.cfg',
-    match  => "command\[check_disk\]",
+    match  => 'command\[check_disk\]',
     notify => Service[nrpe],
   }
 

@@ -26,14 +26,14 @@ class nagios::nrpe::total_procs {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_total_procs",
-    tag                 => "${::environment}",
+    tag                 => $::environment,
   }
 
   file_line { 'check_total_procs_default':
     ensure => absent,
     line   => 'command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200',
     path   => '/etc/nagios/nrpe.cfg',
-    match  => "command\[check_total_procs\]",
+    match  => 'command\[check_total_procs\]',
     notify => Service['nrpe'],
   }
 
@@ -41,7 +41,7 @@ class nagios::nrpe::total_procs {
     ensure => present,
     line   => 'command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 500 -c 600',
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_total_procs\]",
+    match  => 'command\[check_total_procs\]',
     notify => Service['nrpe'],
   }
 

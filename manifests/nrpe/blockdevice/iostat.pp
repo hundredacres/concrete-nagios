@@ -60,7 +60,7 @@ define nagios::nrpe::blockdevice::iostat {
     }
 
     @@nagios_service { "check_${drive}_iostat_${::hostname}":
-      check_command       => "check_nrpe_1arg_longtimeout!check_iostat_$name",
+      check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
       use                 => $service,
       host_name           => $::hostname,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
@@ -72,7 +72,7 @@ define nagios::nrpe::blockdevice::iostat {
     @@nagios_servicedependency { "load_${name}_on_${::hostname}_depencency_iostat":
       dependent_host_name           => $::hostname,
       dependent_service_description => "${::hostname}_check_load",
-      host_name => $hostname,
+      host_name => $::hostname,
       service_description           => "${::hostname}_check_${drive}_iostat",
       execution_failure_criteria    => 'w,c',
       notification_failure_criteria => 'w,c',

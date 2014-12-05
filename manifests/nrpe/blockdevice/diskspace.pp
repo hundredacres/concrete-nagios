@@ -74,7 +74,7 @@ define nagios::nrpe::blockdevice::diskspace {
       tag                 => $::environment,
     }
 
-    @motd::register { "Nagios Diskspace Check $name": }
+    @motd::register { "Nagios Diskspace Check ${name}": }
 
   }
 
