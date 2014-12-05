@@ -12,7 +12,7 @@
 # === Authors
 #
 # Justin Miller <justin.miller@concreteplatform.com
-class nagios::nrpe::reboot ($nagios_service = $nagios::params::nagios_service) inherits nagios::params {
+class nagios::nrpe::reboot {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
@@ -30,7 +30,6 @@ class nagios::nrpe::reboot ($nagios_service = $nagios::params::nagios_service) i
   }
 
   file_line { 'check_reboot':
-
     ensure => present,
     line   => 'command[check_reboot]=/usr/lib/nagios/plugins/check_reboot.sh',
     path   => '/etc/nagios/nrpe_local.cfg',
