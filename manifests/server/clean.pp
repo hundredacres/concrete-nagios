@@ -1,7 +1,8 @@
 # == Class: nagios::server::clean
 #
-# A class to create commands that are used in some of the services submitted. This is currently only deployed to the
-# test server (otherwise they are defined manually). In the case that we rebuild the current nagios servers, this should
+# A class to create commands that are used in some of the services submitted.
+# This is currently only deployed to the test server (otherwise they are defined
+# manually). In the case that we rebuild the current nagios servers, this should
 # be used globally and probably renamed.
 #
 # === Authors
@@ -10,7 +11,7 @@
 class nagios::server::clean {
   include nagios::server::service
   require nagios::server::config
-  
+
   nagios_command { 'Check Nrpe Longtimeout':
     ensure       => 'present',
     command_name => 'check_nrpe_1arg_longtimeout',

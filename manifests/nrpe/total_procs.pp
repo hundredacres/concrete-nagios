@@ -1,14 +1,15 @@
 # == Class: nagios::nrpe::total_procs
 #
-# This manifest will configure a check on total processes and remove the default one. I am of the opinion that a static
-# check like this is almost completly pointless, and to be of any use it should focus on crossing moving averages or
+# This manifest will configure a check on total processes and remove the default
+# one. I am of the opinion that a static check like this is almost completly
+# pointless, and to be of any use it should focus on crossing moving averages or
 # something similar, so the static line is set arbitrarily high.
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # === Authors
 #

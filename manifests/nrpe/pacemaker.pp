@@ -1,14 +1,16 @@
 # == Class: nagios::nrpe::pacemaker
 #
-# This is going to check that all members are correctly connected to the pacemaker cluster. This uses a built in feature
-# in pacemaker that provides nagios compatible monitoring. This is fully compatible with heartbeat and corosync. This
-# will require sudo and so will add the nagios user to the sudoers file for this specific command.
+# This is going to check that all members are correctly connected to the
+# pacemaker cluster. This uses a built in feature in pacemaker that provides
+# nagios compatible monitoring. This is fully compatible with heartbeat and
+# corosync. This will require sudo and so will add the nagios user to the
+# sudoers file for this specific command.
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # === Authors
 #

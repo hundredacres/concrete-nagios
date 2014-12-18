@@ -7,6 +7,9 @@
 			"name": "puppetlabs/apt",
 			"version_requirement": ">=1.7.0"
 		},{
+			"name": "richardc-datacat",
+			"version_requirement": ">=0.6.0"
+		},{
 			"name": "concrete-motd",
 			"version_requirement": ">=1.0.0"
 		},{

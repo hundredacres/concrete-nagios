@@ -1,12 +1,13 @@
 # == Class: nagios::nrpe::zombie_procs
 #
-# This manifest will configure a check on zombie processes. It uses the default one, which seems to be at a reasonable level.
+# This manifest will configure a check on zombie processes. It uses the default
+# one, which seems to be at a reasonable level.
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # === Authors
 #

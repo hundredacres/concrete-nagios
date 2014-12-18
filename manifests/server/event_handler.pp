@@ -1,7 +1,8 @@
 # == Class: nagios::server::event_handler
 #
-# This is going to create the event handler script and command that can then be used by client based services for
-# example nagios::nrpe::process. It has a standard event handler that should be sufficent for most things, but could be
+# This is going to create the event handler script and command that can then be
+# used by client based services for example nagios::nrpe::process. It has a
+# standard event handler that should be sufficent for most things, but could be
 # extended in the future.
 #
 # === Authors

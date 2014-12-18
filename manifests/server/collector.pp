@@ -1,7 +1,7 @@
 # == Define: nagios::server::collector
 #
-# This will collect the various submitted nagios configs and create the files. This is necessary as you cannot correctly
-# order collectors otherwise.
+# This will collect the various submitted nagios configs and create the files.
+# This is necessary as you cannot correctly order collectors otherwise.
 #
 # === Authors
 #

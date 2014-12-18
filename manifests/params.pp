@@ -1,20 +1,23 @@
 # == Class: nagios::params
 #
-# This creates the eventhandlers folder for the clients and the servers that require it. Has been factored into a single
-# folder for simplicity.
+# This creates the eventhandlers folder for the clients and the servers that
+# require it. Has been factored into a single folder for simplicity.
 #
 # === Parameters
 #
 # [*service_class*]
-#   An override from puppet dashboard for nagios_service such as generic-service-urgent
+#   An override from puppet dashboard for nagios_service such as
+#   generic-service-urgent
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This can be overriden by service_class from puppet dashboard.
+#   This is the generic service it will implement. This can be overriden by
+#   service_class from puppet dashboard.
 #
 # [*server*]
-#   The address of the nagios server. This should only be used for the ntp check so should really be ntp_server.
+#   The address of the nagios server. This should only be used for the ntp check
+#   so should really be ntp_server.
 #
 # === Authors
 #

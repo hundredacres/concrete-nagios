@@ -1,15 +1,16 @@
 # == Class: nagios::nrpe::memory
 #
-# Uses a simple check mem script from nagios exchange (could potentially do with cleaning up). Will warn if less than
-# 15% memory, critical on 5%.
+# Uses a simple check mem script from nagios exchange (could potentially do with
+# cleaning up). Will warn if less than 15% memory, critical on 5%.
 #
-# It will deploy the check, add the command and then create the service on the nagios server
+# It will deploy the check, add the command and then create the service on the
+# nagios server
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # === Authors
 #

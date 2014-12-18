@@ -1,6 +1,7 @@
 # == Class: nagios::nrpe::service
 #
-# This will ensure the nrpe service is running and add an alias 'nrpe' for ease of restart scripting. 
+# This will ensure the nrpe service is running and add an alias 'nrpe' for ease
+# of restart scripting.
 #
 # === Authors
 #

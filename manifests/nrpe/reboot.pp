@@ -1,13 +1,14 @@
 # == Class: nagios::nrpe::reboot
 #
-# Checks if a host needs to be rebooted as a result of updates.  The script checks for /var/run/reboot-required and
-# raises a warning if present. It never raises a critical in order to minimise unnecessary emails etc.
+# Checks if a host needs to be rebooted as a result of updates.  The script
+# checks for /var/run/reboot-required and raises a warning if present. It never
+# raises a critical in order to minimise unnecessary emails etc.
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # === Authors
 #

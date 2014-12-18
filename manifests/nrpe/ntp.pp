@@ -1,22 +1,25 @@
 # == Class: nagios::nrpe::ntp
 #
-# This check will test ntp against a server to measure the time difference. Currently it is comparing the time to the
-# nagios server, but this could easily be changed.
+# This check will test ntp against a server to measure the time difference.
+# Currently it is comparing the time to the nagios server, but this could easily
+# be changed.
 #
-# The changes on the client are actually all related to the event handler used to resync ntp. It will generate a script
-# to do this (requires the ntp package already installed) and generate the current sudo permissions and command. This
-# requires the server to have nagios::server::event_handler installed. This is the generic server event_handler also
-# used by the nagios::nrpe::process check.
+# The changes on the client are actually all related to the event handler used
+# to resync ntp. It will generate a script to do this (requires the ntp package
+# already installed) and generate the current sudo permissions and command. This
+# requires the server to have nagios::server::event_handler installed. This is
+# the generic server event_handler also used by the nagios::nrpe::process check.
 #
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # [*server*]
-#   This is the ip that the check will compare times against. Currently this uses the nagios server. This should
-#   potentially be changed to the ntp server and set to use heira.
+#   This is the ip that the check will compare times against. Currently this
+#   uses the nagios server. This should potentially be changed to the ntp server
+#   and set to use heira.
 #
 # === Authors
 #

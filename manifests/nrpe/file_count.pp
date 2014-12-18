@@ -1,20 +1,25 @@
 # == Define: nagios::nrpe::file_count
 #
-# This class will allow us to check the number of files in a folder is below a certain threshold. This is useful for
-# checking that a file queue is being properly cleared. If there was a need this (and the script) could easily be
-# changed to check that the file count is above a threshold. Note: It will not count folders.
+# This class will allow us to check the number of files in a folder is below a
+# certain threshold. This is useful for checking that a file queue is being
+# properly cleared. If there was a need this (and the script) could easily be
+# changed to check that the file count is above a threshold. Note: It will not
+# count folders.
 #
 # === Parameters
 #
 # [*namevar*]
-#   The directory will default to the name of the resource. This is the directory that the file count will be run on.
+#   The directory will default to the name of the resource. This is the
+#   directory that the file count will be run on.
 #
 # [*warning*]
-#   The warning file count level. It will warn on nagios if the file count goes above this level.
+#   The warning file count level. It will warn on nagios if the file count goes
+#   above this level.
 #   Not required. Defaults to 5.
 #
 # [*critical*]
-#   The critical file count level. It will show critical on nagios if the file count goes above this level.
+#   The critical file count level. It will show critical on nagios if the file
+#   count goes above this level.
 #   Not required. Defaults to 10.
 #
 # [*recurse*]
@@ -24,8 +29,8 @@
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # [*command*]
 #   This is the command that nrpe will use to check the file count.
@@ -40,7 +45,11 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-define nagios::nrpe::file_count ($directory = $name, $warning = '5', $critical = '10', $recurse = true) {
+define nagios::nrpe::file_count (
+  $directory = $name,
+  $warning   = '5',
+  $critical  = '10',
+  $recurse   = true) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params

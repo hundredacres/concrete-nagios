@@ -1,10 +1,13 @@
 # == Class: nagios::nrpe::load
 #
-# This manifest will configure a load check, using the built in nagios load check. It will use fairly liberal levels:
+# This manifest will configure a load check, using the built in nagios load
+# check. It will use fairly liberal levels:
 #
 # *Defacto disabled for 1 minute average
-# *warning - 90% of available schedule, 5 minute average. critical - 100% of available schedule, 5 minute average
-# *warning - 80% of available schedule, 15 minute average. critical - 90% of available schedule, 15 minute average
+# *warning - 90% of available schedule, 5 minute average. critical - 100% of
+# available schedule, 5 minute average
+# *warning - 80% of available schedule, 15 minute average. critical - 90% of
+# available schedule, 15 minute average
 #
 # However this will still give false postives in 2 situations:
 #
@@ -14,8 +17,8 @@
 # === Variables
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from nagios::params. This should be set by heira in the
-#   future.
+#   This is the generic service it will implement. This is set from
+#   nagios::params. This should be set by heira in the future.
 #
 # === Authors
 #

@@ -1,8 +1,8 @@
 # == Class: nagios::server::config
 #
-# This is going to configure the server and collect all the submitted services etc. This uses the dodgy define
-# nagios::nrpe::collector. There is no way to achieve this otherwise - the owner/group will
-# always be root!
+# This is going to configure the server and collect all the submitted services
+# etc. This uses the dodgy define nagios::nrpe::collector. There is no way to
+# achieve this otherwise - the owner/group will always be root!
 #
 # === Authors
 #
