@@ -2,9 +2,9 @@
 #
 # This manifest will configure a load check, using the built in nagios load check. It will use fairly liberal levels:
 #
-# *warning - 90% of available schedule, 1 minute average. critical - 100% of available schedule, 1 minute average
-# *warning - 80% of available schedule, 5 minute average. critical - 90% of available schedule, 5 minute average
-# *warning - 70% of available schedule, 15 minute average. critical - 80% of available schedule, 15 minute average
+# *Defacto disabled for 1 minute average
+# *warning - 90% of available schedule, 5 minute average. critical - 100% of available schedule, 5 minute average
+# *warning - 80% of available schedule, 15 minute average. critical - 90% of available schedule, 15 minute average
 #
 # However this will still give false postives in 2 situations:
 #
@@ -29,12 +29,12 @@ class nagios::nrpe::load {
 
   # Fully dynamic load check:
 
-  $loadwarning1 = $::processorcount * 0.9
-  $loadwarning5 = $::processorcount * 0.8
-  $loadwarning15 = $::processorcount * 0.7
-  $loadcritical1 = $::processorcount * 1
-  $loadcritical5 = $::processorcount * 0.9
-  $loadcritical15 = $::processorcount * 0.8
+  $loadwarning1 = $::processorcount * 90
+  $loadwarning5 = $::processorcount * 0.9
+  $loadwarning15 = $::processorcount * 0.8
+  $loadcritical1 = $::processorcount * 100
+  $loadcritical5 = $::processorcount * 1
+  $loadcritical15 = $::processorcount * 0.9
 
   $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}"
 
