@@ -33,7 +33,7 @@ class nagios::client {
 
   # The not hugely neat way, need to refactor this:
 
-  if $parent != '' {
+  if $parent != 'physical' {
     @@nagios_host { $::hostname:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
