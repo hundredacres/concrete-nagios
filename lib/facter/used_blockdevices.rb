@@ -10,8 +10,12 @@ Facter.add('used_blockdevices') do
         puts blockdevice
       end
     end
+    put used_blockdevices_array.map {|element|
+      "'#{element}'"
+    }.join(',')
     used_blockdevices = used_blockdevices_array.map {|element|
       "'#{element}'"
     }.join(',')
+
   end
 end
