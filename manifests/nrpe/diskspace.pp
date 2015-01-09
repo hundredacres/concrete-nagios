@@ -1,6 +1,6 @@
 # == Class: nagios::nrpe::diskspace
 #
-# A wrapper class that will break up the fact $::blockdevices into its
+# A wrapper class that will break up the fact $::used_blockdevices into its
 # constituent parts and pass it to the diskspace check
 # nagios::nrpe::blockdevice::diskspace. It also has two extra bits - It removes
 # the default check_disk check which would otherwise confuse nrpe, and an extra
@@ -45,7 +45,7 @@ class nagios::nrpe::diskspace {
     notify => Service[nrpe],
   }
 
-  $drive = split($::blockdevices, ',')
+  $drive = split($::used_blockdevices, ',')
 
   nagios::nrpe::blockdevice::diskspace { $drive: require => File_Line['check_disk_default'
       ], }

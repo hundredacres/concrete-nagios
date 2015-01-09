@@ -1,6 +1,6 @@
 # == Class: nagios::nrpe::inodes
 #
-# A wrapper class that will break up the fact $::blockdevices into its
+# A wrapper class that will break up the fact $::used_blockdevices into its
 # constituent parts and pass it to the inodes check
 # nagios::nrpe::blockdevice::diskspace. It also has one extra - and an extra
 # section that tests for lvm usage and adds checks for these.
@@ -34,7 +34,7 @@ class nagios::nrpe::inodes {
 
   $nagios_service = $::nagios::params::nagios_service
 
-  $drive = split($::blockdevices, ',')
+  $drive = split($::used_blockdevices, ',')
 
   nagios::nrpe::blockdevice::inodes { $drive: }
 

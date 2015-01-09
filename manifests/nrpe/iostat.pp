@@ -1,6 +1,6 @@
 # == Class: nagios::nrpe::iostat
 #
-# A wrapper class that will break up the fact $::blockdevices into its
+# A wrapper class that will break up the fact $::used_blockdevices into its
 # constituent parts and pass it to the iostat check
 # nagios::nrpe::blockdevice::iostat. It also has one extra bit - an extra
 # section that tests for lvm usage and adds checks for these.
@@ -49,7 +49,7 @@ class nagios::nrpe::iostat {
     tag    => "iostat_${::environment}",
   }
 
-  $drive = split($::blockdevices, ',')
+  $drive = split($::used_blockdevices, ',')
 
   nagios::nrpe::blockdevice::iostat { $drive: }
 
