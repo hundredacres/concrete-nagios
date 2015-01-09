@@ -9,7 +9,7 @@ Facter.add('used_blockdevices') do
         used_blockdevices_array.push(blockdevice)
       end
     end
-    used_blockdevices_array.map {|element|
+    used_blockdevices = used_blockdevices_array.map {|element|
       "'#{element}'"
     }.join(',')
   end
