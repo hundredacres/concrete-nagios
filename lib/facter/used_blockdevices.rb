@@ -7,6 +7,7 @@ Facter.add('used_blockdevices') do
     blockdevices.each do |blockdevice|
       if Facter::Util::Resolution.exec('/bin/df -h | /bin/grep blockdevice') != ''
         used_blockdevices_array.push(blockdevice)
+        puts blockdevice
       end
     end
     used_blockdevices = used_blockdevices_array.map {|element|
