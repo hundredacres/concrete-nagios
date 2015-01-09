@@ -3,8 +3,10 @@
 Facter.add('used_blockdevices') do
   setcode do
     blockdevices = Facter.value(:blockdevices)
+    puts blockdevices
     used_blockdevices_array = Array.new
     blockdevices.each do |blockdevice|
+      puts blockdevice
       if Facter::Util::Resolution.exec('/bin/df -h | /bin/grep blockdevice') != ''
         used_blockdevices_array.push(blockdevice)
         puts blockdevice
