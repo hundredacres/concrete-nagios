@@ -94,3 +94,4 @@ elif [ $LOWMEMORYNODECIMAL -le $WARNINGNODECIMAL ]; then
 else
         echo "OK - $LOWMEMORYSPECIFIC% of lowmemory free"
         exit $STATE_OK
+fi
