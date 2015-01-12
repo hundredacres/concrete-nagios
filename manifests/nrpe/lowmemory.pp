@@ -41,7 +41,7 @@ class nagios::nrpe::lowmemory {
 
   @@nagios_service { "check_lowmemory_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_lowmemory',
-    use                 => $nagios_service,
+    use                 => 'generic-service-excluding-pagerduty',
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_lowmemory",
