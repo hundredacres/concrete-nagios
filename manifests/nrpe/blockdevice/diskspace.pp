@@ -9,7 +9,10 @@
 #   -Critical = 10%
 # *Disk Size  > 100GB:
 #   -Warning  = 10%
-#   -Critical = 5%#
+#   -Critical = 5%
+# *Disk Size  > 1024GB:
+#   -Warning  = 4%
+#   -Critical = 2%
 #
 # Note: It will set the name of the check to reference sysvol not xvda for
 # cleanness in the nagios server
@@ -24,6 +27,30 @@
 # [*nagios_service*]
 #   This is the generic service it will implement. This is set from
 #   nagios::params. This should be set by heira in the future.
+#
+# [*size*]
+#   This is the size in bytes of the drive. This is will call the fact
+#   $::blockdevice_${namevar}_size in order to find this.
+#
+# [*warning*]
+#   The % of the diskspace to trigger the warning level at. This is calculated
+#   by the above table, with a potential override from $override_warning.
+#
+# [*warning*]
+#   The % of the diskspace to trigger the warning level at. This is calculated
+#   by the above table, with a potential override from $override_warning.
+#
+# [*critical*]
+#   The % of the diskspace to trigger the critical level at. This is calculated
+#   by the above table, with a potential override from $override_warning.
+#
+# [*override_warning*]
+#   This will override the warning level using the ::diskspace_namevar_warning.
+#   This should be an integer value defined in the ENC.
+#
+# [*override_warning*]
+#   This will override the critical level using the ::diskspace_namevar_critical.
+#   This should be an integer value defined in the ENC.
 #
 # === Examples
 #
@@ -40,15 +67,42 @@ define nagios::nrpe::blockdevice::diskspace {
 
   # This has to use a getvar method to return a fact containing another
   # variable in the name.
-  $size = getvar("blockdevice_${name}_size")
+  $size = getvar("::blockdevice_${name}_size")
 
-  # Going to have a different check for very large disks ( gt than 100GB)
-  if $size > 100 * 1024 * 1024 * 1024 {
-    $warning = '10'
-    $critical = '5'
+  # This has to use a getvar method to return a fact containing another
+  # variable in the name. The fact will be defined through the ENC.
+  $override_warning = getvar("::diskspace_${name}_warning")
+
+  # This has to use a getvar method to return a fact containing another
+  # variable in the name. The fact will be defined through the ENC.
+  $override_critical = getvar("::diskspace_${name}_critical")
+
+  if $override_warning != '' {
+    # Going to have a different check for very large disks ( gt 100GB) and
+    # huge disks (gt 1TB)
+    if $size > 1024 * 1024 * 1024 * 1024 {
+      $warning = '4'
+    } elsif $size > 100 * 1024 * 1024 * 1024 {
+      $warning = '10'
+    } else {
+      $warning = '20'
+    }
   } else {
-    $warning = '20'
-    $critical = '10'
+    $warning = $override_warning
+  }
+
+  if $override_critical != '' {
+    # Going to have a different check for very large disks ( gt 100GB) and
+    # huge disks (gt 1TB)
+    if $size > 1024 * 1024 * 1024 * 1024 {
+      $critical = '2'
+    } elsif $size > 100 * 1024 * 1024 * 1024 {
+      $critical = '5'
+    } else {
+      $critical = '10'
+    }
+  } else {
+    $critical = $override_critical
   }
 
   file_line { "check_${name}_diskspace":
