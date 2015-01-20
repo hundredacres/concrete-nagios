@@ -109,7 +109,7 @@ fi
 
 # ----------TOTAL OBJECTS CALCULATION-----------
 
-TOTALOBJECTS=`/bin/cat /proc/slabinfo | /usr/bin/awk '{n=n+$2}END{print n}'`
+TOTALOBJECTS=`/usr/bin/sudo /bin/cat /proc/slabinfo | /usr/bin/awk '{n=n+$2}END{print n}'`
 
 # ----------TOTAL OBJECTS TEST-----------
 
