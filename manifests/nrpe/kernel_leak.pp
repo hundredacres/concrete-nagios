@@ -41,7 +41,7 @@ class nagios::nrpe::kernel_leak {
 
   file_line { 'check_kernel_leak':
     ensure => present,
-    line   => 'command[check_kernel_leak]=/usr/lib/nagios/plugins/check_kernel_leak.sh -w 3,8000000,3 -c 1,10000000,4',
+    line   => 'command[check_kernel_leak]=/usr/lib/nagios/plugins/check_kernel_leak.sh -w 2,8000000,3 -c 1,10000000,4',
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => 'command\[check_kernel_leak\]',
     notify => Service['nrpe'],
