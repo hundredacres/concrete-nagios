@@ -37,7 +37,7 @@ class nagios::client {
     @@nagios_host { $::hostname:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
-      address         => $::ipaddress_eth0,
+      address         => $::ipaddress,
       use             => 'generic-host',
       alias           => $::hostname,
       tag             => $::environment,
@@ -49,7 +49,7 @@ class nagios::client {
     @@nagios_host { $::hostname:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
-      address         => $::ipaddress_eth0,
+      address         => $::ipaddress,
       use             => 'generic-host',
       alias           => $::hostname,
       tag             => $::environment,
