@@ -102,9 +102,9 @@ WARNINGNODECIMAL=`/usr/bin/expr $WARNING_LOWMEMORY \* 10`
 # ----------LOW MEMORY TEST-----------
 
 if [ $LOWMEMORYNODECIMAL -le $CRITICALNODECIMAL ]; then
-        TOTAL=$TOTAL+2
+        TOTAL=`/usr/bin/expr $TOTAL + 2`
 elif [ $LOWMEMORYNODECIMAL -le $WARNINGNODECIMAL ]; then
-        TOTAL=$TOTAL+1
+        TOTAL=`/usr/bin/expr $TOTAL + 1`
 fi
 
 # ----------TOTAL OBJECTS CALCULATION-----------
@@ -114,9 +114,9 @@ TOTALOBJECTS=`/usr/bin/sudo /bin/cat /proc/slabinfo | /usr/bin/awk '{n=n+$2}END{
 # ----------TOTAL OBJECTS TEST-----------
 
 if [ $TOTALOBJECTS -ge $CRITICAL_OBJECTS ]; then
-        TOTAL=$TOTAL+2
+        TOTAL=`/usr/bin/expr $TOTAL + 2`
 elif [ $TOTALOBJECTS -ge $WARNING_OBJECTS ]; then
-        TOTAL=$TOTAL+1
+        TOTAL=`/usr/bin/expr $TOTAL + 1`
 fi
 
 # ----------RETURN TO NAGIOS-----------
