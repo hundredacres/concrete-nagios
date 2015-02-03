@@ -124,7 +124,7 @@ fi
 if [ $TOTAL -ge $CRITICAL_TOTAL ]; then
         echo "CRITICAL - $LOWMEMORYSPECIFIC% of lowmemory free, $TOTALOBJECTS objects used"
         exit $STATE_CRITICAL
-elif [ $TOTALOBJECTS -ge $WARNING_OBJECTS ]; then
+elif [ $TOTAL -ge $WARNING_TOTAL ]; then
         echo "WARNING - $LOWMEMORYSPECIFIC% of lowmemory free, $TOTALOBJECTS objects used"
         exit $STATE_WARNING
 else
