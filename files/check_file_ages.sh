@@ -1,9 +1,8 @@
 #!/bin/bash
-# ----------check_file_count.sh-----------
-# This is going to check the number of files in a specific directory is below certain thresholds 
-# and return results in a nagios compatible format.
+# ----------check_file_ages.sh-----------
+# This is going to check that there are at least a certain number of files in a folder younger than both warning and critical age levels.
 #
-# Version 0.01 - Nov/2014
+# Version 0.01 - Feb/2015
 # by Ben Field / ben.field@concreteplatform.com
 
 # Exit codes
@@ -14,14 +13,15 @@ STATE_UNKNOWN=3
 
 function help {
 	echo -e "
-	This is going to check the number of files in a specific directory is below certain thresholds 
-	and return results in a nagios compatible format.
+	This is going to check that there are at least a certain number of files in a folder younger than both warning and critical age levels.
 		
 	Usage:
 
 	-d = Directory to be checked. Example: \"-d /tmp/\". Required parameter.
 
 	-w,-c = Warning and critical levels respectively. Required parameter.
+	
+	-a = Number of files needed for each level. Inclusive.Not required. Defaults to 1.
 		
 	-r = recursive mode.
  	
@@ -36,9 +36,10 @@ DIRECTORYFLAG=false
 WARNINGFLAG=false
 CRITICALFLAG=false
 ARGUMENTFLAG=false
+NUMBER=1
 RECURSE=""
 
-while getopts "d:w:c:r" OPT; do
+while getopts "d:w:c:a:r" OPT; do
 	case $OPT in
 		"d") DIRECTORY=$OPTARG
 		DIRECTORYFLAG=true
@@ -48,6 +49,8 @@ while getopts "d:w:c:r" OPT; do
 		;;
 		"c") CRITICAL=$OPTARG
 		CRITICALFLAG=true
+		;;
+		"a") NUMBER=$OPTARG
 		;;
 		"r") RECURSE="-R"
 		;;
@@ -78,7 +81,7 @@ fi
 
 #Checks for sane Warning/Critical levels
 if [ $WARNING -gt $CRITICAL ]; then
-	echo "UNKNOWN - Warning level should not be higher than Critical level" >&2
+	echo "UNKNOWN - Warning level should not be greater than Critical level" >&2
 	ARGUMENTFLAG=true
 fi
 
@@ -94,17 +97,19 @@ fi
 
 # ----------FILE COUNT CALCULATION-----------
 
-FILE_COUNT=`ls -la $RECURSE $DIRECTORY | grep -i ^- | wc -l`
+FILE_COUNT_WARNING=`find -ctime -$WARNING -type f | wc -l`
+
+FILE_COUNT_CRITICAL=`find -ctime -$CRITICAL -type f | wc -l`
 
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 
-if [ $FILE_COUNT -ge $CRITICAL ]; then
-	echo "CRITICAL - $FILE_COUNT files in $DIRECTORY"
+if [ $FILE_COUNT_CRITICAL -lt $NUMBER ]; then
+	echo "CRITICAL - $FILE_COUNT_CRITICAL files newer than $CRITICAL days in $DIRECTORY - Threshold is $NUMBER"
 	exit $STATE_CRITICAL
-elif [ $FILE_COUNT -ge $WARNING ]; then
-	echo "WARNING - $FILE_COUNT files in $DIRECTORY"
+elif [ $FILE_COUNT_WARNING -lt $NUMBER ]; then
+	echo "WARNING - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY - Threshold is $NUMBER"
 	exit $STATE_WARNING
 else
-	echo "OK - $FILE_COUNT files in $DIRECTORY"
+	echo "OK - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY - Threshold is $NUMBER"
 	exit $STATE_OK
 fi
