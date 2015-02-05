@@ -97,9 +97,9 @@ fi
 
 # ----------FILE COUNT CALCULATION-----------
 
-FILE_COUNT_WARNING=`find -ctime -$WARNING -type f | wc -l`
+FILE_COUNT_WARNING=`find $DIRECTORY -ctime -$WARNING -type f | wc -l`
 
-FILE_COUNT_CRITICAL=`find -ctime -$CRITICAL -type f | wc -l`
+FILE_COUNT_CRITICAL=`find $DIRECTORY -ctime -$CRITICAL -type f | wc -l`
 
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 
