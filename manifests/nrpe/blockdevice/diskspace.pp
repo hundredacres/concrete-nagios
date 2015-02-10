@@ -77,7 +77,7 @@ define nagios::nrpe::blockdevice::diskspace {
   # variable in the name. The fact will be defined through the ENC.
   $override_critical = getvar("::diskspace_${name}_critical")
 
-  if $override_warning == '' {
+  if ($override_warning == '' or $override_warning == nil or $override_warning == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
     if $size > 1024 * 1024 * 1024 * 1024 {
@@ -91,7 +91,7 @@ define nagios::nrpe::blockdevice::diskspace {
     $warning = $override_warning
   }
 
-  if $override_critical == '' {
+  if ($override_critical == '' or $override_critical == nil or $override_critical == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
     if $size > 1024 * 1024 * 1024 * 1024 {
