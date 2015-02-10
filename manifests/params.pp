@@ -30,9 +30,8 @@ class nagios::params {
     default       : { $server = '192.168.90.223' }
   }
 
-  if $::service_class != '' {
-    $nagios_service = $::service_class
-  } else {
+  if ($::service_class == '' or $::service_class == nil or $::service_class == 
+  undef) {
     # Casing this in case we decide to unify our generic definitions.
     case $::environment {
       'production'  : { $nagios_service = 'generic-service' }
@@ -40,6 +39,8 @@ class nagios::params {
       'development' : { $nagios_service = 'generic-service' }
       default       : { $nagios_service = 'generic-service' }
     }
-
+  } else {
+    # Casing this in case we decide to unify our generic definitions.
+    $nagios_service = $::service_class
   }
 }
