@@ -41,6 +41,13 @@ class nagios::nrpe::load {
 
   $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}"
 
+    case $::environment {
+    'production'  : { $service = $nagios_service }
+    'testing'     : { $service = 'generic-service' }
+    'development' : { $service = 'generic-service-excluding-pagerduty' }
+    default       : { $service = 'generic-service-excluding-pagerduty' }
+  }
+
   file_line { 'check_load':
     ensure => present,
     line   => $check,
