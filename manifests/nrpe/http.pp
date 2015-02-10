@@ -95,7 +95,6 @@ define nagios::nrpe::http (
   if $has_parent == true {
     @@nagios_servicedependency { "${host}_on_${::hostname}_depencency_process":
       dependent_host_name           => $::hostname,
-      use       => $nagios_service,
       dependent_service_description => "${::hostname}_check_${host}_${protocol}",
       host_name => $::hostname,
       service_description           => $parent_service,
