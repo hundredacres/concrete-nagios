@@ -41,13 +41,22 @@
 # [*ssl*]
 #   Boolean for whether it should use http or https. Note: You will have to
 #   change the port as well!
-#   Not required. Defaults to false
+#   Not required. Defaults to false.
+#
+# [*service_override*]
+#   The override for the generic service to implement, if it differs from the
+#   usual on that server.
+#   Not required. Defaults to "".
 #
 # === Variables
 #
 # [*nagios_service*]
+#   This is the generic service from nagios::params. This should be set by heira
+#   in the future.
+#
+# [*service*]
 #   This is the generic service it will implement. This is set from
-#   nagios::params. This should be set by heira in the future.
+#   nagios_service unless service_override is used.
 #
 # [*command*]
 #   This is the command that nrpe will use to check the file count.
@@ -64,12 +73,20 @@ define nagios::nrpe::http (
   $port             = '80',
   $has_parent       = false,
   $parent_service   = '',
-  $ssl              = false,) {
+  $ssl              = false,
+  $service_override = '') {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+
+  if ($service_override == '' or $service_override == nil or $service_override 
+  == undef) {
+    $service = $nagios_service
+  } else {
+    $service = $service_override
+  }
 
   if $ssl == true {
     $protocol = 'HTTPS'
@@ -85,7 +102,7 @@ define nagios::nrpe::http (
 
   @@nagios_service { "check_${host}_${protocol}_on_${::hostname}":
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
-    use                 => $nagios_service,
+    use                 => $service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${host}_${protocol}",
