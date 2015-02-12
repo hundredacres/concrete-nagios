@@ -34,6 +34,10 @@ class nagios::nrpe::diskspace {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+    include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   # Remove the default check_disk
 
@@ -67,7 +71,7 @@ class nagios::nrpe::diskspace {
       host_name           => $::hostname,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
       service_description => "${::hostname}_check_LVM_space",
-      tag                 => $::environment,
+      tag                 => $monitoring_environment,
     }
 
     @motd::register { 'Nagios Diskspace Check LVM': }

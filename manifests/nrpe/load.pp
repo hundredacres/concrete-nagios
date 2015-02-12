@@ -29,6 +29,10 @@ class nagios::nrpe::load {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   # Fully dynamic load check:
 
@@ -71,7 +75,7 @@ class nagios::nrpe::load {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_load",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { 'Nagios CPU Load Check': }

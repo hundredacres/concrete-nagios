@@ -22,6 +22,9 @@ class nagios::nrpe::memory {
 
   $nagios_service = $::nagios::params::nagios_service
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
   file { 'check_mem.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_mem.sh',
@@ -46,7 +49,7 @@ class nagios::nrpe::memory {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_memory",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { 'Nagios Memory Check': }

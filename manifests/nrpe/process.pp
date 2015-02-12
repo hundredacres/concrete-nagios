@@ -96,6 +96,10 @@ define nagios::nrpe::process (
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   if $restart_command == '' and $event_handler == true {
     $restart_command = "/etc/init.d/${process} restart"
@@ -159,7 +163,7 @@ define nagios::nrpe::process (
       host_name           => $::hostname,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
       service_description => "${::hostname}_check_${process}_processes",
-      tag                 => $::environment,
+      tag                 => $monitoring_environment,
       event_handler       => "event_handler!restart_${process}",
     }
 
@@ -172,7 +176,7 @@ define nagios::nrpe::process (
       host_name           => $::hostname,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
       service_description => "${::hostname}_check_${process}_processes",
-      tag                 => $::environment,
+      tag                 => $monitoring_environment,
     }
 
     @motd::register { "${process} Nagios Check": }

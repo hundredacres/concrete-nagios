@@ -24,6 +24,10 @@ class nagios::client {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   if $::nagios_parent != '' {
     $parent = $::nagios_parent
@@ -40,7 +44,7 @@ class nagios::client {
       address         => $::ipaddress_eth0,
       use             => 'generic-host',
       alias           => $::hostname,
-      tag             => $::environment,
+      tag             => $monitoring_environment,
       parents         => $parent,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
@@ -52,7 +56,7 @@ class nagios::client {
       address         => $::ipaddress_eth0,
       use             => 'generic-host',
       alias           => $::hostname,
-      tag             => $::environment,
+      tag             => $monitoring_environment,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
     }
@@ -65,7 +69,7 @@ class nagios::client {
     host_name           => $::hostname,
     service_description => "${::hostname}_check_ping",
     require             => Nagios_host[$::hostname],
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { 'Nagios Ping Check': }

@@ -31,6 +31,10 @@ define nagios::nrpe::blockdevice::iostat {
   require nagios::nrpe::checks::iostat
   require nagios::nrpe::load
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
   $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,75,80 -c 999,200,300,150,100"
 
   file_line { "check_iostat_${name}":
@@ -39,15 +43,6 @@ define nagios::nrpe::blockdevice::iostat {
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => "command\[check_iostat_${name}\]",
     notify => Service['nrpe'],
-  }
-
-  # Only used for testing purposes
-
-  case $::environment {
-    'production'  : { $service = 'generic-service-excluding-pagerduty' }
-    'testing'     : { $service = 'generic-service' }
-    'development' : { $service = 'generic-service-excluding-pagerduty' }
-    default       : { $service = 'generic-service-excluding-pagerduty' }
   }
 
   if $name == 'xvda' {
@@ -75,7 +70,7 @@ define nagios::nrpe::blockdevice::iostat {
     execution_failure_criteria    => 'w,c',
     notification_failure_criteria => 'w,c',
     target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
-    tag       => $::environment,
+    tag       => $monitoring_environment,
   }
 
   @motd::register { "Nagios Diskspeed Check ${name}": }

@@ -33,6 +33,10 @@ class nagios::nrpe::iostat {
 
   require nagios::nrpe::checks::iostat
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
   # This is a bit dirty. We could use nagios_servicegroups, but we want some way
   # to be dynamic with our iostat service
   # groups.
@@ -46,7 +50,7 @@ class nagios::nrpe::iostat {
       host => [$::xenhost],
     }
     ,
-    tag    => "iostat_${::environment}",
+    tag    => "iostat_${monitoring_environment}",
   }
 
   $drive = split($::used_blockdevices, ',')

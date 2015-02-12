@@ -30,6 +30,10 @@ define nagios::nrpe::blockdevice::inodes {
 
   $nagios_service = $::nagios::params::nagios_service
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
   file_line { "check_${name}_inodes":
     ensure => present,
     line   => "command[check_${name}_inodes]=/usr/lib/nagios/plugins/check_disk -E -W 15% -K 5% -R /dev/${name}*",
@@ -52,7 +56,7 @@ define nagios::nrpe::blockdevice::inodes {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${drive}_inodes",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { "Nagios Inodes Check ${name}": }

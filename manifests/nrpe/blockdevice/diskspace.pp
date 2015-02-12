@@ -49,7 +49,8 @@
 #   This should be an integer value defined in the ENC.
 #
 # [*override_warning*]
-#   This will override the critical level using the ::diskspace_namevar_critical.
+#   This will override the critical level using the
+#   ::diskspace_namevar_critical.
 #   This should be an integer value defined in the ENC.
 #
 # === Examples
@@ -65,6 +66,10 @@ define nagios::nrpe::blockdevice::diskspace {
 
   $nagios_service = $::nagios::params::nagios_service
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
   # This has to use a getvar method to return a fact containing another
   # variable in the name.
   $size = getvar("::blockdevice_${name}_size")
@@ -77,7 +82,8 @@ define nagios::nrpe::blockdevice::diskspace {
   # variable in the name. The fact will be defined through the ENC.
   $override_critical = getvar("::diskspace_${name}_critical")
 
-  if ($override_warning == '' or $override_warning == nil or $override_warning == undef) {
+  if ($override_warning == '' or $override_warning == nil or $override_warning 
+  == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
     if $size > 1024 * 1024 * 1024 * 1024 {
@@ -91,7 +97,8 @@ define nagios::nrpe::blockdevice::diskspace {
     $warning = $override_warning
   }
 
-  if ($override_critical == '' or $override_critical == nil or $override_critical == undef) {
+  if ($override_critical == '' or $override_critical == nil or 
+  $override_critical == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
     if $size > 1024 * 1024 * 1024 * 1024 {
@@ -126,7 +133,7 @@ define nagios::nrpe::blockdevice::diskspace {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${drive}_space",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { "Nagios Diskspace Check ${name}": }

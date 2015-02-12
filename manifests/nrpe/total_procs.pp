@@ -20,6 +20,10 @@ class nagios::nrpe::total_procs {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   @@nagios_service { "check_total_procs_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_total_procs',
@@ -27,7 +31,7 @@ class nagios::nrpe::total_procs {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_total_procs",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   file_line { 'check_total_procs_default':

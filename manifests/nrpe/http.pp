@@ -81,6 +81,10 @@ define nagios::nrpe::http (
 
   $nagios_service = $::nagios::params::nagios_service
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
   if ($service_override == '' or $service_override == nil or $service_override 
   == undef) {
     $service = $nagios_service
@@ -106,7 +110,7 @@ define nagios::nrpe::http (
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${host}_${protocol}",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
@@ -118,7 +122,7 @@ define nagios::nrpe::http (
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
       target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
-      tag       => $::environment,
+      tag       => $monitoring_environment,
     }
   }
 

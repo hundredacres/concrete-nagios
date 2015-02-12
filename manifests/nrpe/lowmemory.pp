@@ -20,6 +20,10 @@ class nagios::nrpe::lowmemory {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   file { 'check_lowmemory.sh':
     ensure => present,
@@ -45,7 +49,7 @@ class nagios::nrpe::lowmemory {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_lowmemory",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { 'Nagios Lowmemory Check': }

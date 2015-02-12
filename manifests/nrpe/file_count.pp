@@ -58,6 +58,10 @@ define nagios::nrpe::file_count (
 
   $nagios_service = $::nagios::params::nagios_service
 
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
   if $recurse == true {
     $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} -c ${critical} -r -d ${directory}"
   } else {
@@ -78,7 +82,7 @@ define nagios::nrpe::file_count (
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_file_count_${directory}",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { "Nagios File Count Check on ${directory}": }

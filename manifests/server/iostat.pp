@@ -10,8 +10,11 @@
 class nagios::server::iostat {
   require nagios::server::config
   include nagios::server::service
+  include basic_server::params
 
-  Datacat_fragment <<| tag == "iostat_${::environment}" |>> {
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+
+  Datacat_fragment <<| tag == "iostat_${monitoring_environment}" |>> {
   }
 
   datacat { '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg': template => 'nagios/servicegroup_iostat.cfg.erb', 

@@ -7,19 +7,23 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 define nagios::server::collector {
-  Nagios_host <<| tag == $::environment |>> {
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
+  
+  Nagios_host <<| tag == $monitoring_environment |>> {
   }
 
-  Nagios_service <<| tag == $::environment |>> {
+  Nagios_service <<| tag == $monitoring_environment |>> {
   }
 
-  Nagios_command <<| tag == $::environment |>> {
+  Nagios_command <<| tag == $monitoring_environment |>> {
   }
 
-  Nagios_servicegroup <<| tag == $::environment |>> {
+  Nagios_servicegroup <<| tag == $monitoring_environment |>> {
   }
 
-  Nagios_servicedependency <<| tag == $::environment |>> {
+  Nagios_servicedependency <<| tag == $monitoring_environment |>> {
   }
 
 }

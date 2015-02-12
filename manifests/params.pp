@@ -27,6 +27,7 @@ class nagios::params {
     'production'  : { $server = '192.168.100.5' }
     'testing'     : { $server = '192.168.90.223' }
     'development' : { $server = '192.168.90.99' }
+    'qa'          : { $server = '192.168.90.99' }
     default       : { $server = '192.168.90.223' }
   }
 
@@ -37,6 +38,7 @@ class nagios::params {
       'production'  : { $nagios_service = 'generic-service' }
       'testing'     : { $nagios_service = 'generic-service' }
       'development' : { $nagios_service = 'generic-service' }
+      'qa'          : { $nagios_service = 'generic-service' }
       default       : { $nagios_service = 'generic-service' }
     }
   } else {

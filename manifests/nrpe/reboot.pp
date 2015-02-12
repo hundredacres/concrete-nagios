@@ -19,6 +19,10 @@ class nagios::nrpe::reboot {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   file { 'check_reboot.sh':
     ensure => present,
@@ -44,7 +48,7 @@ class nagios::nrpe::reboot {
     host_name             => $::hostname,
     target                => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description   => "${::hostname}_check_reboot",
-    tag                   => $::environment,
+    tag                   => $monitoring_environment,
     notifications_enabled => 0,
   }
 

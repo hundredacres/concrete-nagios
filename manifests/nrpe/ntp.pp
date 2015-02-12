@@ -32,6 +32,10 @@ class nagios::nrpe::ntp {
 
   $nagios_service = $::nagios::params::nagios_service
   $server = $::nagios::params::server
+  
+  include basic_server::params
+
+  $monitoring_environment = $::basic_server::params::monitoring_environment
 
   file { 'resync_ntp.sh':
     ensure  => present,
@@ -73,7 +77,7 @@ class nagios::nrpe::ntp {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_time_sync",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
     event_handler       => 'event_handler!resync_ntp',
   }
 
