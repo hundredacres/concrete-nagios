@@ -67,7 +67,7 @@ class nagios::nrpe::load {
 
   @@nagios_service { "check_load_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_load',
-    use                 => $nagios_service,
+    use                 => $service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_load",
