@@ -57,7 +57,7 @@ define nagios::nrpe::blockdevice::iostat {
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${drive}_iostat",
-    tag                 => $::environment,
+    tag                 => $monitoring_environment,
     servicegroups       => "servicegroup_iostat_${::xenhost}",
   }
 
