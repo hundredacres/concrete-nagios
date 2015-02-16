@@ -9,6 +9,8 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::checks::file_count {
+  require nagios::nrpe::config
+
   file { 'check_file_count.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_file_count.sh',

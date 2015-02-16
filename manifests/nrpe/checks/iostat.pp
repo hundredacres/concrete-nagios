@@ -9,6 +9,8 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::checks::iostat {
+  require nagios::nrpe::config
+
   file { 'check_iostat.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_iostat.sh',

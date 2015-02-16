@@ -9,6 +9,8 @@
 #
 # Ben Field <ben.field@concreteplatform.com>
 class nagios::nrpe::checks::file_ages {
+  require nagios::nrpe::config
+  
   file { 'check_file_ages.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_file_ages.sh',
