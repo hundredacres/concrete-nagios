@@ -2,7 +2,7 @@ forge 'https://forgeapi.puppetlabs.com/'
 
 mod 'concrete/motd',
 	'1.x',
-	c => 'git@src01.office.concreteplatform.net:puppet/motd.git'
+	:git => 'git@src01.office.concreteplatform.net:puppet/motd.git'
 	#:path => '../motd'
 
 mod 'concrete/basic_server',
