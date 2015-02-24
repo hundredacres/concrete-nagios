@@ -79,8 +79,6 @@ define nagios::nrpe::http (
   include nagios::nrpe::service
   include nagios::params
 
-  $nagios_service = $::nagios::params::nagios_service
-
   include basic_server::params
 
   $monitoring_environment = $::basic_server::params::monitoring_environment
