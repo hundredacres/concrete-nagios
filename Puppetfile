@@ -1,4 +1,4 @@
-forge 'https://forgeapi.puppetlabs.com/'
+forge 'https://forgeapi.puppetlabs.com'
 
 mod 'concrete/motd',
 	'1.x',
