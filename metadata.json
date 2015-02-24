@@ -1,20 +1,25 @@
 {
 	"author": "Ben Field",
-	"dependencies": [{
+	"dependencies": [
+		{
 			"name": "puppetlabs/stdlib",
-			"version_requirement": ">=4.2.0 <5.0.0"
-		},{
+			"version_requirement": "4.x"
+		},
+		{
 			"name": "puppetlabs/apt",
-			"version_requirement": ">=1.7.0"
-		},{
-			"name": "richardc-datacat",
-			"version_requirement": ">=0.6.0"
-		},{
-			"name": "concrete-motd",
-			"version_requirement": ">=1.0.0"
-		},{
-			"name": "concrete-basic_server",
-			"version_requirement": ">=0.1.0"
+			"version_requirement": "1.x"
+		},
+		{
+			"name": "richardc/datacat",
+			"version_requirement": "0.x"
+		},
+		{
+			"name": "concrete/motd",
+			"version_requirement": "1.x"
+		},
+		{
+			"name": "concrete/basic_server",
+			"version_requirement": "0.x"
 		}
 	],
 	"license": "",

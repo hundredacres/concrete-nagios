@@ -21,7 +21,7 @@ class nagios::nrpe::pacemaker {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
-  
+
   include basic_server::params
 
   $monitoring_environment = $::basic_server::params::monitoring_environment
@@ -30,7 +30,7 @@ class nagios::nrpe::pacemaker {
     ensure => present,
     line   => 'nagios ALL=(ALL) NOPASSWD: /usr/sbin/crm_mon -s',
     path   => '/etc/sudoers',
-    before => File_line['resync_ntp'],
+    before => File_line['check_pacemaker'],
   }
 
   file_line { 'check_pacemaker':
