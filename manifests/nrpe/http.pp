@@ -85,11 +85,10 @@ define nagios::nrpe::http (
 
   $monitoring_environment = $::basic_server::params::monitoring_environment
 
-  if ($service_override == '' or $service_override == nil or $service_override 
-  == undef) {
-    $service = $nagios_service
+  if $service_override == '' {
+    $nagios_service = $::nagios::params::nagios_service
   } else {
-    $service = $service_override
+    $nagios_service = $service_override
   }
 
   if $ssl == true {
@@ -106,7 +105,7 @@ define nagios::nrpe::http (
 
   @@nagios_service { "check_${host}_${protocol}_on_${::hostname}":
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
-    use                 => $service,
+    use                 => $nagios_service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${host}_${protocol}",

@@ -57,6 +57,11 @@
 #  root (standard behaviour for most applications i.e. nginx) set it to false.
 #   Defaults to false. Not required.
 #
+# [*service_override*]
+#   An override for service type for this check only. This will override the
+#   whole-host service-class.
+#   Not required.
+#
 # === Variables
 #
 # [*nagios_service*]
@@ -90,13 +95,17 @@ define nagios::nrpe::process (
   $event_handler      = false,
   $restart_command    = '',
   $sudo_required      = true,
-  $sudo_user_required = false) {
+  $sudo_user_required = false,
+  $service_override   = '') {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
 
-  $nagios_service = $::nagios::params::nagios_service
-  
+  if $service_override == '' {
+    $nagios_service = $::nagios::params::nagios_service
+  } else {
+    $nagios_service = $service_override
+  }
   include basic_server::params
 
   $monitoring_environment = $::basic_server::params::monitoring_environment
