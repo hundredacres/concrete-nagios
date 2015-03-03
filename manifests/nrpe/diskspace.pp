@@ -34,8 +34,8 @@ class nagios::nrpe::diskspace {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
-  
-    include basic_server::params
+
+  include basic_server::params
 
   $monitoring_environment = $::basic_server::params::monitoring_environment
 
