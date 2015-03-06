@@ -1,8 +1,9 @@
-class nagios::nrpe::mysql::quorum ($nagios_password) {
+class nagios::nrpe::mysql::quorum {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
   require nagios::nrpe::mysql::package
+  require nagios::nrpe::mysql::user
 
   $nagios_service = $::nagios::params::nagios_service
 
@@ -12,7 +13,7 @@ class nagios::nrpe::mysql::quorum ($nagios_password) {
 
   file_line { 'check_quorum_status':
     ensure => present,
-    line   => "command[check_quorum_status]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -l nagios -p ${nagios_password} -x wsrep_cluster_status -C == -T str -c non-Primary",
+    line   => "command[check_quorum_status]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -x wsrep_cluster_status -C == -T str -c non-Primary",
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => 'command\[check_quorum_status\]',
     notify => Service['nrpe'],
