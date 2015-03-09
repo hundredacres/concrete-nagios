@@ -28,7 +28,7 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::iostat {
   require nagios::nrpe::config
-  require base::basic_software
+  require basic_server::basic_software
   include nagios::nrpe::service
 
   require nagios::nrpe::checks::iostat
