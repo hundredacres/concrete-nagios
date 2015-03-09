@@ -31,9 +31,9 @@ define nagios::nrpe::blockdevice::iostat {
   require nagios::nrpe::checks::iostat
   require nagios::nrpe::load
 
-  include basic_server::params
+  include base::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  $monitoring_environment = $::base::params::monitoring_environment
 
   $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,75,80 -c 999,200,300,150,100"
 

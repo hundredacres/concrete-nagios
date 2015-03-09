@@ -26,7 +26,7 @@
 #   Not required. Defaults to true.
 #
 # [*number*]
-#   Minimum number of files. 
+#   Minimum number of files.
 #   Not required. Defaults to 1.
 #
 # === Variables
@@ -63,10 +63,10 @@ define nagios::nrpe::file_ages (
   require nagios::nrpe::checks::file_ages
 
   $nagios_service = $::nagios::params::nagios_service
-  
-    include basic_server::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+    include base::params
+
+  $monitoring_environment = $::base::params::monitoring_environment
 
   if $recurse == true {
     $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -r -d ${directory} -a ${number}"

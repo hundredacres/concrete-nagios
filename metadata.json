@@ -18,7 +18,7 @@
 			"version_requirement": "1.x"
 		},
 		{
-			"name": "concrete/basic_server",
+			"name": "concrete/base",
 			"version_requirement": "0.x"
 		}
 	],

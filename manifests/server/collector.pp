@@ -7,10 +7,10 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 define nagios::server::collector {
-  include basic_server::params
+  include base::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
-  
+  $monitoring_environment = $::base::params::monitoring_environment
+
   Nagios_host <<| tag == $monitoring_environment |>> {
   }
 

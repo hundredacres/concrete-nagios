@@ -66,9 +66,9 @@ define nagios::nrpe::blockdevice::diskspace {
 
   $nagios_service = $::nagios::params::nagios_service
 
-  include basic_server::params
+  include base::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  $monitoring_environment = $::base::params::monitoring_environment
 
   # This has to use a getvar method to return a fact containing another
   # variable in the name.
@@ -82,7 +82,7 @@ define nagios::nrpe::blockdevice::diskspace {
   # variable in the name. The fact will be defined through the ENC.
   $override_critical = getvar("::diskspace_${name}_critical")
 
-  if ($override_warning == '' or $override_warning == nil or $override_warning 
+  if ($override_warning == '' or $override_warning == nil or $override_warning
   == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
@@ -97,7 +97,7 @@ define nagios::nrpe::blockdevice::diskspace {
     $warning = $override_warning
   }
 
-  if ($override_critical == '' or $override_critical == nil or 
+  if ($override_critical == '' or $override_critical == nil or
   $override_critical == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)

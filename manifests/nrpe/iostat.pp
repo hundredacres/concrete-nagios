@@ -28,14 +28,14 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::iostat {
   require nagios::nrpe::config
-  require basic_server::basic_software
+  require base::basic_software
   include nagios::nrpe::service
 
   require nagios::nrpe::checks::iostat
 
-  include basic_server::params
+  include base::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  $monitoring_environment = $::base::params::monitoring_environment
 
   # This is a bit dirty. We could use nagios_servicegroups, but we want some way
   # to be dynamic with our iostat service

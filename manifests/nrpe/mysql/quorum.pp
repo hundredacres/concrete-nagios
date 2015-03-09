@@ -7,9 +7,9 @@ class nagios::nrpe::mysql::quorum {
 
   $nagios_service = $::nagios::params::nagios_service
 
-  include basic_server::params
+  include base::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  $monitoring_environment = $::base::params::monitoring_environment
 
   file_line { 'check_quorum_status':
     ensure => present,

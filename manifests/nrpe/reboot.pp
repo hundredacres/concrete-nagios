@@ -19,10 +19,10 @@ class nagios::nrpe::reboot {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
-  
-  include basic_server::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  include base::params
+
+  $monitoring_environment = $::base::params::monitoring_environment
 
   file { 'check_reboot.sh':
     ensure => present,

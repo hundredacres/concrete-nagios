@@ -58,9 +58,9 @@ define nagios::nrpe::file_count (
 
   $nagios_service = $::nagios::params::nagios_service
 
-  include basic_server::params
+  include base::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  $monitoring_environment = $::base::params::monitoring_environment
 
   if $recurse == true {
     $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} -c ${critical} -r -d ${directory}"

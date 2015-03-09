@@ -20,10 +20,10 @@ class nagios::nrpe::total_procs {
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
-  
-  include basic_server::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  include base::params
+
+  $monitoring_environment = $::base::params::monitoring_environment
 
   @@nagios_service { "check_total_procs_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_total_procs',

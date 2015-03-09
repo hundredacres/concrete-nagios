@@ -26,16 +26,16 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::ntp {
   require nagios::nrpe::config
-  require basic_server::ntp
+  require base::ntp
   include nagios::nrpe::service
   include nagios::params
 
   $nagios_service = $::nagios::params::nagios_service
   $server = $::nagios::params::server
-  
-  include basic_server::params
 
-  $monitoring_environment = $::basic_server::params::monitoring_environment
+  include base::params
+
+  $monitoring_environment = $::base::params::monitoring_environment
 
   file { 'resync_ntp.sh':
     ensure  => present,
