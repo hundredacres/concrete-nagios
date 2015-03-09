@@ -1,24 +1,22 @@
 {
 	"author": "Ben Field",
-	"dependencies": [
-		{
+	"dependencies": [{
 			"name": "puppetlabs/stdlib",
 			"version_requirement": "4.x"
-		},
-		{
+		},{
 			"name": "puppetlabs/apt",
 			"version_requirement": "1.x"
-		},
-		{
+		},{
 			"name": "richardc/datacat",
 			"version_requirement": "0.x"
-		},
-		{
+		},{
 			"name": "concrete/motd",
 			"version_requirement": "1.x"
-		},
-		{
+		},{
 			"name": "concrete/base",
+			"version_requirement": "0.x"
+		},{
+			"name": "concrete/basic_server",
 			"version_requirement": "0.x"
 		}
 	],
