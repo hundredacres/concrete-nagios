@@ -26,7 +26,7 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::ntp {
   require nagios::nrpe::config
-  require base::ntp
+  require basic_server::ntp
   include nagios::nrpe::service
   include nagios::params
 
