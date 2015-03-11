@@ -28,11 +28,12 @@ class nagios::client {
   include base::params
 
   $monitoring_environment = $::base::params::monitoring_environment
-
-  if $::nagios_parent != '' {
-    $parent = $::nagios_parent
-  } else {
+  
+  if ($::nagios_parent == '' or $::nagios_parent == nil or $::nagios_parent == 
+  undef) {
     $parent = $::xenhost
+  } else {
+    $parent = $::nagios_parent
   }
 
   # The not hugely neat way, need to refactor this:
