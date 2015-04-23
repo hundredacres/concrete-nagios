@@ -10,8 +10,8 @@ class nagios::eventhandlers {
   file { '/usr/lib/nagios/eventhandlers':
     ensure  => directory,
     recurse => true,
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'nagios',
+    group   => 'nagios',
     mode    => '0755',
   }
 
