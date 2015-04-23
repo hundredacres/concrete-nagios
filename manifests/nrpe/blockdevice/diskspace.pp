@@ -86,10 +86,15 @@ define nagios::nrpe::blockdevice::diskspace {
   == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
-    if $size > 1024 * 1024 * 1024 * 1024 {
-      $warning = '4'
-    } elsif $size > 100 * 1024 * 1024 * 1024 {
+    if $size > 15 * 1024 * 1024 * 1024 * 1024 {
+      # greater than 15TB
       $warning = '10'
+    } elsif $size > 1024 * 1024 * 1024 * 1024 {
+      # greater than 1TB
+      $warning = '15'
+    } elsif $size > 100 * 1024 * 1024 * 1024 {
+      # greater than 100GB
+      $warning = '18'
     } else {
       $warning = '20'
     }
@@ -101,10 +106,15 @@ define nagios::nrpe::blockdevice::diskspace {
   $override_critical == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
-    if $size > 1024 * 1024 * 1024 * 1024 {
-      $critical = '2'
-    } elsif $size > 100 * 1024 * 1024 * 1024 {
+    if $size > 15 * 1024 * 1024 * 1024 * 1024 {
+      # greater than 15TB
       $critical = '5'
+    } elsif $size > 1024 * 1024 * 1024 * 1024 {
+      # greater than 1TB
+      $critical = '8'
+    } elsif $size > 100 * 1024 * 1024 * 1024 {
+      # greater than 100GB
+      $critical = '8'
     } else {
       $critical = '10'
     }

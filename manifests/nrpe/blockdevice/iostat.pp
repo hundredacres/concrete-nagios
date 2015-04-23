@@ -35,7 +35,7 @@ define nagios::nrpe::blockdevice::iostat {
 
   $monitoring_environment = $::base::params::monitoring_environment
 
-  $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,75,80 -c 999,200,300,150,100"
+  $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,100,100 -c 999,200,300,200,100"
 
   file_line { "check_iostat_${name}":
     ensure => present,
