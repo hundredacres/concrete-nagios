@@ -101,7 +101,8 @@ define nagios::nrpe::http (
   # with ssl! Can add a parameter if we thing
   # of a usecase
 
-  @@nagios_service { "check_${host}_${protocol}_on_${::hostname}":
+  @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${::hostname}"
+  :
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
     use                 => $nagios_service,
     host_name           => $::hostname,
@@ -111,7 +112,8 @@ define nagios::nrpe::http (
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${host}_on_${::hostname}_depencency_process":
+    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${::hostname}_depencency_process"
+    :
       dependent_host_name           => $::hostname,
       dependent_service_description => "${::hostname}_check_${host}_${protocol}_${health_check_uri}",
       host_name => $::hostname,
@@ -124,9 +126,10 @@ define nagios::nrpe::http (
   }
 
   if $has_parent == true {
-    @motd::register { "Nagios ${protocol} Check for ${host} and service dependency on ${parent_service}"
+    @motd::register { "Nagios ${protocol} Check for ${health_check_uri} at ${host} and service dependency on ${parent_service}"
     : }
   } else {
-    @motd::register { "Nagios ${protocol} Check for ${host}": }
+    @motd::register { "Nagios ${protocol} Check for ${health_check_uri} at ${host}"
+    : }
   }
 }
