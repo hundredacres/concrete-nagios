@@ -106,14 +106,14 @@ define nagios::nrpe::http (
     use                 => $nagios_service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_${host}_${protocol}",
+    service_description => "${::hostname}_check_${host}_${protocol}_${health_check_uri}",
     tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
     @@nagios_servicedependency { "${host}_on_${::hostname}_depencency_process":
       dependent_host_name           => $::hostname,
-      dependent_service_description => "${::hostname}_check_${host}_${protocol}",
+      dependent_service_description => "${::hostname}_check_${host}_${protocol}_${health_check_uri}",
       host_name => $::hostname,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
