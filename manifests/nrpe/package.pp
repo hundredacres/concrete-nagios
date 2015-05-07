@@ -9,8 +9,8 @@
 class nagios::nrpe::package {
   require stdlib
 
-  package { [
-    'nagios-nrpe-server',
-    'nagios-plugins-basic']: ensure => installed, }
+  package { 'nagios-nrpe-server': ensure => installed, }
+
+  package { 'nagios-plugins-basic': ensure => installed, }
 
 }
