@@ -6,7 +6,11 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::server::package {
-  
-  package { 'nagios3': ensure => installed,; }
+  include nagios::eventhandlers
+
+  package { 'nagios3':
+    ensure => installed,
+    before => File['/usr/lib/nagios/eventhandlers']
+  }
 
 }

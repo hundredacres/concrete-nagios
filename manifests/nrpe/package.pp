@@ -1,4 +1,4 @@
-              # == Class: nagios::nrpe::config
+# == Class: nagios::nrpe::config
 #
 # This will install the nrpe client, install basic plugins and create the
 # eventhandler folder.
@@ -9,8 +9,16 @@
 class nagios::nrpe::package {
   require stdlib
 
-  package { 'nagios-nrpe-server': ensure => installed, }
+  include nagios::eventhandlers
 
-  package { 'nagios-plugins-basic': ensure => installed, }
+  package { 'nagios-nrpe-server':
+    ensure => installed,
+    before => File['/usr/lib/nagios/eventhandlers']
+  }
+
+  package { 'nagios-plugins-basic':
+    ensure => installed,
+    before => File['/usr/lib/nagios/eventhandlers']
+  }
 
 }

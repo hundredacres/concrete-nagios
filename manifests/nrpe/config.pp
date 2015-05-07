@@ -18,8 +18,6 @@ class nagios::nrpe::config {
   require nagios::nrpe::package
   include nagios::nrpe::service
   
-  include nagios::eventhandlers
-  
   $hosts = "allowed_hosts = 127.0.0.1,${::nagios::params::server}"
 
   file_line { 'allowed_hosts':
