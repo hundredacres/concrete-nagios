@@ -10,6 +10,8 @@
 class nagios::server::config {
   require nagios::server::package
   include nagios::server::service
+  
+  include nagios::eventhandlers
 
   file_line { 'check_external_commands':
     ensure => present,
