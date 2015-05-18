@@ -13,7 +13,7 @@ class nagios::nrpe::mysql::replication_running {
 
   file_line { 'check_replication_running':
     ensure => present,
-    line   => "command[check_replication_running]=/usr/lib64/nagios/plugins/pmp-check-mysql-replication-running -w -c",
+    line   => "command[check_replication_running]=/usr/lib64/nagios/plugins/pmp-check-mysql-replication-running -w 0 -c 0",
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => 'command\[check_replication_running\]',
     notify => Service['nrpe'],
