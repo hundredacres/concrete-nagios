@@ -3,7 +3,7 @@ class nagios::nrpe::mysql::user ($nagios_password) {
 
   file { '/etc/nagios/mysql.cnf':
     ensure  => present,
-    content => template('nagios/mysql.cnf'),
+    content => template('nagios/mysql.cnf.erb'),
     owner   => 'nagios',
     group   => 'nagios',
     mode    => '0600',
