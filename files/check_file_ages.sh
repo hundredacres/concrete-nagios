@@ -60,6 +60,8 @@ while getopts "d:w:c:a:r" OPT; do
 			TYPE="-type d"
 		else
 			TYPE=""
+		fi
+		;;
 		"h") echo "help:" && help
 		;;
 		\?) echo "UNKNOWN - Invalid option: -$OPT" >&2
