@@ -37,7 +37,7 @@ WARNINGFLAG=false
 CRITICALFLAG=false
 ARGUMENTFLAG=false
 NUMBER=1
-RECURSE=""
+RECURSE="-maxdepth 1"
 
 while getopts "d:w:c:a:r" OPT; do
 	case $OPT in
@@ -52,8 +52,14 @@ while getopts "d:w:c:a:r" OPT; do
 		;;
 		"a") NUMBER=$OPTARG
 		;;
-		"r") RECURSE="-R"
+		"r") RECURSE=""
 		;;
+		"t") if [ $OPTARG -eq "file" ]; then
+			TYPE="-type f"
+		elif [ $OPTARG -eq "directory" ]; then
+			TYPE="-type d"
+		else
+			TYPE=""
 		"h") echo "help:" && help
 		;;
 		\?) echo "UNKNOWN - Invalid option: -$OPT" >&2
@@ -97,9 +103,9 @@ fi
 
 # ----------FILE COUNT CALCULATION-----------
 
-FILE_COUNT_WARNING=`find $DIRECTORY -ctime -$WARNING -type f | wc -l`
+FILE_COUNT_WARNING=`find $DIRECTORY $RECURSE -ctime -$WARNING $TYPE | wc -l`
 
-FILE_COUNT_CRITICAL=`find $DIRECTORY -ctime -$CRITICAL -type f | wc -l`
+FILE_COUNT_CRITICAL=`find $DIRECTORY $RECURSE -ctime -$CRITICAL $TYPE | wc -l`
 
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 
