@@ -54,9 +54,9 @@ while getopts "d:w:c:t:a:r" OPT; do
 		;;
 		"r") RECURSE=""
 		;;
-		"t") if [ $OPTARG -eq "file" ]; then
+		"t") if [ $OPTARG == "file" ]; then
 			TYPE="-type f"
-		elif [ $OPTARG -eq "directory" ]; then
+		elif [ $OPTARG == "directory" ]; then
 			TYPE="-type d"
 		else
 			TYPE=""
