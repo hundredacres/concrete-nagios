@@ -39,7 +39,7 @@ ARGUMENTFLAG=false
 NUMBER=1
 RECURSE="-maxdepth 1"
 
-while getopts "d:w:c:a:r" OPT; do
+while getopts "d:w:c:t:a:r" OPT; do
 	case $OPT in
 		"d") DIRECTORY=$OPTARG
 		DIRECTORYFLAG=true
