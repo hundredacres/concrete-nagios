@@ -17,13 +17,18 @@
 #   Not required. Defaults to 7.
 #
 # [*critical*]
-#   The critical age level. It will warn on nagios if the file count younger than
+#   The critical age level. It will warn on nagios if the file count younger
+#   than
 #   this age goes below the threshold.
 #   Not required. Defaults to 14.
 #
 # [*recurse*]
 #   Boolean for whether the file count should recurse into sub folders.
 #   Not required. Defaults to true.
+#
+# [*type*]
+#   The type of file to check for (file, directory or both).
+#   Not require. Defaults to file.
 #
 # [*number*]
 #   Minimum number of files.
@@ -55,7 +60,8 @@ define nagios::nrpe::file_ages (
   $warning   = '7',
   $critical  = '14',
   $recurse   = true,
-  $number       = '1') {
+  $type      = 'file',
+  $number    = '1') {
   require nagios::nrpe::config
   include nagios::nrpe::service
   include nagios::params
@@ -64,14 +70,14 @@ define nagios::nrpe::file_ages (
 
   $nagios_service = $::nagios::params::nagios_service
 
-    include base::params
+  include base::params
 
   $monitoring_environment = $::base::params::monitoring_environment
 
   if $recurse == true {
-    $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -r -d ${directory} -a ${number}"
+    $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -r -t ${type} -d ${directory} -a ${number}"
   } else {
-    $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -d ${directory} -a ${number}"
+    $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -t ${type} -d ${directory} -a ${number}"
   }
 
   file_line { "check_file_ages_${directory}":
