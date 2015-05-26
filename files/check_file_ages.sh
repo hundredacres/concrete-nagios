@@ -105,9 +105,9 @@ fi
 
 # ----------FILE COUNT CALCULATION-----------
 
-FILE_COUNT_WARNING=`find $DIRECTORY $RECURSE -ctime -$WARNING $TYPE | wc -l`
+FILE_COUNT_WARNING=`find $DIRECTORY $RECURSE -mindepth -ctime -$WARNING $TYPE | wc -l`
 
-FILE_COUNT_CRITICAL=`find $DIRECTORY $RECURSE -ctime -$CRITICAL $TYPE | wc -l`
+FILE_COUNT_CRITICAL=`find $DIRECTORY $RECURSE -mindepth -ctime -$CRITICAL $TYPE | wc -l`
 
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 
