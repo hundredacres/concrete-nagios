@@ -117,7 +117,7 @@ define nagios::nrpe::process (
   if $user == '' {
     $user_command = ''
   } else {
-    $user_command = '-u $user '
+    $user_command = "-u ${user} "
   }
 
   file_line { "check_${process}_processes":
