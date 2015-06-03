@@ -46,28 +46,23 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::file_count (
-  $directory = $name,
-  $warning   = '5',
-  $critical  = '10',
-  $recurse   = true) {
+  $directory              = $name,
+  $warning                = '5',
+  $critical               = '10',
+  $recurse                = true,
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
   require nagios::nrpe::checks::file_count
 
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
-
-  if $recurse == true {
-    $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} -c ${critical} -r -d ${directory}"
-  } else {
-    $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} -c ${critical} -d ${directory}"
+  $recurse_string = $recurse ? {
+    true  => '-r ',
+    false => '',
   }
 
+  $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} ${recurse_string}-c ${critical} -d ${directory}"
+  
   file_line { "check_file_count_${directory}":
     ensure => present,
     line   => $command,

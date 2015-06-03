@@ -26,16 +26,14 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::iostat {
+class nagios::nrpe::iostat (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   require basic_server::basic_software
   include nagios::nrpe::service
 
   require nagios::nrpe::checks::iostat
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
 
   # This is a bit dirty. We could use nagios_servicegroups, but we want some way
   # to be dynamic with our iostat service
@@ -55,6 +53,8 @@ class nagios::nrpe::iostat {
 
   $drive = split($::used_blockdevices, ',')
 
-  nagios::nrpe::blockdevice::iostat { $drive: }
+  nagios::nrpe::blockdevice::iostat { $drive: 
+    nagios_service => $nagios_service,
+  }
 
 }

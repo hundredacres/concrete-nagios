@@ -25,14 +25,9 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-define nagios::nrpe::blockdevice::inodes {
-  include nagios::params
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
+define nagios::nrpe::blockdevice::inodes (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
 
   file_line { "check_${name}_inodes":
     ensure => present,

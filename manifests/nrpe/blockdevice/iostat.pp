@@ -27,13 +27,11 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-define nagios::nrpe::blockdevice::iostat {
+define nagios::nrpe::blockdevice::iostat (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::checks::iostat
   require nagios::nrpe::load
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
 
   $check = "command[check_iostat_${name}]=/usr/lib/nagios/plugins/check_iostat.sh -d ${name} -W -w 999,100,200,100,100 -c 999,200,300,200,100"
 
@@ -53,7 +51,7 @@ define nagios::nrpe::blockdevice::iostat {
 
   @@nagios_service { "check_${drive}_iostat_${::hostname}":
     check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
-    use                 => 'generic-service-excluding-pagerduty',
+    use                 => $nagios_service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_${drive}_iostat",

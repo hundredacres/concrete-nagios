@@ -61,15 +61,9 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-define nagios::nrpe::blockdevice::diskspace {
-  include nagios::params
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
-
+define nagios::nrpe::blockdevice::diskspace (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   # This has to use a getvar method to return a fact containing another
   # variable in the name.
   $size = getvar("::blockdevice_${name}_size")
@@ -82,7 +76,7 @@ define nagios::nrpe::blockdevice::diskspace {
   # variable in the name. The fact will be defined through the ENC.
   $override_critical = getvar("::diskspace_${name}_critical")
 
-  if ($override_warning == '' or $override_warning == nil or $override_warning
+  if ($override_warning == '' or $override_warning == nil or $override_warning 
   == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)
@@ -102,7 +96,7 @@ define nagios::nrpe::blockdevice::diskspace {
     $warning = $override_warning
   }
 
-  if ($override_critical == '' or $override_critical == nil or
+  if ($override_critical == '' or $override_critical == nil or 
   $override_critical == undef) {
     # Going to have a different check for very large disks ( gt 100GB) and
     # huge disks (gt 1TB)

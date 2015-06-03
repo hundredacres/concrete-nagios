@@ -56,29 +56,23 @@
 #
 # Ben Field <ben.field@concreteplatform.com>
 define nagios::nrpe::file_ages (
-  $directory = $name,
-  $warning   = '7',
-  $critical  = '14',
-  $recurse   = true,
-  $type      = 'file',
-  $number    = '1') {
+  $directory              = $name,
+  $warning                = '7',
+  $critical               = '14',
+  $recurse                = true,
+  $type                   = 'file',
+  $number                 = '1',
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
   require nagios::nrpe::checks::file_ages
 
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
-
-  if $recurse == true {
-    $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -r -t ${type} -d ${directory} -a ${number}"
-  } else {
-    $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} -c ${critical} -t ${type} -d ${directory} -a ${number}"
+  $recurse_string = $recurse ? {
+    true  => '-r ',
+    false => '',
   }
+  $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number}"
 
   file_line { "check_file_ages_${directory}":
     ensure => present,

@@ -68,26 +68,16 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::http (
-  $host             = $name,
-  $health_check_uri = '/',
-  $port             = '80',
-  $has_parent       = false,
-  $parent_service   = '',
-  $ssl              = false,
-  $service_override = '') {
+  $host                   = $name,
+  $health_check_uri       = '/',
+  $port                   = '80',
+  $has_parent             = false,
+  $parent_service         = '',
+  $ssl                    = false,
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
-
-  if $service_override == '' {
-    $nagios_service = $::nagios::params::nagios_service
-  } else {
-    $nagios_service = $service_override
-  }
 
   if $ssl == true {
     $protocol = 'HTTPS'

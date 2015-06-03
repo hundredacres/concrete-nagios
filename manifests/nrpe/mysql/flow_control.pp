@@ -1,15 +1,10 @@
-class nagios::nrpe::mysql::flow_control {
+class nagios::nrpe::mysql::flow_control (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
   require nagios::nrpe::mysql::package
   require nagios::nrpe::mysql::user
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
 
   file_line { 'check_flow_control':
     ensure => present,

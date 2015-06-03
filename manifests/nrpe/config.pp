@@ -12,13 +12,13 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::config {
+class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
   include nagios::params
 
   require nagios::nrpe::package
   include nagios::nrpe::service
-  
-  $hosts = "allowed_hosts = 127.0.0.1,${::nagios::params::server}"
+
+  $hosts = "allowed_hosts = 127.0.0.1,${server}"
 
   file_line { 'allowed_hosts':
     ensure => present,
