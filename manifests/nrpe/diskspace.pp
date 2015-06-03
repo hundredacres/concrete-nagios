@@ -33,7 +33,6 @@ class nagios::nrpe::diskspace (
   $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
 
   # Remove the default check_disk
 
