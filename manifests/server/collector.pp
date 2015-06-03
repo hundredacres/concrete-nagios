@@ -6,11 +6,8 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-define nagios::server::collector {
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
-
+define nagios::server::collector (
+  $monitoring_environment = $::nagios::server::config::monitoring_environment) {
   Nagios_host <<| tag == $monitoring_environment |>> {
   }
 

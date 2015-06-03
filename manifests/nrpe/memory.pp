@@ -15,16 +15,12 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::memory {
+class nagios::nrpe::memory (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
+  
   file { 'check_mem.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_mem.sh',

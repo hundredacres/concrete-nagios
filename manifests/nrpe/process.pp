@@ -96,20 +96,11 @@ define nagios::nrpe::process (
   $restart_command    = '',
   $sudo_required      = true,
   $sudo_user_required = false,
-  $service_override   = '') {
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service)) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
-  if $service_override == '' {
-    $nagios_service = $::nagios::params::nagios_service
-  } else {
-    $nagios_service = $service_override
-  }
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
-
+  
   if $restart_command == '' and $event_handler == true {
     $restart_command = "/etc/init.d/${process} restart"
   }

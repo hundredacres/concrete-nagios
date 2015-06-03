@@ -7,12 +7,10 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::iostat {
+class nagios::server::iostat (
+  $monitoring_environment = $::nagios::server::config::monitoring_environment) {
 	require nagios::server::config
 	include nagios::server::service
-	include base::params
-
-	$monitoring_environment = $::base::params::monitoring_environment
 
 	Datacat_fragment <<| tag == "iostat_${monitoring_environment}" |>> {
 	}

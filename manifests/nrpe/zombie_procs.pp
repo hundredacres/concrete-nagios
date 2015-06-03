@@ -12,16 +12,11 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::zombie_procs {
+class nagios::nrpe::zombie_procs (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
 
   @@nagios_service { "check_zombie_procs_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_zombie_procs',

@@ -13,8 +13,6 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
-  include nagios::params
-
   require nagios::nrpe::package
   include nagios::nrpe::service
 
@@ -25,7 +23,7 @@ class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
     line   => $hosts,
     path   => '/etc/nagios/nrpe.cfg',
     match  => '^allowed_hosts',
-    notify => Service['nrpe'],
+    notify => Service['nagios-nrpe-server'],
   }
 
   @motd::register { 'NRPE End Point': }

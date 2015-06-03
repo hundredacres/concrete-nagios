@@ -19,15 +19,8 @@
 # === Authors
 #
 # Ben Field <justin.miller@concreteplatform.com
-class nagios::client {
+class nagios::client ($nagios_service, $monitoring_environment) {
   # Gonna take in a nagios_parent variable as an override
-  include nagios::params
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
   
   if ($::nagios_parent == '' or $::nagios_parent == nil or $::nagios_parent == 
   undef) {

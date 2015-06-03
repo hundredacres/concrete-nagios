@@ -6,7 +6,8 @@
 # It will deploy the check, add the command and then create the service on the
 # nagios server.
 #
-# It will only deploy the check to 32 bit systems as this should not be a problem on 64 bit systems.
+# It will only deploy the check to 32 bit systems as this should not be a
+# problem on 64 bit systems.
 #
 # === Variables
 #
@@ -17,16 +18,11 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::kernel_leak {
+class nagios::nrpe::kernel_leak (
+  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
+  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  include nagios::params
-
-  $nagios_service = $::nagios::params::nagios_service
-
-  include base::params
-
-  $monitoring_environment = $::base::params::monitoring_environment
 
   if $::architecture == 'i386' or $::architecture == 'x86' {
     file { 'check_kernel_leak.sh':

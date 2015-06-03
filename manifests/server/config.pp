@@ -7,7 +7,8 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::config {
+class nagios::server::config (
+  $monitoring_environment = $::nagios::server::config::monitoring_environment) {
   require nagios::server::package
   include nagios::server::service
 
@@ -30,8 +31,9 @@ class nagios::server::config {
   }
 
   nagios::server::collector { 'collect_it':
-    require => File['/etc/nagios3/conf.d/puppet/'],
-    notify  => Exec['rechmod'],
+    monitoring_environment => $monitoring_environment,
+    require                => File['/etc/nagios3/conf.d/puppet/'],
+    notify                 => Exec['rechmod'],
   }
 
   @motd::register { 'Nagios Server and Check/Host Collection': }
