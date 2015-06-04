@@ -40,8 +40,6 @@ class nagios::nrpe::load (
 
   $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}"
 
-  $service = 'generic-service-excluding-pagerduty'
-
   file_line { 'check_load':
     ensure => present,
     line   => $check,
@@ -61,7 +59,7 @@ class nagios::nrpe::load (
 
   @@nagios_service { "check_load_${::hostname}":
     check_command       => 'check_nrpe_1arg!check_load',
-    use                 => $service,
+    use                 => $nagios_service,
     host_name           => $::hostname,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_load",
