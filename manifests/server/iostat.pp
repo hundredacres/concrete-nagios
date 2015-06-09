@@ -11,6 +11,8 @@ class nagios::server::iostat (
   $monitoring_environment = $::nagios::server::config::monitoring_environment) {
 	require nagios::server::config
 	include nagios::server::service
+	
+	notify { "iostat_${monitoring_environment}":  }
 
 	Datacat_fragment <<| tag == "iostat_${monitoring_environment}" |>> {
 	}

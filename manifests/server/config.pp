@@ -8,7 +8,7 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::server::config (
-  $monitoring_environment = $::nagios::server::config::monitoring_environment) {
+  $monitoring_environment) {
   require nagios::server::package
   include nagios::server::service
 
