@@ -4,7 +4,6 @@ class nagios::nrpe::mysql::quorum (
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
-  require nagios::nrpe::mysql::user
 
   file_line { 'check_quorum_status':
     ensure => present,
