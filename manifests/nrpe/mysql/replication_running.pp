@@ -4,7 +4,6 @@ class nagios::nrpe::mysql::replication_running (
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
-  require nagios::nrpe::mysql::user
 
   file_line { 'check_replication_running':
     ensure => present,

@@ -4,7 +4,6 @@ class nagios::nrpe::mysql::sync (
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
-  require nagios::nrpe::mysql::user
   file_line { 'check_sync_status':
     ensure => present,
     line   => "command[check_sync_status]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -x wsrep_local_state_comment -C '!=' -T str -w Synced",
