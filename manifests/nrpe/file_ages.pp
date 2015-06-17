@@ -62,6 +62,8 @@ define nagios::nrpe::file_ages (
   $recurse                = true,
   $type                   = 'file',
   $number                 = '1',
+  $has_parent             = false,
+  $parent_service         = '',
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
@@ -73,6 +75,8 @@ define nagios::nrpe::file_ages (
     false => '',
   }
   $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number}"
+
+  $service_description = "${::hostname}_check_file_ages_${directory}"
 
   file_line { "check_file_ages_${directory}":
     ensure => present,
@@ -89,6 +93,20 @@ define nagios::nrpe::file_ages (
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     service_description => "${::hostname}_check_file_ages_${directory}",
     tag                 => $monitoring_environment,
+  }
+
+  if $has_parent == true {
+    @@nagios_servicedependency { "${directory}_file_age_on_${::hostname}_depencency_${parent_service}"
+    :
+      dependent_host_name           => $::hostname,
+      dependent_service_description => $service_description,
+      host_name => $::hostname,
+      service_description           => $parent_service,
+      execution_failure_criteria    => 'c',
+      notification_failure_criteria => 'c',
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
+      tag       => $monitoring_environment,
+    }
   }
 
   @motd::register { "Nagios File Ages Check on ${directory}": }

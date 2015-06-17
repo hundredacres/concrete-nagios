@@ -86,6 +86,8 @@ define nagios::nrpe::http (
     $protocol = 'HTTP'
     $command = 'check_http_nonroot_custom_port'
   }
+  
+  $service_description = "${::hostname}_check_${host}_${protocol}_${health_check_uri}"
 
   # This will use the name as the hostname to check ( this is really important
   # with ssl! Can add a parameter if we thing
@@ -102,10 +104,10 @@ define nagios::nrpe::http (
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${::hostname}_depencency_process"
+    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${::hostname}_depencency_${parent_service}"
     :
       dependent_host_name           => $::hostname,
-      dependent_service_description => "${::hostname}_check_${host}_${protocol}_${health_check_uri}",
+      dependent_service_description => $service_description,
       host_name => $::hostname,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
