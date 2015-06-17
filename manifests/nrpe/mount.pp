@@ -1,5 +1,5 @@
 define nagios::nrpe::mount (
-  $mount_path,
+  $mount_path             = $name,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
