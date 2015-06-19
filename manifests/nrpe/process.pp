@@ -113,7 +113,7 @@ define nagios::nrpe::process (
 
   file_line { "check_${process}_processes":
     ensure => present,
-    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs ${user_command}-w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -C ${process}",
+    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs ${user_command}-w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -a ${process}",
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => "command\[check_${process}_processes\]",
     notify => Service['nrpe'],
