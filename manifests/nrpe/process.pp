@@ -33,7 +33,8 @@
 #   Defaults to "". Not required
 #
 # [*event_handler*]
-#   A boolean value. Whether or not you would like to trigger an event_handler on
+#   A boolean value. Whether or not you would like to trigger an event_handler
+#   on
 #  service failure. This will run the restart_command you specified on detecting
 #  a failure.
 #   Defaults to false. Not required.
@@ -87,20 +88,27 @@
 #
 define nagios::nrpe::process (
   $process,
-  $warning_low        = '1',
-  $critical_low       = '1',
-  $warning_high       = '',
-  $critical_high      = '',
-  $user               = '',
-  $event_handler      = false,
-  $restart_command    = '',
-  $sudo_required      = true,
-  $sudo_user_required = false,
+  $warning_low            = '1',
+  $critical_low           = '1',
+  $warning_high           = '',
+  $critical_high          = '',
+  $type                   = 'argument',
+  $user                   = '',
+  $event_handler          = false,
+  $restart_command        = '',
+  $sudo_required          = true,
+  $sudo_user_required     = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  
+
+  $type_string = $type ? {
+    'argument' => '-a ',
+    'command'  => '-C ',
+    default    => '-a '
+  }
+
   if $restart_command == '' and $event_handler == true {
     $restart_command = "/etc/init.d/${process} restart"
   }
@@ -113,7 +121,7 @@ define nagios::nrpe::process (
 
   file_line { "check_${process}_processes":
     ensure => present,
-    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs ${user_command}-w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} -a ${process}",
+    line   => "command[check_${process}_processes]=/usr/lib/nagios/plugins/check_procs ${user_command}-w ${warning_low}:${warning_high} -c ${critical_low}:${critical_high} ${type_string}${process}",
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => "command\[check_${process}_processes\]",
     notify => Service['nrpe'],
