@@ -13,12 +13,12 @@ class nagios::nrpe::mysql::file_privs (
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_file_privs_${::hostname}":
+  @@nagios_service { "check_file_privs_${alias}":
     check_command       => 'check_nrpe_1arg!check_file_privs',
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_file_privs",
+    service_description => "${alias}_check_file_privs",
     tag                 => $monitoring_environment,
   }
 

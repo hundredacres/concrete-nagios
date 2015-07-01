@@ -63,10 +63,11 @@ define nagios::nrpe::file_ages (
   $type                   = 'file',
   $number                 = '1',
   $has_parent             = false,
-  $parent_host            = $::hostname,
+  $parent_host            = $alias,
   $parent_service         = '',
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::checks::file_ages
@@ -77,7 +78,7 @@ define nagios::nrpe::file_ages (
   }
   $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number}"
 
-  $service_description = "${::hostname}_check_file_ages_${directory}"
+  $service_description = "${alias}_check_file_ages_${directory}"
 
   file_line { "check_file_ages_${directory}":
     ensure => present,
@@ -87,19 +88,19 @@ define nagios::nrpe::file_ages (
     notify => Service[nrpe],
   }
 
-  @@nagios_service { "check_file_ages_${directory}_on_${::hostname}":
+  @@nagios_service { "check_file_ages_${directory}_on_${alias}":
     check_command       => "check_nrpe_1arg!check_file_ages_${directory}",
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_file_ages_${directory}",
+    service_description => "${alias}_check_file_ages_${directory}",
     tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${directory}_file_age_on_${::hostname}_depencency_${parent_service}"
+    @@nagios_servicedependency { "${directory}_file_age_on_${alias}_depencency_${parent_service}"
     :
-      dependent_host_name           => $::hostname,
+      dependent_host_name           => $alias,
       dependent_service_description => $service_description,
       host_name => $parent_host,
       service_description           => $parent_service,

@@ -27,8 +27,8 @@
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::blockdevice::inodes (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
-
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname) {
   file_line { "check_${name}_inodes":
     ensure => present,
     line   => "command[check_${name}_inodes]=/usr/lib/nagios/plugins/check_disk -E -W 15% -K 5% -R /dev/${name}*",
@@ -45,12 +45,12 @@ define nagios::nrpe::blockdevice::inodes (
     $drive = $name
   }
 
-  @@nagios_service { "check_${drive}_inodes_${::hostname}":
+  @@nagios_service { "check_${drive}_inodes_${alias}":
     check_command       => "check_nrpe_1arg!check_${name}_inodes",
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_${drive}_inodes",
+    service_description => "${alias}_check_${drive}_inodes",
     tag                 => $monitoring_environment,
   }
 

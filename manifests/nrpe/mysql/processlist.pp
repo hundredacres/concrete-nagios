@@ -1,6 +1,7 @@
 class nagios::nrpe::mysql::processlist (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
@@ -13,12 +14,12 @@ class nagios::nrpe::mysql::processlist (
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_processlist_${::hostname}":
+  @@nagios_service { "check_processlist_${alias}":
     check_command       => 'check_nrpe_1arg!check_processlist',
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_processlist",
+    service_description => "${alias}_check_processlist",
     tag                 => $monitoring_environment,
   }
 

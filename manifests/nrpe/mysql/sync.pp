@@ -1,9 +1,11 @@
 class nagios::nrpe::mysql::sync (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service){
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
+
   file_line { 'check_sync_status':
     ensure => present,
     line   => "command[check_sync_status]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -x wsrep_local_state_comment -C '!=' -T str -w Synced",
@@ -12,12 +14,12 @@ class nagios::nrpe::mysql::sync (
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_sync_status_${::hostname}":
+  @@nagios_service { "check_sync_status_${alias}":
     check_command       => 'check_nrpe_1arg!check_sync_status',
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_sync_status",
+    service_description => "${alias}_check_sync_status",
     tag                 => $monitoring_environment,
   }
 

@@ -19,50 +19,45 @@
 # === Authors
 #
 # Ben Field <justin.miller@concreteplatform.com
-class nagios::client ($nagios_service, $monitoring_environment) {
-  # Gonna take in a nagios_parent variable as an override
-  
-  if ($::nagios_parent == '' or $::nagios_parent == nil or $::nagios_parent == 
-  undef) {
-    $parent = $::xenhost
-  } else {
-    $parent = $::nagios_parent
-  }
-
+class nagios::client (
+  $nagios_service,
+  $monitoring_environment,
+  $parent = $::xenhost,
+  $alias  = $::hostname) {
   # The not hugely neat way, need to refactor this:
 
-  if $parent != 'physical' {
-    @@nagios_host { $::hostname:
+  if $parent != 'physical' and $parent != 'Virtual IP' {
+    @@nagios_host { $alias:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
       address         => $::ipaddress_eth0,
       use             => 'generic-host',
-      alias           => $::hostname,
+      alias           => $alias,
       tag             => $monitoring_environment,
       parents         => $parent,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
     }
   } else {
-    @@nagios_host { $::hostname:
+    @@nagios_host { $alias:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
       address         => $::ipaddress_eth0,
       use             => 'generic-host',
-      alias           => $::hostname,
+      alias           => $alias,
       tag             => $monitoring_environment,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
     }
   }
 
-  @@nagios_service { "check_ping_${::hostname}":
+  @@nagios_service { "check_ping_${alias}":
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
     check_command       => 'check_ping!100.0,20%!500.0,60%',
     use                 => $nagios_service,
-    host_name           => $::hostname,
-    service_description => "${::hostname}_check_ping",
-    require             => Nagios_host[$::hostname],
+    host_name           => $alias,
+    service_description => "${alias}_check_ping",
+    require             => Nagios_host[$alias],
     tag                 => $monitoring_environment,
   }
 

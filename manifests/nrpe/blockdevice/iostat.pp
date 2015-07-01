@@ -29,7 +29,8 @@
 # Ben Field <ben.field@concreteplatform.com
 define nagios::nrpe::blockdevice::iostat (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname) {
   require nagios::nrpe::checks::iostat
   require nagios::nrpe::load
 
@@ -49,22 +50,21 @@ define nagios::nrpe::blockdevice::iostat (
     $drive = $name
   }
 
-  @@nagios_service { "check_${drive}_iostat_${::hostname}":
+  @@nagios_service { "check_${drive}_iostat_${alias}":
     check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_${drive}_iostat",
+    service_description => "${alias}_check_${drive}_iostat",
     tag                 => "${monitoring_environment}",
     servicegroups       => "servicegroup_iostat_${::xenhost}",
   }
 
-  @@nagios_servicedependency { "load_${name}_on_${::hostname}_depencency_iostat"
-  :
-    dependent_host_name           => $::hostname,
-    dependent_service_description => "${::hostname}_check_load",
-    host_name => $::hostname,
-    service_description           => "${::hostname}_check_${drive}_iostat",
+  @@nagios_servicedependency { "load_${name}_on_${alias}_depencency_iostat":
+    dependent_host_name           => $alias,
+    dependent_service_description => "${alias}_check_load",
+    host_name => $alias,
+    service_description           => "${alias}_check_${drive}_iostat",
     execution_failure_criteria    => 'w,c',
     notification_failure_criteria => 'w,c',
     target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",

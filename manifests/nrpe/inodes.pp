@@ -29,13 +29,18 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::inodes (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  
+
   $drive = split($::used_blockdevices, ',')
 
-  nagios::nrpe::blockdevice::inodes { $drive: }
+  nagios::nrpe::blockdevice::inodes { $drive:
+    monitoring_environment => $monitoring_environment,
+    nagios_service         => $nagios_service,
+    alias                  => $alias,
+  }
 
   if $::lvm == true {
     $excludedDrives = join(prefix($drive, '-I '), ' ')
@@ -48,12 +53,12 @@ class nagios::nrpe::inodes (
       notify => Service['nrpe'],
     }
 
-    @@nagios_service { "check_LVM_inodes_${::hostname}":
+    @@nagios_service { "check_LVM_inodes_${alias}":
       check_command       => 'check_nrpe_1arg!check_LVM_inodes',
       use                 => $nagios_service,
-      host_name           => $::hostname,
+      host_name           => $alias,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-      service_description => "${::hostname}_check_LVM_inodes",
+      service_description => "${alias}_check_LVM_inodes",
       tag                 => $monitoring_environment,
     }
 

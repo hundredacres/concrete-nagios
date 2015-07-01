@@ -72,11 +72,12 @@ define nagios::nrpe::http (
   $health_check_uri       = '/',
   $port                   = '80',
   $has_parent             = false,
-  $parent_host            = $::hostname,
+  $parent_host            = $alias,
   $parent_service         = '',
   $ssl                    = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -88,26 +89,26 @@ define nagios::nrpe::http (
     $command = 'check_http_nonroot_custom_port'
   }
 
-  $service_description = "${::hostname}_check_${host}_${protocol}_${health_check_uri}"
+  $service_description = "${alias}_check_${host}_${protocol}_${health_check_uri}"
 
   # This will use the name as the hostname to check ( this is really important
   # with ssl! Can add a parameter if we thing
   # of a usecase
 
-  @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${::hostname}"
+  @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${alias}"
   :
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_${host}_${protocol}_${health_check_uri}",
+    service_description => "${alias}_check_${host}_${protocol}_${health_check_uri}",
     tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${::hostname}_depencency_${parent_service}"
+    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${alias}_depencency_${parent_service}"
     :
-      dependent_host_name           => $::hostname,
+      dependent_host_name           => $alias,
       dependent_service_description => $service_description,
       host_name => $parent_host,
       service_description           => $parent_service,

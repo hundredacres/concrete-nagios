@@ -17,10 +17,11 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::memory (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $alias                  = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-  
+
   file { 'check_mem.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_mem.sh',
@@ -39,12 +40,12 @@ class nagios::nrpe::memory (
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_memory_${::hostname}":
+  @@nagios_service { "check_memory_${alias}":
     check_command       => 'check_nrpe_1arg!check_mem',
     use                 => $nagios_service,
-    host_name           => $::hostname,
+    host_name           => $alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_memory",
+    service_description => "${alias}_check_memory",
     tag                 => $monitoring_environment,
   }
 
