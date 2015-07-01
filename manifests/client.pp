@@ -22,15 +22,16 @@
 class nagios::client (
   $nagios_service,
   $monitoring_environment,
-  $parent = $::xenhost,
-  $alias  = $::hostname) {
+  $parent  = $::xenhost,
+  $alias   = $::hostname,
+  $address = $::ipaddress_eth0) {
   # The not hugely neat way, need to refactor this:
 
   if $parent != 'physical' and $parent != 'Virtual IP' {
     @@nagios_host { $alias:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
-      address         => $::ipaddress_eth0,
+      address         => $address,
       use             => 'generic-host',
       alias           => $alias,
       tag             => $monitoring_environment,
@@ -42,7 +43,7 @@ class nagios::client (
     @@nagios_host { $alias:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
-      address         => $::ipaddress_eth0,
+      address         => $address,
       use             => 'generic-host',
       alias           => $alias,
       tag             => $monitoring_environment,
