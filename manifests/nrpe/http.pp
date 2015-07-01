@@ -72,6 +72,7 @@ define nagios::nrpe::http (
   $health_check_uri       = '/',
   $port                   = '80',
   $has_parent             = false,
+  $parent_host            = $::hostname,
   $parent_service         = '',
   $ssl                    = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
@@ -86,7 +87,7 @@ define nagios::nrpe::http (
     $protocol = 'HTTP'
     $command = 'check_http_nonroot_custom_port'
   }
-  
+
   $service_description = "${::hostname}_check_${host}_${protocol}_${health_check_uri}"
 
   # This will use the name as the hostname to check ( this is really important
@@ -108,7 +109,7 @@ define nagios::nrpe::http (
     :
       dependent_host_name           => $::hostname,
       dependent_service_description => $service_description,
-      host_name => $::hostname,
+      host_name => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',

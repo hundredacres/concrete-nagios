@@ -63,6 +63,7 @@ define nagios::nrpe::file_ages (
   $type                   = 'file',
   $number                 = '1',
   $has_parent             = false,
+  $parent_host            = $::hostname,
   $parent_service         = '',
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service) {
@@ -100,7 +101,7 @@ define nagios::nrpe::file_ages (
     :
       dependent_host_name           => $::hostname,
       dependent_service_description => $service_description,
-      host_name => $::hostname,
+      host_name => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
