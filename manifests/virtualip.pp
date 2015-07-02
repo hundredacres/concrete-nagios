@@ -7,8 +7,8 @@ class nagios::virtualip (
     target => '/etc/nagios3/conf.d/puppet/host_virtualips.cfg',
     data   => {
       $cluster_name => {
-        virtualip              => $virtualip,
-        parent                 => $parent,
+        virtualip              => [$virtualip],
+        parent                 => [$parent],
       }
     }
     ,
