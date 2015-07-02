@@ -1,6 +1,7 @@
 class nagios::nrpe::mysql::file_privs (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
