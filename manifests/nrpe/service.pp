@@ -10,7 +10,7 @@
 class nagios::nrpe::service {
   service { 'nagios-nrpe-server':
     ensure       => running,
-    nagios_alias => 'nrpe',
+    alias => 'nrpe',
     enable       => true,
     require      => Package['nagios-nrpe-server'],
   }
