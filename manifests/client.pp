@@ -27,7 +27,7 @@ class nagios::client (
   $address = $::ipaddress_eth0) {
   # The not hugely neat way, need to refactor this:
 
-  if $parent != 'physical' and $parent != 'Virtual IP' {
+  if $parent != 'physical'{
     @@nagios_host { $alias:
       ensure          => present,
       target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
