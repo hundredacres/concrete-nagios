@@ -64,7 +64,7 @@
 define nagios::nrpe::blockdevice::diskspace (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $alias  = $::hostname) {
+  $nagios_alias           = $::hostname) {
   # This has to use a getvar method to return a fact containing another
   # variable in the name.
   $size = getvar("::blockdevice_${name}_size")
@@ -132,12 +132,12 @@ define nagios::nrpe::blockdevice::diskspace (
     $drive = $name
   }
 
-  @@nagios_service { "check_${drive}_space_${alias}":
+  @@nagios_service { "check_${drive}_space_${nagios_alias}":
     check_command       => "check_nrpe_1arg!check_${name}_diskspace",
     use                 => $nagios_service,
-    host_name           => $alias,
+    host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${alias}_check_${drive}_space",
+    service_description => "${nagios_alias}_check_${drive}_space",
     tag                 => $monitoring_environment,
   }
 

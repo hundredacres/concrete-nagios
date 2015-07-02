@@ -30,7 +30,7 @@
 class nagios::nrpe::inodes (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $alias                  = $::hostname,) {
+  $nagios_alias = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -39,7 +39,7 @@ class nagios::nrpe::inodes (
   nagios::nrpe::blockdevice::inodes { $drive:
     monitoring_environment => $monitoring_environment,
     nagios_service         => $nagios_service,
-    alias                  => $alias,
+    nagios_alias                  => $nagios_alias,
   }
 
   if $::lvm == true {
@@ -53,12 +53,12 @@ class nagios::nrpe::inodes (
       notify => Service['nrpe'],
     }
 
-    @@nagios_service { "check_LVM_inodes_${alias}":
+    @@nagios_service { "check_LVM_inodes_${nagios_alias}":
       check_command       => 'check_nrpe_1arg!check_LVM_inodes',
       use                 => $nagios_service,
-      host_name           => $alias,
+      host_name           => $nagios_alias,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-      service_description => "${alias}_check_LVM_inodes",
+      service_description => "${nagios_alias}_check_LVM_inodes",
       tag                 => $monitoring_environment,
     }
 

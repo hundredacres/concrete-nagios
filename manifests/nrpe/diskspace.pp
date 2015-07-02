@@ -31,7 +31,7 @@
 class nagios::nrpe::diskspace (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $alias                  = $::hostname) {
+  $nagios_alias           = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -50,7 +50,7 @@ class nagios::nrpe::diskspace (
   nagios::nrpe::blockdevice::diskspace { $drive:
     monitoring_environment => $monitoring_environment,
     nagios_service         => $nagios_service,
-    alias                  => $alias,
+    nagios_alias           => $nagios_alias,
     require                => File_Line['check_disk_default'],
   }
 
@@ -65,12 +65,12 @@ class nagios::nrpe::diskspace (
       notify => Service['nrpe'],
     }
 
-    @@nagios_service { "check_LVM_space_${alias}":
+    @@nagios_service { "check_LVM_space_${nagios_alias}":
       check_command       => 'check_nrpe_1arg!check_LVM_diskspace',
       use                 => $nagios_service,
-      host_name           => $alias,
+      host_name           => $nagios_alias,
       target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-      service_description => "${alias}_check_LVM_space",
+      service_description => "${nagios_alias}_check_LVM_space",
       tag                 => $monitoring_environment,
     }
 

@@ -1,7 +1,7 @@
 class nagios::nrpe::mysql::quorum (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $alias                  = $::hostname) {
+  $nagios_alias           = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
@@ -14,12 +14,12 @@ class nagios::nrpe::mysql::quorum (
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_quorum_status_${alias}":
+  @@nagios_service { "check_quorum_status_${nagios_alias}":
     check_command       => 'check_nrpe_1arg!check_quorum_status',
     use                 => $nagios_service,
-    host_name           => $alias,
+    host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${alias}_check_quorum_status",
+    service_description => "${nagios_alias}_check_quorum_status",
     tag                 => $monitoring_environment,
   }
 

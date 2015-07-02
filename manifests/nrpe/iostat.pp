@@ -29,7 +29,7 @@
 class nagios::nrpe::iostat (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $alias                  = $::hostname,) {
+  $nagios_alias                  = $::hostname,) {
   require nagios::nrpe::config
   require basic_server::basic_software
   include nagios::nrpe::service
@@ -57,7 +57,7 @@ class nagios::nrpe::iostat (
   nagios::nrpe::blockdevice::iostat { $drive:
     monitoring_environment => $monitoring_environment,
     nagios_service         => $nagios_service,
-    alias                  => $alias,
+    nagios_alias                  => $nagios_alias,
   }
 
 }

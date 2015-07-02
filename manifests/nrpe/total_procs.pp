@@ -17,16 +17,16 @@
 class nagios::nrpe::total_procs (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $alias                  = $::hostname,) {
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-  @@nagios_service { "check_total_procs_${alias}":
+  @@nagios_service { "check_total_procs_${nagios_alias}":
     check_command       => 'check_nrpe_1arg!check_total_procs',
     use                 => $nagios_service,
-    host_name           => $alias,
+    host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${alias}_check_total_procs",
+    service_description => "${nagios_alias}_check_total_procs",
     tag                 => $monitoring_environment,
   }
 
