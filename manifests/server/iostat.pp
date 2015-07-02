@@ -9,13 +9,15 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::server::iostat (
   $monitoring_environment = $::nagios::server::config::monitoring_environment) {
-	require nagios::server::config
-	include nagios::server::service
+  require nagios::server::config
+  include nagios::server::service
 
-	Datacat_fragment <<| tag == "iostat_${monitoring_environment}" |>> {
-	}
+  Datacat_fragment <<| tag == "iostat_${monitoring_environment}" |>> {
+  }
 
-	datacat { '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg': template => 'nagios/servicegroup_iostat.cfg.erb',
-	}
+  datacat { '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg':
+    template => 'nagios/servicegroup_iostat.cfg.erb',
+    notify   => Service['nagios3']
+  }
 
 }
