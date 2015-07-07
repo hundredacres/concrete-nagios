@@ -72,12 +72,12 @@ define nagios::nrpe::http (
   $health_check_uri       = '/',
   $port                   = '80',
   $has_parent             = false,
-  $parent_host            = $nagios_alias,
   $parent_service         = '',
+  $parent_host            = $::hostname,
   $ssl                    = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $nagios_alias           = $::hostname) {
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
