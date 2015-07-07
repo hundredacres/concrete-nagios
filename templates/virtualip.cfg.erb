@@ -1,4 +1,4 @@
-<% @data..sort_by {|key, value_hash | key}.each_pair do |key, value_hash| %>
+<% @data..sort.each_pair do |key, value_hash| %>
 define host {
         host_name   <%= key %>
         address     <% value_hash["virtualip"].uniq.each do |val| %><%= val %><% end %>
