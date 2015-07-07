@@ -1,8 +1,8 @@
-<% @data.each_pair do |key, value_hash| %>
+<% @data..sort_by {|key, value_hash | key} each_pair do |key, value_hash| %>
 define host {
         host_name   <%= key %>
         address     <% value_hash["virtualip"].uniq.each do |val| %><%= val %><% end %>
         use         generic-virtual-host
-        parents     <%= value_hash["parent"].uniq.join(",") %>
+        parents     <%= value_hash["parent"].uniq.sort.join(",") %>
 }
 <% end %>
