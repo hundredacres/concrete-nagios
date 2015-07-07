@@ -76,7 +76,7 @@ define nagios::nrpe::file_count (
     check_command       => "check_nrpe_1arg!check_file_count_${directory}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_file_count_${directory}",
     tag                 => $monitoring_environment,
   }

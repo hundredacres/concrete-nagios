@@ -42,7 +42,7 @@ class nagios::nrpe::reboot (
     check_command         => 'check_nrpe_1arg!check_reboot',
     use                   => $nagios_service,
     host_name             => $nagios_alias,
-    target                => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target                => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description   => "${nagios_alias}_check_reboot",
     tag                   => $monitoring_environment,
     notifications_enabled => 0,

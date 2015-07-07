@@ -57,7 +57,7 @@ class nagios::nrpe::inodes (
       check_command       => 'check_nrpe_1arg!check_LVM_inodes',
       use                 => $nagios_service,
       host_name           => $nagios_alias,
-      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
       service_description => "${nagios_alias}_check_LVM_inodes",
       tag                 => $monitoring_environment,
     }

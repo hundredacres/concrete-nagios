@@ -71,7 +71,7 @@ class nagios::nrpe::ntp (
     check_command       => 'check_nrpe_1arg!check_time_sync',
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_time_sync",
     tag                 => $monitoring_environment,
     event_handler       => 'event_handler!resync_ntp',

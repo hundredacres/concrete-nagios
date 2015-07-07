@@ -100,7 +100,7 @@ define nagios::nrpe::http (
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}",
     tag                 => $monitoring_environment,
   }
@@ -114,7 +114,7 @@ define nagios::nrpe::http (
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
       tag       => $monitoring_environment,
     }
   }

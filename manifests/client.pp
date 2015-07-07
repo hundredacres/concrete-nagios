@@ -30,10 +30,10 @@ class nagios::client (
   if $parent != 'physical' {
     @@nagios_host { $nagios_alias:
       ensure          => present,
-      target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
+      target          => "/etc/nagios3/conf.d/puppet/host_${nagios_alias}.cfg",
       address         => $address,
       use             => 'generic-host',
-      alias    => $nagios_alias,
+      alias           => $nagios_alias,
       tag             => $monitoring_environment,
       parents         => $parent,
       icon_image      => 'base/linux40.png',
@@ -42,10 +42,10 @@ class nagios::client (
   } else {
     @@nagios_host { $nagios_alias:
       ensure          => present,
-      target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
+      target          => "/etc/nagios3/conf.d/puppet/host_${nagios_alias}.cfg",
       address         => $address,
       use             => 'generic-host',
-      alias    => $nagios_alias,
+      alias           => $nagios_alias,
       tag             => $monitoring_environment,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
@@ -53,7 +53,7 @@ class nagios::client (
   }
 
   @@nagios_service { "check_ping_${nagios_alias}":
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     check_command       => 'check_ping!100.0,20%!500.0,60%',
     use                 => $nagios_service,
     host_name           => $nagios_alias,

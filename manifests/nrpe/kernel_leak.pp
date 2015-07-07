@@ -55,7 +55,7 @@ class nagios::nrpe::kernel_leak (
       check_command       => 'check_nrpe_1arg!check_kernel_leak',
       use                 => 'generic-service-excluding-pagerduty',
       host_name           => $nagios_alias,
-      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
       service_description => "${nagios_alias}_check_kernel_leak",
       tag                 => $monitoring_environment,
     }

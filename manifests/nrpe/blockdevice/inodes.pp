@@ -49,7 +49,7 @@ define nagios::nrpe::blockdevice::inodes (
     check_command       => "check_nrpe_1arg!check_${name}_inodes",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_${drive}_inodes",
     tag                 => $monitoring_environment,
   }

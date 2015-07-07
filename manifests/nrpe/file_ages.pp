@@ -105,7 +105,7 @@ define nagios::nrpe::file_ages (
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
       tag       => $monitoring_environment,
     }
   }

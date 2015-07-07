@@ -18,7 +18,7 @@ class nagios::nrpe::mysql::quorum (
     check_command       => 'check_nrpe_1arg!check_quorum_status',
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_quorum_status",
     tag                 => $monitoring_environment,
   }

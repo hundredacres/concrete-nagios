@@ -23,7 +23,7 @@ class nagios::nrpe::zombie_procs (
     check_command       => 'check_nrpe_1arg!check_zombie_procs',
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_zombie_procs",
     tag                 => $monitoring_environment,
   }
