@@ -99,7 +99,8 @@ define nagios::nrpe::process (
   $sudo_required          = true,
   $sudo_user_required     = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -165,12 +166,12 @@ define nagios::nrpe::process (
       notify => Service['nrpe'],
     }
 
-    @@nagios_service { "check_${process}_processes_${::hostname}":
+    @@nagios_service { "check_${process}_processes_${nagios_alias}":
       check_command       => "check_nrpe_1arg!check_${process}_processes",
       use                 => $nagios_service,
-      host_name           => $::hostname,
-      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-      service_description => "${::hostname}_check_${process}_processes",
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => "${nagios_alias}_check_${process}_processes",
       tag                 => $monitoring_environment,
       event_handler       => "event_handler!restart_${process}",
     }
@@ -178,12 +179,12 @@ define nagios::nrpe::process (
     @motd::register { "${process} Nagios Check and Restart script": }
 
   } else {
-    @@nagios_service { "check_${process}_processes_${::hostname}":
+    @@nagios_service { "check_${process}_processes_${nagios_alias}":
       check_command       => "check_nrpe_1arg!check_${process}_processes",
       use                 => $nagios_service,
-      host_name           => $::hostname,
-      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-      service_description => "${::hostname}_check_${process}_processes",
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => "${nagios_alias}_check_${process}_processes",
       tag                 => $monitoring_environment,
     }
 

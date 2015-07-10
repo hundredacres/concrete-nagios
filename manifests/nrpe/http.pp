@@ -73,9 +73,11 @@ define nagios::nrpe::http (
   $port                   = '80',
   $has_parent             = false,
   $parent_service         = '',
+  $parent_host            = $::hostname,
   $ssl                    = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -86,33 +88,33 @@ define nagios::nrpe::http (
     $protocol = 'HTTP'
     $command = 'check_http_nonroot_custom_port'
   }
-  
-  $service_description = "${::hostname}_check_${host}_${protocol}_${health_check_uri}"
+
+  $service_description = "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}"
 
   # This will use the name as the hostname to check ( this is really important
   # with ssl! Can add a parameter if we thing
   # of a usecase
 
-  @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${::hostname}"
+  @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${nagios_alias}"
   :
     check_command       => "${command}!${host}!${health_check_uri}!${port}",
     use                 => $nagios_service,
-    host_name           => $::hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_${host}_${protocol}_${health_check_uri}",
+    host_name           => $nagios_alias,
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+    service_description => "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}",
     tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${::hostname}_depencency_${parent_service}"
+    @@nagios_servicedependency { "${health_check_uri}_at_${host}_on_${nagios_alias}_depencency_${parent_service}"
     :
-      dependent_host_name           => $::hostname,
+      dependent_host_name           => $nagios_alias,
       dependent_service_description => $service_description,
-      host_name => $::hostname,
+      host_name => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${::fqdn}.cfg",
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
       tag       => $monitoring_environment,
     }
   }

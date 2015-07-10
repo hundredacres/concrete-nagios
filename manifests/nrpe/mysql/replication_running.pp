@@ -1,6 +1,7 @@
 class nagios::nrpe::mysql::replication_running (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service){
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
@@ -13,12 +14,12 @@ class nagios::nrpe::mysql::replication_running (
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_replication_running_${::hostname}":
+  @@nagios_service { "check_replication_running_${nagios_alias}":
     check_command       => 'check_nrpe_1arg!check_replication_running',
     use                 => $nagios_service,
-    host_name           => $::hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_replication_running",
+    host_name           => $nagios_alias,
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+    service_description => "${nagios_alias}_check_replication_running",
     tag                 => $monitoring_environment,
   }
 

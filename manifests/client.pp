@@ -19,50 +19,46 @@
 # === Authors
 #
 # Ben Field <justin.miller@concreteplatform.com
-class nagios::client ($nagios_service, $monitoring_environment) {
-  # Gonna take in a nagios_parent variable as an override
-  
-  if ($::nagios_parent == '' or $::nagios_parent == nil or $::nagios_parent == 
-  undef) {
-    $parent = $::xenhost
-  } else {
-    $parent = $::nagios_parent
-  }
-
+class nagios::client (
+  $nagios_service,
+  $monitoring_environment,
+  $parent       = $::xenhost,
+  $nagios_alias = $::hostname,
+  $address      = $::ipaddress_eth0) {
   # The not hugely neat way, need to refactor this:
 
   if $parent != 'physical' {
-    @@nagios_host { $::hostname:
+    @@nagios_host { $nagios_alias:
       ensure          => present,
-      target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
-      address         => $::ipaddress_eth0,
+      target          => "/etc/nagios3/conf.d/puppet/host_${nagios_alias}.cfg",
+      address         => $address,
       use             => 'generic-host',
-      alias           => $::hostname,
+      alias           => $nagios_alias,
       tag             => $monitoring_environment,
       parents         => $parent,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
     }
   } else {
-    @@nagios_host { $::hostname:
+    @@nagios_host { $nagios_alias:
       ensure          => present,
-      target          => "/etc/nagios3/conf.d/puppet/host_${::fqdn}.cfg",
-      address         => $::ipaddress_eth0,
+      target          => "/etc/nagios3/conf.d/puppet/host_${nagios_alias}.cfg",
+      address         => $address,
       use             => 'generic-host',
-      alias           => $::hostname,
+      alias           => $nagios_alias,
       tag             => $monitoring_environment,
       icon_image      => 'base/linux40.png',
       statusmap_image => 'base/linux40.gd2',
     }
   }
 
-  @@nagios_service { "check_ping_${::hostname}":
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+  @@nagios_service { "check_ping_${nagios_alias}":
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     check_command       => 'check_ping!100.0,20%!500.0,60%',
     use                 => $nagios_service,
-    host_name           => $::hostname,
-    service_description => "${::hostname}_check_ping",
-    require             => Nagios_host[$::hostname],
+    host_name           => $nagios_alias,
+    service_description => "${nagios_alias}_check_ping",
+    require             => Nagios_host[$nagios_alias],
     tag                 => $monitoring_environment,
   }
 

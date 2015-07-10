@@ -16,18 +16,10 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::total_procs (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
-
-  @@nagios_service { "check_total_procs_${::hostname}":
-    check_command       => 'check_nrpe_1arg!check_total_procs',
-    use                 => $nagios_service,
-    host_name           => $::hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_total_procs",
-    tag                 => $monitoring_environment,
-  }
 
   file_line { 'check_total_procs_default':
     ensure => absent,
@@ -43,6 +35,15 @@ class nagios::nrpe::total_procs (
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => 'command\[check_total_procs\]',
     notify => Service['nrpe'],
+  }
+
+  @@nagios_service { "check_total_procs_${nagios_alias}":
+    check_command       => 'check_nrpe_1arg!check_total_procs',
+    use                 => $nagios_service,
+    host_name           => $nagios_alias,
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+    service_description => "${nagios_alias}_check_total_procs",
+    tag                 => $monitoring_environment,
   }
 
   @motd::register { 'Nagios Total Processes Check': }

@@ -51,7 +51,8 @@ define nagios::nrpe::file_count (
   $critical               = '10',
   $recurse                = true,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::checks::file_count
@@ -62,7 +63,7 @@ define nagios::nrpe::file_count (
   }
 
   $command = "command[check_file_count_${directory}]=/usr/lib/nagios/plugins/check_file_count.sh -w ${warning} ${recurse_string}-c ${critical} -d ${directory}"
-  
+
   file_line { "check_file_count_${directory}":
     ensure => present,
     line   => $command,
@@ -71,12 +72,12 @@ define nagios::nrpe::file_count (
     notify => Service[nrpe],
   }
 
-  @@nagios_service { "check_file_count_${directory}_on_${::hostname}":
+  @@nagios_service { "check_file_count_${directory}_on_${nagios_alias}":
     check_command       => "check_nrpe_1arg!check_file_count_${directory}",
     use                 => $nagios_service,
-    host_name           => $::hostname,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${::hostname}_check_file_count_${directory}",
+    host_name           => $nagios_alias,
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+    service_description => "${nagios_alias}_check_file_count_${directory}",
     tag                 => $monitoring_environment,
   }
 

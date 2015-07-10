@@ -30,7 +30,8 @@
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::diskspace (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
@@ -46,8 +47,12 @@ class nagios::nrpe::diskspace (
 
   $drive = split($::used_blockdevices, ',')
 
-  nagios::nrpe::blockdevice::diskspace { $drive: require => File_Line['check_disk_default'
-      ], }
+  nagios::nrpe::blockdevice::diskspace { $drive:
+    monitoring_environment => $monitoring_environment,
+    nagios_service         => $nagios_service,
+    nagios_alias           => $nagios_alias,
+    require                => File_Line['check_disk_default'],
+  }
 
   if $::lvm == true {
     $excludedDrives = join(prefix($drive, '-I '), ' ')
@@ -60,16 +65,15 @@ class nagios::nrpe::diskspace (
       notify => Service['nrpe'],
     }
 
-    @@nagios_service { "check_LVM_space_${::hostname}":
+    @@nagios_service { "check_LVM_space_${nagios_alias}":
       check_command       => 'check_nrpe_1arg!check_LVM_diskspace',
       use                 => $nagios_service,
-      host_name           => $::hostname,
-      target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-      service_description => "${::hostname}_check_LVM_space",
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => "${nagios_alias}_check_LVM_space",
       tag                 => $monitoring_environment,
     }
 
     @motd::register { 'Nagios Diskspace Check LVM': }
   }
 }
-

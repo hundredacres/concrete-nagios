@@ -1,4 +1,4 @@
-class nagios::nrpe::mysql::sync (
+class nagios::nrpe::mysql::replication_delay (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
   $nagios_alias           = $::hostname) {
@@ -6,22 +6,22 @@ class nagios::nrpe::mysql::sync (
   include nagios::nrpe::service
   require nagios::nrpe::mysql::package
 
-  file_line { 'check_sync_status':
+  file_line { 'check_replication_delay':
     ensure => present,
-    line   => "command[check_sync_status]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -x wsrep_local_state_comment -C '!=' -T str -w Synced",
+    line   => "command[check_replication_delay]=/usr/lib64/nagios/plugins/pmp-check-mysql-replication-delay -w 60 -c 300",
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => 'command\[check_sync_status\]',
+    match  => 'command\[check_replication_delay\]',
     notify => Service['nrpe'],
   }
 
-  @@nagios_service { "check_sync_status_${nagios_alias}":
-    check_command       => 'check_nrpe_1arg!check_sync_status',
+  @@nagios_service { "check_replication_delay_${nagios_alias}":
+    check_command       => 'check_nrpe_1arg!check_replication_delay',
     use                 => $nagios_service,
     host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
-    service_description => "${nagios_alias}_check_sync_status",
+    service_description => "${nagios_alias}_check_replication_delay",
     tag                 => $monitoring_environment,
   }
 
-  @motd::register { 'Nagios Mysql Sync Check': }
+  @motd::register { 'Nagios Mysql Replication Delay Check': }
 }
