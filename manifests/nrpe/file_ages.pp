@@ -63,10 +63,11 @@ define nagios::nrpe::file_ages (
   $type                   = 'file',
   $number                 = '1',
   $has_parent             = false,
-  $parent_host            = $nagios_alias,
+  $parent_host            = $::hostname,
   $parent_service         = '',
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service, $nagios_alias = $::hostname,) {
+  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
   include nagios::nrpe::service
   require nagios::nrpe::checks::file_ages
