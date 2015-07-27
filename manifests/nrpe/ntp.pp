@@ -30,7 +30,7 @@ class nagios::nrpe::ntp (
   $server                 = $::nagios::nrpe::config::server,
   $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
-  require basic_server::ntp
+  require base::ntp
   include nagios::nrpe::service
 
   file { 'resync_ntp.sh':
