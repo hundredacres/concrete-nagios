@@ -15,9 +15,6 @@
 		},{
 			"name": "concrete/base",
 			"version_requirement": "0.x"
-		},{
-			"name": "concrete/basic_server",
-			"version_requirement": "0.x"
 		}
 	],
 	"license": "",

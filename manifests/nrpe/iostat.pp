@@ -31,7 +31,7 @@ class nagios::nrpe::iostat (
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
   $nagios_alias                  = $::hostname,) {
   require nagios::nrpe::config
-  require basic_server::basic_software
+  require base::sysstat
   include nagios::nrpe::service
 
   require nagios::nrpe::checks::iostat
