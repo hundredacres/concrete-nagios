@@ -101,7 +101,7 @@ define nagios::nrpe::http (
     use                 => $nagios_service,
     host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
-    service_description => "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}",
+    service_description => $service_description,
     tag                 => $monitoring_environment,
   }
 
