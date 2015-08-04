@@ -70,7 +70,7 @@ define nagios::nrpe::blockdevice::iostat (
     host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_check_${drive}_iostat",
-    tag                 => "${monitoring_environment}",
+    tag                 => $monitoring_environment,
     servicegroups       => "servicegroup_iostat_${::xenhost}",
   }
 
@@ -78,12 +78,12 @@ define nagios::nrpe::blockdevice::iostat (
   :
     dependent_host_name           => $nagios_alias,
     dependent_service_description => "${nagios_alias}_check_load",
-    host_name => $nagios_alias,
+    host_name                     => $nagios_alias,
     service_description           => "${nagios_alias}_check_${drive}_iostat",
     execution_failure_criteria    => 'w,c',
     notification_failure_criteria => 'w,c',
-    target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
-    tag       => $monitoring_environment,
+    target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+    tag                           => $monitoring_environment,
   }
   
 }
