@@ -37,7 +37,7 @@ class nagios::nrpe::mysql::replication_delay (
 
   file_line { 'check_replication_delay':
     ensure => present,
-    line   => "command[check_replication_delay]=/usr/lib64/nagios/plugins/pmp-check-mysql-replication-delay -w 60 -c 300",
+    line   => 'command[check_replication_delay]=/usr/lib64/nagios/plugins/pmp-check-mysql-replication-delay -w 60 -c 300',
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => 'command\[check_replication_delay\]',
     notify => Service['nrpe'],
