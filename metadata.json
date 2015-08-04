@@ -1,5 +1,5 @@
 {
-	"author": "Ben Field",
+	"author": "concrete",
 	"dependencies": [{
 			"name": "puppetlabs/stdlib",
 			"version_requirement": "4.x"
@@ -11,13 +11,13 @@
 			"version_requirement": "0.x"
 		}
 	],
-	"license": "",
-	"name": "concrete-nagios",
+	"license": "MIT License",
+	"name": "concrete/nagios",
 	"operatingsystem_support": [],
 	"project_page": "",
 	"requirements": [],
 	"source": "https://github.com/concrete-cc/puppet-nagios",
-	"summary": "A basic nagios class that will contain basic checks that can be used elsewhere",
+	"summary": "A nagios class that will contain checks that can be used elsewhere",
 	"tags": [],
 	"version": "1.0.0"
 }
