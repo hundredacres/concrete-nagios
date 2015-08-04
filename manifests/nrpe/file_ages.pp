@@ -34,11 +34,37 @@
 #   Minimum number of files.
 #   Not required. Defaults to 1.
 #
-# === Variables
+# [*has_parent*]
+#   Whether this folder has a parent service dependency (eg a mount).
+#   Not required. Defaults to true.
+#
+# [*parent_service*]
+#   The name of the parent host, if has_parent is set to true (eg
+#   ${hostname}).
+#   Defaults to $::hostname. Not required.
+#
+# [*parent_service*]
+#   The name of the parent service, if has_parent is set to true (eg
+#   ${hostname}_check_mount).
+#   Required if has parent is true. Defaults to "".
+#
+#   Note: This is not tested.
+#
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required. 
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from
-#   nagios::params. This should be set by heira in the future.
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip. Not required.
+#
+# === Variables
 #
 # [*command*]
 #   This is the command that nrpe will use to check the file count.
@@ -110,7 +136,5 @@ define nagios::nrpe::file_ages (
       tag       => $monitoring_environment,
     }
   }
-
-  @motd::register { "Nagios File Ages Check on ${directory}": }
 
 }

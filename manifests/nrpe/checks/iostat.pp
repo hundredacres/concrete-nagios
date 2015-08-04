@@ -7,7 +7,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::nrpe::checks::iostat {
   require nagios::nrpe::config
 

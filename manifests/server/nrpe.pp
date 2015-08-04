@@ -4,7 +4,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::nrpe {
   require nagios::server::config
   include nagios::server::service
@@ -13,7 +13,5 @@ class nagios::server::nrpe {
     ensure => installed,
     notify => Service['nagios3'],
   }
-
-  @motd::register { 'Nagios NRPE Server': }
 
 }

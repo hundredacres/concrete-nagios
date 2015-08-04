@@ -6,7 +6,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::service {
   exec { 'rechmod':
     command     => '/bin/chown -R root:nagios /etc/nagios3/conf.d/puppet/ && /bin/chmod 640 /etc/nagios3/conf.d/puppet/*',

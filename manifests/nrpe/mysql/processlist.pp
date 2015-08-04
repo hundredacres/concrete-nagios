@@ -1,3 +1,32 @@
+# == Define: nagios::nrpe::mysql::processlist
+#
+# This is going to implement the percona mysql processlist check which tests for
+# locked processes and other similar issues.
+#
+# === Parameters
+#
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required.
+#
+# [*nagios_service*]
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip.
+#
+# === Examples
+#
+#   class { ::nagios::nrpe::mysql::processlist :
+#   }
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::nrpe::mysql::processlist (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
@@ -23,5 +52,4 @@ class nagios::nrpe::mysql::processlist (
     tag                 => $monitoring_environment,
   }
 
-  @motd::register { 'Nagios Mysql Processlist Check': }
 }
