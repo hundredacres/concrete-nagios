@@ -11,13 +11,20 @@
 			"version_requirement": "0.x"
 		}
 	],
-	"license": "MIT License",
+	"license": "MIT",
 	"name": "concrete/nagios",
-	"operatingsystem_support": [],
-	"project_page": "",
+	"operatingsystem_support": [{
+			"operatingsystem": "Ubuntu",
+			"operatingsystemrelease": [ "14.04",
+				"12.04",
+				"10.04"
+			]
+		}
+	],
+	"project_page": "https://github.com/concrete-cc/puppet-nagios",
 	"requirements": [],
 	"source": "https://github.com/concrete-cc/puppet-nagios",
 	"summary": "A nagios class that will contain checks that can be used elsewhere",
-	"tags": [],
-	"version": "1.0.0"
+	"tags": [ "nagios", "monitoring", "client"],
+	"version": "1.0.1"
 }

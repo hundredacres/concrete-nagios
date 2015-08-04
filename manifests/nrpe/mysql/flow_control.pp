@@ -37,7 +37,7 @@ class nagios::nrpe::mysql::flow_control (
 
   file_line { 'check_flow_control':
     ensure => present,
-    line   => "command[check_flow_control]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -x wsrep_flow_control_paused -w 0.1 -c 0.9",
+    line   => 'command[check_flow_control]=/usr/lib64/nagios/plugins/pmp-check-mysql-status -x wsrep_flow_control_paused -w 0.1 -c 0.9',
     path   => '/etc/nagios/nrpe_local.cfg',
     match  => 'command\[check_flow_control\]',
     notify => Service['nrpe'],
