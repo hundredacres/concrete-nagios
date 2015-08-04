@@ -22,11 +22,21 @@
 # [*namevar*]
 #   This will provide the drive reference (ie xvda from xen machines).
 #
-# === Variables
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required.
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from
-#   nagios::params. This should be set by heira in the future.
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip.
+#
+# === Variables
 #
 # [*size*]
 #   This is the size in bytes of the drive. This is will call the fact
@@ -53,6 +63,10 @@
 #   ::diskspace_namevar_critical.
 #   This should be an integer value defined in the ENC.
 #
+# [*drive*]
+#   An override for the nagios service description so that xvda shows as sysvol.
+#   Should make nagios easier to read.
+#
 # === Examples
 #
 #   nagios::nrpe::blockdevice::diskspace { 'xvda':
@@ -60,7 +74,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 define nagios::nrpe::blockdevice::diskspace (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
@@ -140,7 +154,5 @@ define nagios::nrpe::blockdevice::diskspace (
     service_description => "${nagios_alias}_check_${drive}_space",
     tag                 => $monitoring_environment,
   }
-
-  @motd::register { "Nagios Diskspace Check ${name}": }
 
 }

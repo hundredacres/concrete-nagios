@@ -1,9 +1,7 @@
 # nagios #
 
-This is the nagios module for the office.
+A puppet nagios module, focusing primarily on configuration of checks and clients.
 
-The server submodule provides a built, nagios server. It needs further configuration to work as our current one in production, but should serve for testing.
+The server submodule provides a built, nagios server. It will some further configuration to work completly from scratch, as this was not the intention of the module, however it will work. The most important module is nagios::server::config which will ensure it compiles the client checks, but you will probably also want nagios::server::clean, nagios::server::nrpe, nagios::server::event_handler (and maybe nagios::server::iostat). The details of these are in the manifest documentation.
 
-The nrpe submodule will configure nrpe with our current server settings (this is not dynamic) and will install checks for a variety of things.
-
-The client class will set up a host on the nagios server. This is necessary for new servers, but old servers will probably already have this on the nagios server in question
+The client class will set up a host on the nagios server. The basic class is nagios::client - there are then a series of nagios::nrpe::* which will install and configure individual checks for you. The names of the modules should be fairly self explanatory, but there should be some help in the manifest documentation.

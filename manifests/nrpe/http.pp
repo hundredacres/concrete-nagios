@@ -32,6 +32,11 @@
 #   Not required. Defaults to true.
 #
 # [*parent_service*]
+#   The name of the parent host, if has_parent is set to true (eg
+#   ${hostname}).
+#   Defaults to $::hostname. Not required.
+#
+# [*parent_service*]
 #   The name of the parent service, if has_parent is set to true (eg
 #   ${hostname}_check_nginx).
 #   Required if has parent is true. Defaults to "".
@@ -43,20 +48,25 @@
 #   change the port as well!
 #   Not required. Defaults to false.
 #
-# [*service_override*]
-#   The override for the generic service to implement, if it differs from the
-#   usual on that server.
-#   Not required. Defaults to "".
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required. 
+#
+# [*nagios_service*]
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip. Not required.
 #
 # === Variables
 #
-# [*nagios_service*]
-#   This is the generic service from nagios::params. This should be set by heira
-#   in the future.
-#
-# [*service*]
-#   This is the generic service it will implement. This is set from
-#   nagios_service unless service_override is used.
+# [*service_description*]
+#   A placeholder for the service description that makes it slightly neater to
+#   read.
 #
 # [*command*]
 #   This is the command that nrpe will use to check the file count.
@@ -66,7 +76,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 define nagios::nrpe::http (
   $host                   = $name,
   $health_check_uri       = '/',
@@ -101,7 +111,7 @@ define nagios::nrpe::http (
     use                 => $nagios_service,
     host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
-    service_description => "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}",
+    service_description => $service_description,
     tag                 => $monitoring_environment,
   }
 
@@ -117,13 +127,5 @@ define nagios::nrpe::http (
       target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
       tag       => $monitoring_environment,
     }
-  }
-
-  if $has_parent == true {
-    @motd::register { "Nagios ${protocol} Check for ${health_check_uri} at ${host} and service dependency on ${parent_service}"
-    : }
-  } else {
-    @motd::register { "Nagios ${protocol} Check for ${health_check_uri} at ${host}"
-    : }
   }
 }

@@ -5,9 +5,17 @@
 #
 # === Variables
 #
-# [*hosts*]
-#   This will use the variable ${server} from nagios::params to build an allowed
-#   hosts string. This should be changed to use heira.
+# [*server*]
+#   This is the ip address for the nagios server, which will be added to the
+#   allowed host line in the nagios nrpe config. Required.
+#
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will set
+#   the default for all checks added to nodes. Required.
+#
+# [*nagios_service*]
+#   This is the generic service that this check will implement. This will set
+#   the default for all checks added to nodes. Required.
 #
 # === Authors
 #
@@ -25,7 +33,5 @@ class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
     match  => '^allowed_hosts',
     notify => Service['nagios-nrpe-server'],
   }
-
-  @motd::register { 'NRPE End Point': }
 
 }

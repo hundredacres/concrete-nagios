@@ -9,12 +9,6 @@
 		},{
 			"name": "richardc/datacat",
 			"version_requirement": "0.x"
-		},{
-			"name": "concrete/motd",
-			"version_requirement": "1.x"
-		},{
-			"name": "concrete/base",
-			"version_requirement": "0.x"
 		}
 	],
 	"license": "",
@@ -22,7 +16,7 @@
 	"operatingsystem_support": [],
 	"project_page": "",
 	"requirements": [],
-	"source": "https://src01.office.concreteplatform.net/puppet/nagios",
+	"source": "https://github.com/concrete-cc/puppet-nagios",
 	"summary": "A basic nagios class that will contain basic checks that can be used elsewhere",
 	"tags": [],
 	"version": "1.0.0"

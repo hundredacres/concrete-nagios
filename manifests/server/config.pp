@@ -4,11 +4,17 @@
 # etc. This uses the dodgy define nagios::nrpe::collector. There is no way to
 # achieve this otherwise - the owner/group will always be root!
 #
+# === Parameters
+#
+# [*monitoring_environment*]
+#   This is the environment that the recieve checks and clients from. . This
+#   will override the value for the define that it implements.
+#   Required
+#
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::config (
-  $monitoring_environment) {
+class nagios::server::config ($monitoring_environment) {
   require nagios::server::package
   include nagios::server::service
 
@@ -35,7 +41,5 @@ class nagios::server::config (
     require                => File['/etc/nagios3/conf.d/puppet/'],
     notify                 => Exec['rechmod'],
   }
-
-  @motd::register { 'Nagios Server and Check/Host Collection': }
 
 }

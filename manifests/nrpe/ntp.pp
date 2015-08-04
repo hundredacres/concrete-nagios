@@ -10,16 +10,25 @@
 # requires the server to have nagios::server::event_handler installed. This is
 # the generic server event_handler also used by the nagios::nrpe::process check.
 #
-# === Variables
+# === Parameters
+#
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required. 
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from
-#   nagios::params. This should be set by heira in the future.
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip. Not required.
 #
 # [*server*]
-#   This is the ip that the check will compare times against. Currently this
-#   uses the nagios server. This should potentially be changed to the ntp server
-#   and set to use heira.
+#   This is the ip that the check will compare times against. This will default
+#   to the nagios server from nagios::nrpe::config
 #
 # === Authors
 #
@@ -30,7 +39,6 @@ class nagios::nrpe::ntp (
   $server                 = $::nagios::nrpe::config::server,
   $nagios_alias           = $::hostname,) {
   require nagios::nrpe::config
-  require base::ntp
   include nagios::nrpe::service
 
   file { 'resync_ntp.sh':
@@ -76,6 +84,4 @@ class nagios::nrpe::ntp (
     tag                 => $monitoring_environment,
     event_handler       => 'event_handler!resync_ntp',
   }
-
-  @motd::register { 'NTP Check and Restart script': }
 }

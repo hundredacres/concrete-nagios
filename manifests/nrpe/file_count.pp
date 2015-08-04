@@ -26,11 +26,21 @@
 #   Boolean for whether the file count should recurse into sub folders.
 #   Not required. Defaults to true.
 #
-# === Variables
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required. 
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from
-#   nagios::params. This should be set by heira in the future.
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip. Not required.
+#
+# === Variables
 #
 # [*command*]
 #   This is the command that nrpe will use to check the file count.
@@ -44,7 +54,7 @@
 #  }
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 define nagios::nrpe::file_count (
   $directory              = $name,
   $warning                = '5',
@@ -80,7 +90,5 @@ define nagios::nrpe::file_count (
     service_description => "${nagios_alias}_check_file_count_${directory}",
     tag                 => $monitoring_environment,
   }
-
-  @motd::register { "Nagios File Count Check on ${directory}": }
 
 }
