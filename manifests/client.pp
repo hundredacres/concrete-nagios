@@ -4,21 +4,32 @@
 #
 # === Paramters
 #
-# [*nagios_parent*]
-#  This is taken as a global variable from the puppet dashboard. I am not sure
-#  about the correct way of handling this. This is used to override the parent
-#  in the nagios host. An important note is that nagios will fail if this is not
-#  a xenhost or defined! Needs a much better solution.
-#
-# === Variables
+# [*monitoring_environment*]
+#   This is the environment that the ping check and the client will be submitted
+#   for.
+#   Required.
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from
-#   nagios::params. This should be set by heira in the future.
+#   This is the generic service that the ping check will implement.
+#   Required.
+#
+# [*parent*]
+#   This is the parent for the nagios client (this needs to also be a nagios
+#   client for nagios to work). It will default to the xenhost fact which will
+#   not necessarily work. If this is set to 'physical' it will disable
+#   parenting.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check and client will be submitted for. This
+#   should almost always be the hostname, but could be overriden, for instance
+#   when submitting a check for a virtual ip.
+#
+# [*address*]
+#   The ip address of the client. Will default to the eth0 address.
 #
 # === Authors
 #
-# Ben Field <justin.miller@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::client (
   $nagios_service,
   $monitoring_environment,
@@ -61,7 +72,5 @@ class nagios::client (
     require             => Nagios_host[$nagios_alias],
     tag                 => $monitoring_environment,
   }
-
-  @motd::register { 'Nagios Ping Check': }
 
 }

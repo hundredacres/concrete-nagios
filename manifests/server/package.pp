@@ -4,7 +4,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::package {
   include nagios::eventhandlers
 

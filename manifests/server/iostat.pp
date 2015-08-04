@@ -4,9 +4,16 @@
 # checks. This could be changed if there were other checks that required a
 # similar process.
 #
+# === Parameters
+#
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::server::config but can be overridden here.
+#   Not required. 
+#
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::iostat (
   $monitoring_environment = $::nagios::server::config::monitoring_environment) {
   require nagios::server::config

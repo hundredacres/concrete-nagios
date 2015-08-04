@@ -32,11 +32,20 @@
 #   https://www.monitoring-plugins.org/doc/man/check_procs.html
 #   Defaults to "". Not required
 #
+# [*type*]
+#   Argument or Command. An argument is useful if the application is run by a
+#   different program - for instance a java application. A command is for a
+#   specific program.
+#   Defaults to argument. Not required.
+#
+# [*user*]
+#   A user to check the process is running at, if this is required.
+#   Defaults to none. Not required.
+#
 # [*event_handler*]
 #   A boolean value. Whether or not you would like to trigger an event_handler
-#   on
-#  service failure. This will run the restart_command you specified on detecting
-#  a failure.
+#   on service failure. This will run the restart_command you specified on
+#   detecting a failure.
 #   Defaults to false. Not required.
 #
 # [*restart_command*]
@@ -58,16 +67,19 @@
 #  root (standard behaviour for most applications i.e. nginx) set it to false.
 #   Defaults to false. Not required.
 #
-# [*service_override*]
-#   An override for service type for this check only. This will override the
-#   whole-host service-class.
-#   Not required.
-#
-# === Variables
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required. 
 #
 # [*nagios_service*]
-#   This is the generic service it will implement. This is set from
-#   nagios::params.This should be set by heira in the future.
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip. Not required.
 #
 # === Examples
 #
@@ -176,8 +188,6 @@ define nagios::nrpe::process (
       event_handler       => "event_handler!restart_${process}",
     }
 
-    @motd::register { "${process} Nagios Check and Restart script": }
-
   } else {
     @@nagios_service { "check_${process}_processes_${nagios_alias}":
       check_command       => "check_nrpe_1arg!check_${process}_processes",
@@ -187,8 +197,6 @@ define nagios::nrpe::process (
       service_description => "${nagios_alias}_check_${process}_processes",
       tag                 => $monitoring_environment,
     }
-
-    @motd::register { "${process} Nagios Check": }
   }
 
 }

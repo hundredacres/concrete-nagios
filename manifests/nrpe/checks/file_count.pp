@@ -7,7 +7,7 @@
 #
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::nrpe::checks::file_count {
   require nagios::nrpe::config
 
