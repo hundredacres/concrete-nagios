@@ -24,7 +24,7 @@
 	"project_page": "https://github.com/concrete-cc/puppet-nagios",
 	"requirements": [],
 	"source": "https://github.com/concrete-cc/puppet-nagios",
-	"summary": "A nagios class that will contain checks that can be used elsewhere",
+	"summary": "A nagios module focused on setting up checks, both server-side and through nrpe",
 	"tags": [ "nagios", "monitoring", "client"],
-	"version": "1.0.1"
+	"version": "1.0.2"
 }
