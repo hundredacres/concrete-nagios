@@ -30,24 +30,54 @@
 #   almost always be the hostname, but could be overriden, for instance when
 #   submitting a check for a virtual ip. Not required.
 #
+# [*warning_threshold_1*]
+#   The warning threshold for the 1 minute load.
+#   Not Required. Defaults to 90 (defacto disabled).
+#
+# [*warning_threshold_5*]
+#   The warning threshold for the 5 minute load.
+#   Not Required. Defaults to 0.9
+#
+# [*warning_threshold_15*]
+#   The warning threshold for the 15 minute load.
+#   Not Required. Defaults to 0.8
+#
+# [*critical_threshold_1*]
+#   The critical threshold for the 1 minute load.
+#   Not Required. Defaults to 100 (defacto disabled).
+#
+# [*critical_threshold_5*]
+#   The critical threshold for the 5 minute load.
+#   Not Required. Defaults to 1
+#
+# [*critical_threshold_15*]
+#   The critical threshold for the 15 minute load.
+#   Not Required. Defaults to 0.9
+#
 # === Authors
 #
-# Ben Field <ben.field@concreteplatform.com
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::nrpe::load (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
-  $nagios_alias           = $::hostname,) {
+  $nagios_alias           = $::hostname,
+  $warning_threshold_1 = 90,
+  $warning_threshold_5 = 0.9,
+  $warning_threshold_15 = 0.8,
+  $critical_threshold_1 = 100,
+  $critical_threshold_5 = 1,
+  $critical_threshold_15 = 0.9) {
   require nagios::nrpe::config
   include nagios::nrpe::service
 
   # Fully dynamic load check:
 
-  $loadwarning1 = $::processorcount * 90
-  $loadwarning5 = $::processorcount * 0.9
-  $loadwarning15 = $::processorcount * 0.8
-  $loadcritical1 = $::processorcount * 100
-  $loadcritical5 = $::processorcount * 1
-  $loadcritical15 = $::processorcount * 0.9
+  $loadwarning1 = $::processorcount * $warning_threshold_1
+  $loadwarning5 = $::processorcount * $warning_threshold_5
+  $loadwarning15 = $::processorcount * $warning_threshold_15
+  $loadcritical1 = $::processorcount * $critical_threshold_1
+  $loadcritical5 = $::processorcount * $critical_threshold_5
+  $loadcritical15 = $::processorcount * $critical_threshold_15
 
   $check = "command[check_load]=/usr/lib/nagios/plugins/check_load -w ${loadwarning1},${loadwarning5},${loadwarning15} -c ${loadcritical1},${loadcritical5},${loadcritical15}"
 
