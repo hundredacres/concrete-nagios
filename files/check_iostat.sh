@@ -285,7 +285,7 @@ if [ "$waittime" == "1" ]; then
         if [ "$critical" -ne "99999" ]; then
                 if ( [ "`echo "$avgwait >= $crit_1" | bc`" == "1" ] || [ "`echo "$avgrwait >= $crit_2" | bc -q`" == "1" ] || \
                 [ "`echo "$avgwwait >= $crit_3" | bc`" == "1" ] || [ "`echo "$avgsvctime >= $crit_4" | bc -q`" == "1" ] || \
-                [ "`echo "$avgcpuutil >= $crit_5" | bc`" == "1" ] ); then
+                [ "`echo "$avgcpuutil > $crit_5" | bc`" == "1" ] ); then
                         STATE="CRITICAL"
                         status=2
                 fi
