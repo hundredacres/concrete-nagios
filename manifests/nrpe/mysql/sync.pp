@@ -1,3 +1,32 @@
+# == Define: nagios::nrpe::mysql::sync
+#
+# This is going to implement the percona mysql status check which will check the
+# galera sync status to ensure it is working correctly.
+#
+# === Parameters
+#
+# [*monitoring_environment*]
+#   This is the environment that the check will be submitted for. This will
+#   default to the value set by nagios::nrpe::config but can be overridden here.
+#   Not required.
+#
+# [*nagios_service*]
+#   This is the generic service that this check will implement. This should
+#   be set by nagios::nrpe::config but can be overridden here. Not required.
+#
+# [*nagios_alias*]
+#   This is the hostname that the check will be submitted for. This should
+#   almost always be the hostname, but could be overriden, for instance when
+#   submitting a check for a virtual ip.
+#
+# === Examples
+#
+#   class { ::nagios::nrpe::mysql::sync :
+#   }
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::nrpe::mysql::sync (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
@@ -22,6 +51,4 @@ class nagios::nrpe::mysql::sync (
     service_description => "${nagios_alias}_check_sync_status",
     tag                 => $monitoring_environment,
   }
-
-  @motd::register { 'Nagios Mysql Sync Check': }
 }
