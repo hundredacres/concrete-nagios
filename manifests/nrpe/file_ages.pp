@@ -53,7 +53,7 @@
 # [*monitoring_environment*]
 #   This is the environment that the check will be submitted for. This will
 #   default to the value set by nagios::nrpe::config but can be overridden here.
-#   Not required. 
+#   Not required.
 #
 # [*nagios_service*]
 #   This is the generic service that this check will implement. This should
@@ -128,12 +128,12 @@ define nagios::nrpe::file_ages (
     :
       dependent_host_name           => $nagios_alias,
       dependent_service_description => $service_description,
-      host_name => $parent_host,
+      host_name                     => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
-      tag       => $monitoring_environment,
+      target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+      tag                           => $monitoring_environment,
     }
   }
 
