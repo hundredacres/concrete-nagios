@@ -25,7 +25,7 @@ function help {
 
 	-r = recursive mode.
 
-	[ -e = extention ]
+	-e = file extension to check for. Not required
 
  	-h = This help
 	"
@@ -114,13 +114,11 @@ FILE_COUNT_CRITICAL="find $DIRECTORY $RECURSE -mindepth 1 -mtime -$CRITICAL $TYP
 
 if [ -z $EXTENSION ]; then
 	FILE_COUNT_WARNING=`$FILE_COUNT_WARNING | wc -l`
-        FILE_COUNT_CRITICAL=`$FILE_COUNT_CRITICAL | wc -l`
+    FILE_COUNT_CRITICAL=`$FILE_COUNT_CRITICAL | wc -l`
 else
 	FILE_COUNT_WARNING=`$FILE_COUNT_WARNING | grep ${EXTENSION}$ | wc -l `
-        FILE_COUNT_CRITICAL=`$FILE_COUNT_CRITICAL | grep ${EXTENSION}$ | wc -l `
+    FILE_COUNT_CRITICAL=`$FILE_COUNT_CRITICAL | grep ${EXTENSION}$ | wc -l `
 fi
-
-
 
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 
@@ -134,7 +132,3 @@ else
 	echo "OK - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY - Threshold is $NUMBER"
 	exit $STATE_OK
 fi
-
-
-
-
