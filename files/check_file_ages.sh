@@ -14,17 +14,19 @@ STATE_UNKNOWN=3
 function help {
 	echo -e "
 	This is going to check that there are at least a certain number of files in a folder younger than both warning and critical age levels.
-		
+
 	Usage:
 
 	-d = Directory to be checked. Example: \"-d /tmp/\". Required parameter.
 
 	-w,-c = Warning and critical levels respectively. Required parameter.
-	
+
 	-a = Number of files needed for each level. Inclusive.Not required. Defaults to 1.
-		
+
 	-r = recursive mode.
- 	
+
+	-e = file extension to check for. Not required
+
  	-h = This help
 	"
 	exit -1
@@ -38,8 +40,8 @@ CRITICALFLAG=false
 ARGUMENTFLAG=false
 NUMBER=1
 RECURSE="-maxdepth 1"
-
-while getopts "d:w:c:t:a:r" OPT; do
+EXTENSION=""
+while getopts "d:w:c:t:a:e:r" OPT; do
 	case $OPT in
 		"d") DIRECTORY=$OPTARG
 		DIRECTORYFLAG=true
@@ -53,6 +55,8 @@ while getopts "d:w:c:t:a:r" OPT; do
 		"a") NUMBER=$OPTARG
 		;;
 		"r") RECURSE=""
+		;;
+		"e") EXTENSION=$OPTARG
 		;;
 		"t") if [ $OPTARG == "file" ]; then
 			TYPE="-type f"
@@ -71,7 +75,7 @@ while getopts "d:w:c:t:a:r" OPT; do
 		ARGUMENTFLAG=true
 		;;
 	esac
-done		
+done
 
 #Checks to see if any arguments are missing:
 if ! $WARNINGFLAG; then
@@ -105,9 +109,16 @@ fi
 
 # ----------FILE COUNT CALCULATION-----------
 
-FILE_COUNT_WARNING=`find $DIRECTORY $RECURSE -mindepth 1 -ctime -$WARNING $TYPE | wc -l`
+FILE_COUNT_WARNING="find $DIRECTORY $RECURSE -mindepth 1 -mtime -$WARNING $TYPE"
+FILE_COUNT_CRITICAL="find $DIRECTORY $RECURSE -mindepth 1 -mtime -$CRITICAL $TYPE"
 
-FILE_COUNT_CRITICAL=`find $DIRECTORY $RECURSE -mindepth 1 -ctime -$CRITICAL $TYPE | wc -l`
+if [ -z $EXTENSION ]; then
+	FILE_COUNT_WARNING=`$FILE_COUNT_WARNING | wc -l`
+    FILE_COUNT_CRITICAL=`$FILE_COUNT_CRITICAL | wc -l`
+else
+	FILE_COUNT_WARNING=`$FILE_COUNT_WARNING | grep ${EXTENSION}$ | wc -l `
+    FILE_COUNT_CRITICAL=`$FILE_COUNT_CRITICAL | grep ${EXTENSION}$ | wc -l `
+fi
 
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 

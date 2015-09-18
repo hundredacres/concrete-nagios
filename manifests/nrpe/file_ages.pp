@@ -34,6 +34,10 @@
 #   Minimum number of files.
 #   Not required. Defaults to 1.
 #
+# [*extension*]
+#   A file extenstion to filter for.
+#   Not required.
+#
 # [*has_parent*]
 #   Whether this folder has a parent service dependency (eg a mount).
 #   Not required. Defaults to true.
@@ -88,6 +92,7 @@ define nagios::nrpe::file_ages (
   $recurse                = true,
   $type                   = 'file',
   $number                 = '1',
+  $extension              = '',
   $has_parent             = false,
   $parent_host            = $::hostname,
   $parent_service         = '',
@@ -99,10 +104,15 @@ define nagios::nrpe::file_ages (
   require nagios::nrpe::checks::file_ages
 
   $recurse_string = $recurse ? {
-    true  => '-r ',
-    false => '',
+    true    => '-r ',
+    false   => '',
+    default => ''
   }
-  $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number}"
+  $extension_string = $extension ? {
+    ''      => '',
+    default => "-e ${extension} "
+  }
+  $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string}"
 
   $service_description = "${nagios_alias}_check_file_ages_${directory}"
 
@@ -128,12 +138,12 @@ define nagios::nrpe::file_ages (
     :
       dependent_host_name           => $nagios_alias,
       dependent_service_description => $service_description,
-      host_name                     => $parent_host,
+      host_name => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
-      tag                           => $monitoring_environment,
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+      tag       => $monitoring_environment,
     }
   }
 
