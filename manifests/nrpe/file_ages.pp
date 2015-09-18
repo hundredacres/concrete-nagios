@@ -114,7 +114,7 @@ define nagios::nrpe::file_ages (
   }
 
   $command_name = $extension ? {
-    ''      => 'check_file_ages_${directory}',
+    ''      => "check_file_ages_${directory}",
     default => "check_file_ages_${directory}_${extension}"
   }
 
