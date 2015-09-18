@@ -112,29 +112,35 @@ define nagios::nrpe::file_ages (
     ''      => '',
     default => "-e ${extension} "
   }
-  $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string}"
 
-  $service_description = "${nagios_alias}_check_file_ages_${directory}"
+  $command_name = $extension ? {
+    ''      => 'check_file_ages_${directory}',
+    default => "check_file_ages_${directory}_${extension}"
+  }
 
-  file_line { "check_file_ages_${directory}":
+  $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string}"
+
+  $service_description = "${nagios_alias}_${command_name}"
+
+  file_line { "${command_name}":
     ensure => present,
     line   => $command,
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_file_ages_${directory}\]",
+    match  => "command\[${command_name}\]",
     notify => Service[nrpe],
   }
 
-  @@nagios_service { "check_file_ages_${directory}_on_${nagios_alias}":
-    check_command       => "check_nrpe_1arg!check_file_ages_${directory}",
+  @@nagios_service { "${command_name}_on_${nagios_alias}":
+    check_command       => "check_nrpe_1arg!${command_name}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${nagios_alias}_check_file_ages_${directory}",
+    service_description => "${nagios_alias}_${command_name}",
     tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${directory}_file_age_on_${nagios_alias}_depencency_${parent_service}"
+    @@nagios_servicedependency { "${command_name}_on_${nagios_alias}_depencency_${parent_service}"
     :
       dependent_host_name           => $nagios_alias,
       dependent_service_description => $service_description,
