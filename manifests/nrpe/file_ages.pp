@@ -122,11 +122,9 @@ define nagios::nrpe::file_ages (
     default => "-f ${filter} "
   }
 
+  #I will leave trailing _ but this is by far the easiest way to get this to work.
+  $command_name = "check_file_ages_${directory}_${extension}_${filter}"
 
-  $command_name = $extension ? {
-    ''      => "check_file_ages_${directory}",
-    default => "check_file_ages_${directory}_${extension}"
-  }
 
   $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string} ${filter_string}"
 
