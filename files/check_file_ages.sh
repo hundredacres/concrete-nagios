@@ -131,13 +131,13 @@ fi
 # ----------FILE COUNT TEST AND RETURN TO NAGIOS-----------
 
 if [ $FILE_COUNT_CRITICAL -lt $NUMBER ]; then
-	echo "CRITICAL - $FILE_COUNT_CRITICAL files newer than $CRITICAL days in $DIRECTORY $MSGFIL$MSGEXT- Threshold is $NUMBER"
+	echo "CRITICAL - $FILE_COUNT_CRITICAL files newer than $CRITICAL days in $DIRECTORY $MSGFIL $MSGEXT- Threshold is $NUMBER"
 	exit $STATE_CRITICAL
 elif [ $FILE_COUNT_WARNING -lt $NUMBER ]; then
-	echo "WARNING - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY $MSGFIL$MSGEXT- Threshold is $NUMBER"
+	echo "WARNING - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY $MSGFIL $MSGEXT- Threshold is $NUMBER"
 	exit $STATE_WARNING
 else
-	echo "OK - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY $MSGFIL$MSGEXT- Threshold is $NUMBER"
+	echo "OK - $FILE_COUNT_WARNING files newer than $WARNING days in $DIRECTORY $MSGFIL $MSGEXT- Threshold is $NUMBER"
 	exit $STATE_OK
 fi
 
