@@ -38,6 +38,10 @@
 #   A file extenstion to filter for.
 #   Not required.
 #
+# [*filter*]
+#   A name to filter for.
+#   Not required.
+#
 # [*has_parent*]
 #   Whether this folder has a parent service dependency (eg a mount).
 #   Not required. Defaults to true.
@@ -93,6 +97,7 @@ define nagios::nrpe::file_ages (
   $type                   = 'file',
   $number                 = '1',
   $extension              = '',
+  $filter                 = '',
   $has_parent             = false,
   $parent_host            = $::hostname,
   $parent_service         = '',
@@ -112,13 +117,16 @@ define nagios::nrpe::file_ages (
     ''      => '',
     default => "-e ${extension} "
   }
-
-  $command_name = $extension ? {
-    ''      => "check_file_ages_${directory}",
-    default => "check_file_ages_${directory}_${extension}"
+  $filter_string = $filter ? {
+    ''      => '',
+    default => "-f ${filter} "
   }
 
-  $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string}"
+  #I will leave trailing _ but this is by far the easiest way to get this to work.
+  $command_name = "check_file_ages_${directory}_${extension}_${filter}"
+
+
+  $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string} ${filter_string}"
 
   $service_description = "${nagios_alias}_${command_name}"
 
