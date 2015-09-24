@@ -36,12 +36,4 @@ class nagios::server::clean {
     notify       => Exec['rechmod'],
   }
 
-  nagios_command { 'Check TCP':
-    ensure       => 'present',
-    command_name => 'check_tcp',
-    command_line => '/usr/lib/nagios/plugins/check_tcp -H $HOSTADDRESS$ -p $ARG1$',
-    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
-    notify       => Exec['rechmod'],
-  }
-
 }
