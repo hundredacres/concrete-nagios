@@ -21,9 +21,9 @@ class nagios::server::notification::pagerduty ($pager) {
     notify       => Exec['rechmod'],
   }
 
-  $contacts = hiera('nagios::server::notification::pagerduty::contacts', 'none')
+  $contacts = hiera('nagios::server::notification::pagerduty::contacts', undef)
 
-  if $contacts != 'none' {
+  if $contacts != undef {
     create_resources(::nagios::server::notification::pagerduty_contact, 
     $contacts)
   }
