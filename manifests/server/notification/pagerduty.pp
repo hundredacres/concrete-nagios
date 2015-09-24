@@ -39,7 +39,7 @@ class nagios::server::notification::pagerduty (
 
   $contacts = hiera('nagios::server::notification::pagerduty::contacts', 'none')
 
-  if $contacts == 'none' {
+  if $contacts != 'none' {
     create_resources(nagios_contact, $contacts)
   }
 
