@@ -8,7 +8,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::clean ($pagerduty = true{
+class nagios::server::clean ($pagerduty = true) {
   include nagios::server::service
   require nagios::server::config
 
@@ -36,7 +36,7 @@ class nagios::server::clean ($pagerduty = true{
     notify       => Exec['rechmod'],
   }
   
-  if $pagerduty == true {
+   if $pagerduty == true {
     class { '::nagios::server::notification::pagerduty' :}
   }
 }
