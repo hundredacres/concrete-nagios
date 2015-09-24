@@ -16,7 +16,7 @@ class nagios::server::clean ($pagerduty = true) {
     ensure       => 'present',
     command_name => 'check_nrpe_1arg_longtimeout',
     command_line => '/usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -t 30',
-    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
 
@@ -24,7 +24,7 @@ class nagios::server::clean ($pagerduty = true) {
     ensure       => 'present',
     command_name => 'check_http_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
-    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
 
@@ -32,7 +32,7 @@ class nagios::server::clean ($pagerduty = true) {
     ensure       => 'present',
     command_name => 'check_https_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
-    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
   
