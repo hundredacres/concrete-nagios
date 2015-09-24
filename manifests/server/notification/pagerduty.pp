@@ -24,7 +24,7 @@ class nagios::server::notification::pagerduty ($pager) {
   $contacts = hiera('nagios::server::notification::pagerduty::contacts', undef)
 
   if $contacts != undef {
-    create_resources(::nagios::server::notification::pagerduty_contact, 
+    create_resources('::nagios::server::notification::pagerduty_contact', 
     $contacts)
   }
 
