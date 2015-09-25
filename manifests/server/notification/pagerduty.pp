@@ -26,7 +26,14 @@ class nagios::server::notification::pagerduty ($pager, $contacts) {
 
   #if $contacts != undef {
   #  nagios::server::notification::pagerduty_contact { $contacts: }
-    create_resources('::nagios::server::notification::pagerduty_contact', $contacts)
+#    create_resources('::nagios::server::notification::pagerduty_contact', $contacts)
 #  }
+
+ $foo = {
+    'pagerduty' => {
+      'alias'   => 'Pagerduty Contact',
+    },
+  }
+  create_resources('::nagios::server::notification::pagerduty_contact', $foo)
 
 }
