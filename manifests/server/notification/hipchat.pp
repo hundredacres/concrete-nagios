@@ -1,4 +1,4 @@
-class nagios::server::notification::pagerduty ($token, $room, $contacts) {
+class nagios::server::notification::hipchat ($token, $room, $contacts) {
   include nagios::server::service
 
   python::pip { 'hipsaint' :
