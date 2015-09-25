@@ -1,4 +1,4 @@
-class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
+class nagios::server::notification::pagerduty ($pager, $contacts) {
   include nagios::server::service
 
   file { '/usr/local/bin/pagerduty_nagios.pl':
@@ -23,9 +23,9 @@ class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
 
 #  $contacts = hiera('nagios::server::notification::pagerduty::contacts', undef)
 
-  if $contacts != undef {
-    #nagios::server::notification::pagerduty_contact { $contacts: }
-    create_resources('::nagios::server::notification::pagerduty_contact', $contacts)
-  }
+  #if $contacts != undef {
+    nagios::server::notification::pagerduty_contact { $contacts: }
+   # create_resources('::nagios::server::notification::pagerduty_contact', $contacts)
+#  }
 
 }
