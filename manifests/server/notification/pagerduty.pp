@@ -1,5 +1,6 @@
 class nagios::server::notification::pagerduty ($pager, $contacts) {
   include nagios::server::service
+  include stdlib
 
   file { '/usr/local/bin/pagerduty_nagios.pl':
     ensure => present,
