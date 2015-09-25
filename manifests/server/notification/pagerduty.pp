@@ -1,4 +1,4 @@
-class nagios::server::notification::pagerduty ($pager) {
+class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
   include nagios::server::service
 
   file { '/usr/local/bin/pagerduty_nagios.pl':
@@ -21,12 +21,11 @@ class nagios::server::notification::pagerduty ($pager) {
     notify       => Exec['rechmod'],
   }
 
-  $contacts = hiera('nagios::server::notification::pagerduty::contacts', undef)
+#  $contacts = hiera('nagios::server::notification::pagerduty::contacts', undef)
 
   if $contacts != undef {
-    nagios::server::notification::pagerduty_contact { $contacts: }
-    #   create_resources('::nagios::server::notification::pagerduty_contact',
-    #   $contacts)
+    #nagios::server::notification::pagerduty_contact { $contacts: }
+    create_resources('::nagios::server::notification::pagerduty_contact', $contacts)
   }
 
 }
