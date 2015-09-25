@@ -7,6 +7,9 @@
 			"name": "puppetlabs/apt",
 			"version_requirement": "1.x"
 		},{
+			"name": "stankevich/python",
+			"version_requirement": "1.9.x"
+		},{
 			"name": "richardc/datacat",
 			"version_requirement": "0.x"
 		}

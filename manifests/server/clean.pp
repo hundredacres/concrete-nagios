@@ -8,7 +8,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::clean ($pagerduty = true) {
+class nagios::server::clean ($pagerduty = true, $hipchat = true) {
   include nagios::server::service
   require nagios::server::config
 
@@ -35,8 +35,12 @@ class nagios::server::clean ($pagerduty = true) {
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
-  
-   if $pagerduty == true {
-    class { '::nagios::server::notification::pagerduty' :}
+
+  if $pagerduty == true {
+    class { '::nagios::server::notification::pagerduty': }
+  }
+
+  if $hipchat == true {
+    class { '::nagios::server::notification::hipchat': }
   }
 }
