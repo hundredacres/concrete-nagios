@@ -8,13 +8,13 @@ class nagios::server::notification::pagerduty ($token, $room, $contacts) {
  }
 
   nagios_command { 'notify_service_by_hipchat':
-    command_line => "hipsaint --token=${token} --room=${room} --type=service --inputs=\"$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$|$SERVICEOUTPUT$\" -n",
+    command_line => "hipsaint --token=${token} --room=${room} --type=service --inputs=\"\$SERVICEDESC\$|\$HOSTALIAS\$|\$LONGDATETIME\$|\$NOTIFICATIONTYPE\$|\$HOSTADDRESS\$|\$SERVICESTATE\$|\$SERVICEOUTPUT\$\" -n",
     target       => '/etc/nagios3/conf.d/puppet/command_hipchat.cfg',
     notify       => Exec['rechmod'],
   }
 
   nagios_command { 'notify_host_by_hipchat':
-    command_line => "hipsaint --token=${token} --room=${room} --type=host --inputs=\"$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$\" -n",
+    command_line => "hipsaint --token=${token} --room=${room} --type=host --inputs=\"\$HOSTNAME\$|\$LONGDATETIME\$|\$NOTIFICATIONTYPE\$|\$HOSTADDRESS\$|\$HOSTSTATE\$|\$HOSTOUTPUT\$\" -n",
     target       => '/etc/nagios3/conf.d/puppet/command_hipchat.cfg',
     notify       => Exec['rechmod'],
   }
