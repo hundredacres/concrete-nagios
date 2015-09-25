@@ -4,7 +4,7 @@ class nagios::server::notification::hipchat ($token, $room, $contacts) {
   python::pip { 'hipsaint' :
   pkgname       => 'hipsaint',
   ensure        => 'latest',
-  owner         => 'nagios',
+  owner         => 'root',
  }
 
   nagios_command { 'notify_service_by_hipchat':
