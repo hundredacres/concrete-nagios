@@ -1,6 +1,7 @@
 class nagios::server::notification::hipchat ($token, $room, $contacts) {
   include nagios::server::service
-
+  require python
+   
   python::pip { 'hipsaint' :
   pkgname       => 'hipsaint',
   ensure        => 'latest',
