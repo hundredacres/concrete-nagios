@@ -8,7 +8,15 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::clean ($pagerduty = true, $hipchat = true) {
+class nagios::server::clean (
+  $pagerduty      = true,
+  $hipchat        = true,
+  $time_periods   = undef,
+  $commands       = undef,
+  $contacts       = undef,
+  $contact_groups = undef,
+  $services       = undef,
+  $hosts          = undef) {
   include nagios::server::service
   require nagios::server::config
 
@@ -42,5 +50,47 @@ class nagios::server::clean ($pagerduty = true, $hipchat = true) {
 
   if $hipchat == true {
     class { '::nagios::server::notification::hipchat': }
+  }
+
+  if $time_periods != undef {
+    create_resources('nagios_timeperiod', $time_periods, {
+      target => '/etc/nagios3/conf.d/puppet/timeperiod_nagios.cfg'
+    }
+    )
+  }
+
+  if $commands != undef {
+    create_resources('nagios_command', $commands, {
+      target => '/etc/nagios3/conf.d/puppet/command_nagios.cfg'
+    }
+    )
+  }
+
+  if $contacts != undef {
+    create_resources('nagios_contacts', $contacts, {
+      target => '/etc/nagios3/conf.d/puppet/contact_nagios.cfg'
+    }
+    )
+  }
+
+  if $contact_groups != undef {
+    create_resources('nagios_contactgroup', $contact_groups, {
+      target => '/etc/nagios3/conf.d/puppet/contactgroup_nagios.cfg'
+    }
+    )
+  }
+
+  if $services != undef {
+    create_resources('nagios_service', $services, {
+      target => '/etc/nagios3/conf.d/puppet/service_nagios.cfg'
+    }
+    )
+  }
+
+  if $hosts != undef {
+    create_resources('nagios_host', $hosts, {
+      target => '/etc/nagios3/conf.d/puppet/host_nagios.cfg'
+    }
+    )
   }
 }

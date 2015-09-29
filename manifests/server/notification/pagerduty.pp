@@ -1,4 +1,4 @@
-class nagios::server::notification::pagerduty ($pager, $contacts) {
+class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
   include nagios::server::service
 
   file { '/usr/local/bin/pagerduty_nagios.pl':
@@ -21,6 +21,21 @@ class nagios::server::notification::pagerduty ($pager, $contacts) {
     notify       => Exec['rechmod'],
   }
 
-  create_resources('::nagios::server::notification::pagerduty_contact', 
-  $contacts)
+  $defaults = {
+    ensure => present,
+    service_notification_commands => 'notify_service_by_pagerduty',
+    service_notification_period   => '24x7',
+    service_notification_options  => 'c,r',
+    host_notification_commands    => 'notify_host_by_pagerduty',
+    host_notification_period      => '24x7',
+    host_notification_options     => 'd,r',
+    pager  => $pager,
+    target => '/etc/nagios3/conf.d/puppet/contact_pagerduty.cfg',
+    notify => Exec['rechmod'],
+  }
+
+  if $contacts != undef {
+    create_resources('::nagios::server::notification::pagerduty_contact', 
+    $contacts, $defaults)
+  }
 }
