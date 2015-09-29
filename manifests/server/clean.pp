@@ -54,42 +54,48 @@ class nagios::server::clean (
 
   if $time_periods != undef {
     create_resources('nagios_timeperiod', $time_periods, {
-      target => '/etc/nagios3/conf.d/puppet/timeperiod_nagios.cfg'
+      target => '/etc/nagios3/conf.d/puppet/timeperiod_nagios.cfg',
+      notify => Exec['rechmod']
     }
     )
   }
 
   if $commands != undef {
     create_resources('nagios_command', $commands, {
-      target => '/etc/nagios3/conf.d/puppet/command_nagios.cfg'
+      target => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+      notify => Exec['rechmod']
     }
     )
   }
 
   if $contacts != undef {
     create_resources('nagios_contact', $contacts, {
-      target => '/etc/nagios3/conf.d/puppet/contact_nagios.cfg'
+      target => '/etc/nagios3/conf.d/puppet/contact_nagios.cfg',
+      notify => Exec['rechmod']
     }
     )
   }
 
   if $contact_groups != undef {
     create_resources('nagios_contactgroup', $contact_groups, {
-      target => '/etc/nagios3/conf.d/puppet/contactgroup_nagios.cfg'
+      target => '/etc/nagios3/conf.d/puppet/contactgroup_nagios.cfg',
+      notify => Exec['rechmod']
     }
     )
   }
 
   if $services != undef {
     create_resources('nagios_service', $services, {
-      target => '/etc/nagios3/conf.d/puppet/service_nagios.cfg'
+      target => '/etc/nagios3/conf.d/puppet/service_nagios.cfg',
+      notify => Exec['rechmod']
     }
     )
   }
 
   if $hosts != undef {
     create_resources('nagios_host', $hosts, {
-      target => '/etc/nagios3/conf.d/puppet/host_nagios.cfg'
+      target => '/etc/nagios3/conf.d/puppet/host_nagios.cfg',
+      notify => Exec['rechmod']
     }
     )
   }
