@@ -67,7 +67,7 @@ class nagios::server::clean (
   }
 
   if $contacts != undef {
-    create_resources('nagios_contacts', $contacts, {
+    create_resources('nagios_contact', $contacts, {
       target => '/etc/nagios3/conf.d/puppet/contact_nagios.cfg'
     }
     )
