@@ -34,7 +34,6 @@ class nagios::server::notification::hipchat ($token, $room, $contacts = undef) {
   }
 
   if $contacts != undef {
-    create_resources('::nagios::server::notification::hipchat_contact', 
-    $contacts, $defaults)
+    create_resources('nagios_contact', $contacts, $defaults)
   }
 }

@@ -35,7 +35,7 @@ class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
   }
 
   if $contacts != undef {
-    create_resources('::nagios::server::notification::pagerduty_contact', 
+    create_resources('nagios_contact', 
     $contacts, $defaults)
   }
 }
