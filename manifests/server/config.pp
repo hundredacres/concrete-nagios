@@ -49,7 +49,7 @@ class nagios::server::config (
 
   htpasswd { 'nagiosadmin':
     cryptpasswd => $encrypted_password,
-    target      => '/etc/nagios/htpasswd.users',
+    target      => '/etc/nagios3/htpasswd.users',
   }
 
 }
