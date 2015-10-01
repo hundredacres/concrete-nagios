@@ -12,7 +12,10 @@
 		},{
 			"name": "richardc/datacat",
 			"version_requirement": "0.x"
-		}
+		},{
+			"name": "leinaddm/htpasswd",
+			"version_requirement": "0.x"
+		}		
 	],
 	"license": "MIT",
 	"name": "concrete/nagios",

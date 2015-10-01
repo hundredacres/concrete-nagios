@@ -14,7 +14,10 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::config ($monitoring_environment) {
+class nagios::server::config (
+  $monitoring_environment,
+  $password,
+  $salt = generate_password(12)) {
   require nagios::server::package
   include nagios::server::service
 
@@ -40,6 +43,13 @@ class nagios::server::config ($monitoring_environment) {
     monitoring_environment => $monitoring_environment,
     require                => File['/etc/nagios3/conf.d/puppet/'],
     notify                 => Exec['rechmod'],
+  }
+
+  $encrypted_password = ht_crypt($password, $salt)
+
+  htpasswd { 'nagiosadmin':
+    cryptpasswd => $encrypted_password,
+    target      => '/etc/nagios/htpasswd.users',
   }
 
 }
