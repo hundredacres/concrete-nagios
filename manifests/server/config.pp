@@ -17,7 +17,7 @@
 class nagios::server::config (
   $monitoring_environment,
   $password,
-  $salt = generate_password(12)) {
+  $salt = generate_password(12, 'nagios')) {
   require nagios::server::package
   include nagios::server::service
 
