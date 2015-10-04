@@ -8,15 +8,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::clean (
-  $pagerduty      = true,
-  $hipchat        = true,
-  $time_periods   = undef,
-  $commands       = undef,
-  $contacts       = undef,
-  $contact_groups = undef,
-  $services       = undef,
-  $hosts          = undef) {
+class nagios::server::clean {
   include nagios::server::service
   require nagios::server::config
 
@@ -24,7 +16,7 @@ class nagios::server::clean (
     ensure       => 'present',
     command_name => 'check_nrpe_1arg_longtimeout',
     command_line => '/usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -t 30',
-    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
     notify       => Exec['rechmod'],
   }
 
@@ -32,7 +24,7 @@ class nagios::server::clean (
     ensure       => 'present',
     command_name => 'check_http_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
-    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
     notify       => Exec['rechmod'],
   }
 
@@ -40,7 +32,7 @@ class nagios::server::clean (
     ensure       => 'present',
     command_name => 'check_https_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
-    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
     notify       => Exec['rechmod'],
   }
 
@@ -53,59 +45,13 @@ class nagios::server::clean (
   }
 
 
-  if $pagerduty == true {
-    class { '::nagios::server::notification::pagerduty': }
+
+  nagios_command { 'Check TCP':
+    ensure       => 'present',
+    command_name => 'check_tcp',
+    command_line => '/usr/lib/nagios/plugins/check_tcp -H $HOSTADDRESS$ -p $ARG1$',
+    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
+    notify       => Exec['rechmod'],
   }
 
-  if $hipchat == true {
-    class { '::nagios::server::notification::hipchat': }
-  }
-
-  if $time_periods != undef {
-    create_resources('nagios_timeperiod', $time_periods, {
-      target => '/etc/nagios3/conf.d/puppet/timeperiod_nagios.cfg',
-      notify => Exec['rechmod']
-    }
-    )
-  }
-
-  if $commands != undef {
-    create_resources('nagios_command', $commands, {
-      target => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
-      notify => Exec['rechmod']
-    }
-    )
-  }
-
-  if $contacts != undef {
-    create_resources('nagios_contact', $contacts, {
-      target => '/etc/nagios3/conf.d/puppet/contact_nagios.cfg',
-      notify => Exec['rechmod']
-    }
-    )
-  }
-
-  if $contact_groups != undef {
-    create_resources('nagios_contactgroup', $contact_groups, {
-      target => '/etc/nagios3/conf.d/puppet/contactgroup_nagios.cfg',
-      notify => Exec['rechmod']
-    }
-    )
-  }
-
-  if $services != undef {
-    create_resources('nagios_service', $services, {
-      target => '/etc/nagios3/conf.d/puppet/service_nagios.cfg',
-      notify => Exec['rechmod']
-    }
-    )
-  }
-
-  if $hosts != undef {
-    create_resources('nagios_host', $hosts, {
-      target => '/etc/nagios3/conf.d/puppet/host_nagios.cfg',
-      notify => Exec['rechmod']
-    }
-    )
-  }
 }
