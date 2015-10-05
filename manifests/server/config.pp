@@ -17,7 +17,7 @@
 #
 # [*salt*]
 #   The salt that will be used to generate the password hash. 
-#   Not required. Defaults
+#   Not required. Defaults to a psuedo random 12 character string.
 #
 # === Authors
 #
