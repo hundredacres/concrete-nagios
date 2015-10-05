@@ -23,13 +23,13 @@
 #
 # Ben Field <ben.field@concreteplatform.com>
 define nagios::nrpe::nessus_reports (
+  $scan                   = $name,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
   $nagios_alias           = $::hostname,
   $credentials_location,
   $warning,
   $critical,
-  $scan,
   $nessus_port            = '8834') {
   require nagios::nrpe::config
   include nagios::nrpe::service
