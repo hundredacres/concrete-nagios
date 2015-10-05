@@ -46,7 +46,7 @@ class nagios::server::clean (
 
   nagios_command { 'Check HTTP custom string nonroot custom port':
     ensure       => 'present',
-    command_name => 'check_https_custom_string_nonroot_custom_port',
+    command_name => 'check_http_custom_string_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$ -s $ARG4$ --onredirect=sticky',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
