@@ -12,7 +12,6 @@ class nagios::server::plugins::nessus_reports (
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
-    before => File_line['check_nessus_reports'],
   }
 
   nagios_command { 'check_nessus_reports':
