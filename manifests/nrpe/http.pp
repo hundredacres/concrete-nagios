@@ -51,7 +51,7 @@
 # [*monitoring_environment*]
 #   This is the environment that the check will be submitted for. This will
 #   default to the value set by nagios::nrpe::config but can be overridden here.
-#   Not required. 
+#   Not required.
 #
 # [*nagios_service*]
 #   This is the generic service that this check will implement. This should
@@ -74,6 +74,9 @@
 # [*protocol*]
 #   The represents the string for the connection protocol. Translation of ssl.
 #
+# [*expect*]
+#   The represents the string to expect.
+#
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com>
@@ -83,6 +86,7 @@ define nagios::nrpe::http (
   $port                   = '80',
   $has_parent             = false,
   $parent_service         = '',
+  $expect                 = '',
   $parent_host            = $::hostname,
   $ssl                    = false,
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
@@ -98,21 +102,41 @@ define nagios::nrpe::http (
     $protocol = 'HTTP'
     $command = 'check_http_nonroot_custom_port'
   }
-
   $service_description = "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}"
 
-  # This will use the name as the hostname to check ( this is really important
-  # with ssl! Can add a parameter if we thing
-  # of a usecase
+  if $expect == '' {
+    if $ssl == true {
+      $command = 'check_https_nonroot_custom_port'
+    } else {
+      $command = 'check_http_nonroot_custom_port'
+    }
 
-  @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${nagios_alias}"
-  :
-    check_command       => "${command}!${host}!${health_check_uri}!${port}",
-    use                 => $nagios_service,
-    host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
-    service_description => $service_description,
-    tag                 => $monitoring_environment,
+    @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${nagios_alias}"
+    :
+      check_command       => "${command}!${host}!${health_check_uri}!${port}",
+      use                 => $nagios_service,
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => $service_description,
+      tag                 => $monitoring_environment,
+    }
+
+  } else {
+    if $ssl == true {
+      $command = 'check_https_custom_string_nonroot_custom_port'
+    } else {
+      $command = 'check_http_custom_string_nonroot_custom_port'
+    }
+
+    @@nagios_service { "check_${health_check_uri}_at_${host}_${protocol}_on_${nagios_alias}"
+    :
+      check_command       => "${command}!${host}!${health_check_uri}!${port}!${expect}",
+      use                 => $nagios_service,
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => $service_description,
+      tag                 => $monitoring_environment,
+    }
   }
 
   if $has_parent == true {
@@ -120,12 +144,12 @@ define nagios::nrpe::http (
     :
       dependent_host_name           => $nagios_alias,
       dependent_service_description => $service_description,
-      host_name                     => $parent_host,
+      host_name => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
-      tag                           => $monitoring_environment,
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+      tag       => $monitoring_environment,
     }
   }
 }
