@@ -9,7 +9,15 @@
 # [*monitoring_environment*]
 #   This is the environment that the recieve checks and clients from. . This
 #   will override the value for the define that it implements.
-#   Required
+#   Required.
+#
+# [*password*]
+#   The password you would like to use for the nagiosadmin user.
+#   Required.
+#
+# [*salt*]
+#   The salt that will be used to generate the password hash. 
+#   Not required. Defaults
 #
 # === Authors
 #
@@ -17,7 +25,9 @@
 class nagios::server::config (
   $monitoring_environment,
   $password,
-  $salt = generate_password(12, 'nagios')) {
+  $salt      = generate_password(12, 'nagios'),
+  $virtualip = true,
+  $iostat    = true) {
   require nagios::server::package
   include nagios::server::service
 

@@ -5,7 +5,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com>
-class nagios::server::nrpe {
+class nagios::server::plugins::nrpe {
   require nagios::server::config
   include nagios::server::service
 
