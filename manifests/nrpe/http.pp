@@ -100,7 +100,7 @@ define nagios::nrpe::http (
   } else {
     $protocol = 'HTTP'
   }
-  $service_description = "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}"
+  $service_description = "${nagios_alias}_check_${host}_${port}_${protocol}_${health_check_uri}"
 
   if $expect == '' {
     if $ssl == true {
