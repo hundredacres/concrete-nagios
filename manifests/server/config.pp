@@ -61,5 +61,7 @@ class nagios::server::config (
     cryptpasswd => $encrypted_password,
     target      => '/etc/nagios3/htpasswd.users',
   }
+  
+  
 
 }
