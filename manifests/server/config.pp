@@ -16,7 +16,7 @@
 #   Required.
 #
 # [*salt*]
-#   The salt that will be used to generate the password hash. 
+#   The salt that will be used to generate the password hash.
 #   Not required. Defaults to a psuedo random 12 character string.
 #
 # === Authors
@@ -26,8 +26,8 @@ class nagios::server::config (
   $monitoring_environment,
   $password,
   $salt      = generate_password(12, 'nagios'),
-  $virtualip = true,
-  $iostat    = true) {
+  $virtualip = false,
+  $iostat    = false) {
   require nagios::server::package
   include nagios::server::service
 
@@ -61,7 +61,19 @@ class nagios::server::config (
     cryptpasswd => $encrypted_password,
     target      => '/etc/nagios3/htpasswd.users',
   }
-  
-  
 
+  if $iostat == true {
+    class { '::nagios::server::collector::iostat': monitoring_environment => 
+      $monitoring_environment }
+  }
+
+  if $iostat == true {
+    class { '::nagios::server::collector::iostat': monitoring_environment => 
+      $monitoring_environment }
+  }
+
+  if $virtualip == true {
+    class { '::nagios::server::collector::virtualip': monitoring_environment => 
+      $monitoring_environment }
+  }
 }
