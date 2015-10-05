@@ -28,23 +28,21 @@ class nagios::server::clean {
     notify       => Exec['rechmod'],
   }
 
-  nagios_command { 'Check HTTPS nonroot custom port':
+  nagios_command { 'Check HTTP custom string nonroot custom port':
     ensure       => 'present',
-    command_name => 'check_https_nonroot_custom_port',
-    command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
-    target       => '/etc/nagios3/conf.d/puppet/nagios_commands.cfg',
-    notify       => Exec['rechmod'],
-  }
-
-  nagios_command { 'Check HTTP STRING nonroot custom port':
-    ensure       => 'present',
-    command_name => 'check_http_string_nonroot_custom_port',
-    command_line => '/usr/lib/nagios/plugins/check_http -H $HOSTADDRESS$ -u $ARG1 -p $ARG2 -s $ARG3',
+    command_name => 'check_http_custom_string_nonroot_custom_port',
+    command_line => '/usr/lib/nagios/plugins/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$ -s $ARG4$ --onredirect=sticky -e 200,302',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
 
-
+  nagios_command { 'Check HTTPS custom string nonroot custom port':
+    ensure       => 'present',
+    command_name => 'check_https_custom_string_nonroot_custom_port',
+    command_line => '/usr/lib/nagios/plugins/check_http -S -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$ -s $ARG4$ --onredirect=sticky -e 200,302',
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+    notify       => Exec['rechmod'],
+  }
 
   nagios_command { 'Check TCP':
     ensure       => 'present',
