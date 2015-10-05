@@ -67,11 +67,6 @@ class nagios::server::config (
       $monitoring_environment }
   }
 
-  if $iostat == true {
-    class { '::nagios::server::collector::iostat': monitoring_environment => 
-      $monitoring_environment }
-  }
-
   if $virtualip == true {
     class { '::nagios::server::collector::virtualip': monitoring_environment => 
       $monitoring_environment }
