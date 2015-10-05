@@ -97,10 +97,8 @@ define nagios::nrpe::http (
 
   if $ssl == true {
     $protocol = 'HTTPS'
-    $command = 'check_https_nonroot_custom_port'
   } else {
     $protocol = 'HTTP'
-    $command = 'check_http_nonroot_custom_port'
   }
   $service_description = "${nagios_alias}_check_${host}_${protocol}_${health_check_uri}"
 
