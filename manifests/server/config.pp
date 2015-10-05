@@ -25,9 +25,10 @@
 class nagios::server::config (
   $monitoring_environment,
   $password,
-  $salt      = generate_password(12, 'nagios'),
-  $virtualip = false,
-  $iostat    = false) {
+  $salt           = generate_password(12, 'nagios'),
+  $virtualip      = false,
+  $iostat         = false,
+  $nessus_reports = false,) {
   require nagios::server::package
   include nagios::server::service
 
@@ -70,5 +71,9 @@ class nagios::server::config (
   if $virtualip == true {
     class { '::nagios::server::collector::virtualip': monitoring_environment => 
       $monitoring_environment }
+  }
+
+  if $nessus_reports == true {
+    class { '::nagios::server::plugins::nessus_reports': }
   }
 }

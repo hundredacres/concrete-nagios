@@ -12,7 +12,6 @@ class nagios::server::clean (
   $pagerduty      = true,
   $hipchat        = true,
   $event_handler  = true,
-  $nessus_reports = false,
   $nrpe           = true,
   $time_periods   = undef,
   $commands       = undef,
@@ -73,10 +72,6 @@ class nagios::server::clean (
   
   if $event_handler == true {
     class { '::nagios::server::plugins::event_handler': }
-  }
-  
-  if $nessus_reports == true {
-    class { '::nagios::server::plugins::nessus_reports': }
   }
   
   if $nrpe == true {
