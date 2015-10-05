@@ -35,11 +35,11 @@ define nagios::nrpe::nessus_reports (
   include nagios::nrpe::service
 
   @@nagios_service { "check_nessus_reports_${scan}":
-    check_command       => "check_nessus_reports!${::fqdn}:${nessus_port}!${credentials_file}!\"${scan}\"!${critical}!${warning}",
+    check_command       => "check_nessus_reports!${::fqdn}:${nessus_port}!${credentials_location}!\"${scan}\"!${critical}!${warning}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
     target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
-    service_description => "${nagios_alias}_check_memory",
+    service_description => "${nagios_alias}_check_nessus_reports_${scan}",
     tag                 => $monitoring_environment,
   }
 
