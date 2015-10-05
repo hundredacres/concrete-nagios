@@ -12,7 +12,7 @@ class nagios::server::clean (
   $pagerduty      = true,
   $hipchat        = true,
   $event_handler  = true,
-  $nessus_reports = true,
+  $nessus_reports = false,
   $nrpe           = true,
   $time_periods   = undef,
   $commands       = undef,
