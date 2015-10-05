@@ -1,4 +1,4 @@
-# == Class: nagios::server::iostat
+# == Class: nagios::server::collector::iostat
 #
 # This is going to collect and collate the service groups from the iostat
 # checks. This could be changed if there were other checks that required a
@@ -14,7 +14,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com>
-class nagios::server::iostat (
+class nagios::server::collector::iostat (
   $monitoring_environment = $::nagios::server::config::monitoring_environment) {
   require nagios::server::config
   include nagios::server::service

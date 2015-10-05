@@ -1,4 +1,4 @@
-# == Class: nagios::server::event_handler
+# == Class: nagios::server::plugins::event_handler
 #
 # This is going to create the event handler script and command that can then be
 # used by client based services for example nagios::nrpe::process. It has a
