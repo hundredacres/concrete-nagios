@@ -80,7 +80,7 @@ class nagios::server::clean (
   }
 
   if $check_mssql_health == true {
-    class { '::nagios::server::plugins::nrpe': }
+    class { '::nagios::server::plugins::check_mssql_health': }
   }
 
   if $time_periods != undef {
