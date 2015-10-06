@@ -9,16 +9,17 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::server::clean (
-  $pagerduty      = true,
-  $hipchat        = true,
-  $event_handler  = true,
-  $nrpe           = true,
-  $time_periods   = undef,
-  $commands       = undef,
-  $contacts       = undef,
-  $contact_groups = undef,
-  $services       = undef,
-  $hosts          = undef) {
+  $pagerduty          = true,
+  $hipchat            = true,
+  $event_handler      = true,
+  $nrpe               = true,
+  $check_mssql_health = true,
+  $time_periods       = undef,
+  $commands           = undef,
+  $contacts           = undef,
+  $contact_groups     = undef,
+  $services           = undef,
+  $hosts              = undef) {
   include nagios::server::service
   require nagios::server::config
 
@@ -69,12 +70,16 @@ class nagios::server::clean (
   if $hipchat == true {
     class { '::nagios::server::notification::hipchat': }
   }
-  
+
   if $event_handler == true {
     class { '::nagios::server::plugins::event_handler': }
   }
-  
+
   if $nrpe == true {
+    class { '::nagios::server::plugins::nrpe': }
+  }
+
+  if $check_mssql_health == true {
     class { '::nagios::server::plugins::nrpe': }
   }
 
