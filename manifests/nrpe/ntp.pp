@@ -44,7 +44,7 @@ class nagios::nrpe::ntp (
   file { 'resync_ntp.sh':
     ensure  => present,
     path    => '/usr/lib/nagios/eventhandlers/resync_ntp.sh',
-    source  => 'puppet:///modules/nagios/resync_ntp.sh',
+    source  => 'puppet:///modules/nagios/nrpe/resync_ntp.sh',
     owner   => 'nagios',
     group   => 'nagios',
     mode    => '0755',

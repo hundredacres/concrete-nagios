@@ -23,7 +23,7 @@ class nagios::server::collector::iostat (
   }
 
   datacat { '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg':
-    template => 'nagios/servicegroup_iostat.cfg.erb',
+    template => 'nagios/server/collector/servicegroup_iostat.cfg.erb',
     notify   => Service['nagios3']
   }
 

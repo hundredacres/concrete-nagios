@@ -15,7 +15,7 @@ class nagios::server::plugins::event_handler {
   file { 'event_handler.sh':
     ensure  => present,
     path    => '/usr/lib/nagios/eventhandlers/event_handler.sh',
-    source  => 'puppet:///modules/nagios/event_handler.sh',
+    source  => 'puppet:///modules/nagios/server/plugins/event_handler.sh',
     owner   => 'nagios',
     group   => 'nagios',
     mode    => '0755',

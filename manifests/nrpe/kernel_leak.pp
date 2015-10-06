@@ -39,7 +39,7 @@ class nagios::nrpe::kernel_leak (
     file { 'check_kernel_leak.sh':
       ensure => present,
       path   => '/usr/lib/nagios/plugins/check_kernel_leak.sh',
-      source => 'puppet:///modules/nagios/check_kernel_leak.sh',
+      source => 'puppet:///modules/nagios/nrpe/check_kernel_leak.sh',
       owner  => 'root',
       group  => 'root',
       mode   => '0755',

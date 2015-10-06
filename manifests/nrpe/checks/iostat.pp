@@ -14,7 +14,7 @@ class nagios::nrpe::checks::iostat {
   file { 'check_iostat.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_iostat.sh',
-    source => 'puppet:///modules/nagios/check_iostat.sh',
+    source => 'puppet:///modules/nagios/nrpe/checks/check_iostat.sh',
     owner  => 'nagios',
     group  => 'nagios',
     mode   => '0755',

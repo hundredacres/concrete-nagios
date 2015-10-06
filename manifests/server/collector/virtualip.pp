@@ -23,7 +23,7 @@ class nagios::server::collector::virtualip (
   }
 
   datacat { '/etc/nagios3/conf.d/puppet/host_virtualips.cfg':
-    template => 'nagios/virtualip.cfg.erb',
+    template => 'nagios/server/collector/virtualip.cfg.erb',
     notify   => Service['nagios3']
   }
 

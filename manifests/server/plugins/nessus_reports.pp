@@ -11,7 +11,7 @@ class nagios::server::plugins::nessus_reports (
   file { 'check_nessus_reports.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_nessus_reports.sh',
-    source => 'puppet:///modules/nagios/server/check_nessus_reports.sh',
+    source => 'puppet:///modules/nagios/server/plugins/check_nessus_reports.sh',
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
