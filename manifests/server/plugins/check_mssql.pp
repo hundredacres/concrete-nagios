@@ -23,7 +23,7 @@ class nagios::server::plugins::check_mssql {
 
   nagios_command { 'check_mssql_health_custom_noname':
     ensure       => 'present',
-    command_name => 'check_mssql_long_timeout',
+    command_name => 'check_mssql_health_custom_noname',
     command_line => '/usr/lib/nagios/plugins/check_mssql_health --commit --server \'$ARG1$\' --username \'$ARG2$\' --password \'$ARG3$\' --mode \'$ARG4$\' --warning \'$ARG5$\' --critical \'$ARG6$\'',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
