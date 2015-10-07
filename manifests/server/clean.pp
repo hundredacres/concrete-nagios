@@ -14,6 +14,7 @@ class nagios::server::clean (
   $event_handler      = true,
   $nrpe               = true,
   $check_mssql_health = true,
+  $check_mssql = true,
   $time_periods       = undef,
   $commands           = undef,
   $contacts           = undef,
@@ -81,6 +82,10 @@ class nagios::server::clean (
 
   if $check_mssql_health == true {
     class { '::nagios::server::plugins::check_mssql_health': }
+  }
+  
+  if $check_mssql == true {
+    class { '::nagios::server::plugins::check_mssql': }
   }
 
   if $time_periods != undef {
