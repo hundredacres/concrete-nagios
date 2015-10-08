@@ -9,19 +9,18 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::server::clean (
-  $pagerduty            = true,
-  $hipchat              = true,
-  $event_handler        = true,
-  $nrpe                 = true,
-  $check_mssql_health   = true,
-  $check_mssql          = true,
-  $check_temp_dell_6248 = false,
-  $time_periods         = undef,
-  $commands             = undef,
-  $contacts             = undef,
-  $contact_groups       = undef,
-  $services             = undef,
-  $hosts                = undef) {
+  $pagerduty          = true,
+  $hipchat            = true,
+  $event_handler      = true,
+  $nrpe               = true,
+  $check_mssql_health = true,
+  $check_mssql        = true,
+  $time_periods       = undef,
+  $commands           = undef,
+  $contacts           = undef,
+  $contact_groups     = undef,
+  $services           = undef,
+  $hosts              = undef) {
   include nagios::server::service
   require nagios::server::config
 
@@ -87,10 +86,6 @@ class nagios::server::clean (
 
   if $check_mssql == true {
     class { '::nagios::server::plugins::check_mssql': }
-  }
-
-  if $check_temp_dell_6248 == true {
-    class { '::nagios::server::plugins::check_temp_dell_6248': }
   }
 
   if $time_periods != undef {

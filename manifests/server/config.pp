@@ -25,10 +25,11 @@
 class nagios::server::config (
   $monitoring_environment,
   $password,
-  $salt           = generate_password(12, 'nagios'),
-  $virtualip      = false,
-  $iostat         = false,
-  $nessus_reports = false,) {
+  $salt                 = generate_password(12, 'nagios'),
+  $virtualip            = false,
+  $iostat               = false,
+  $nessus_reports       = false,
+  $check_temp_dell_6248 = false,) {
   require nagios::server::package
   include nagios::server::service
 
@@ -75,5 +76,9 @@ class nagios::server::config (
 
   if $nessus_reports == true {
     class { '::nagios::server::plugins::nessus_reports': }
+  }
+
+  if $check_temp_dell_6248 == true {
+    class { '::nagios::server::plugins::check_temp_dell_6248': }
   }
 }
