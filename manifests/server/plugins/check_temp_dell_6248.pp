@@ -15,7 +15,7 @@ class nagios::server::plugins::check_temp_dell_6248 {
 
   nagios_command { 'check_temp_dell_6248':
     ensure       => 'present',
-    command_name => 'check_temp_dell_6248'',
+    command_name => 'check_temp_dell_6248',
     command_line => '/usr/lib/nagios/plugins/check_temp_dell_6248.sh -C $ARG1$ -i $HOSTADDRESS$ -w 30 -c 35',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
