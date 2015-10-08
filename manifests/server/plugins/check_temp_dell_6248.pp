@@ -7,7 +7,7 @@ class nagios::server::plugins::check_temp_dell_6248 {
   file { 'check_temp_dell_6248.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_temp_dell_6248.sh',
-    source => 'puppet:///modules/nagios/server/plugins/check_mssql',
+    source => 'puppet:///modules/nagios/server/plugins/check_temp_dell_6248.sh',
     owner  => 'nagios',
     group  => 'nagios',
     mode   => '0755',
