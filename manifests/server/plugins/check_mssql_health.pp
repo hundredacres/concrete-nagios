@@ -12,19 +12,19 @@ class nagios::server::plugins::check_mssql_health {
     group  => 'nagios',
     mode   => '0755',
   }
-  
-  nagios_command { 'check_mssql':
+
+  nagios_command { 'check_mssql_health_custom':
     ensure       => 'present',
-    command_name => 'check_mssql',
-    command_line => '/usr/lib/nagios/plugins/check_mssql -H \'$ARG1$\' -U \'$ARG2$\' -P \'$ARG3$\' -q \'$ARG4$\' -d \'$ARG5$\' -r \'OK\'',
+    command_name => 'check_mssql_health_custom',
+    command_line => '/usr/lib/nagios/plugins/check_mssql_health --commit --server \'$ARG1$\' --username \'$ARG2$\' --password \'$ARG3$\' --name \'$ARG4$\' --mode \'$ARG5$\' --warning \'$ARG6$\' --critical \'$ARG7$\'',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
 
-  nagios_command { 'check_mssql_long_timeout':
+  nagios_command { 'check_mssql_health_custom_noname':
     ensure       => 'present',
-    command_name => 'check_mssql_long_timeout',
-    command_line => '/usr/lib/nagios/plugins/check_mssql -H \'$ARG1$\' -U \'$ARG2$\' -P \'$ARG3$\' -q \'$ARG4$\' -d \'$ARG5$\' -r \'OK\' -w 10 -c 20',
+    command_name => 'check_mssql_health_custom_noname',
+    command_line => '/usr/lib/nagios/plugins/check_mssql_health --commit --server \'$ARG1$\' --username \'$ARG2$\' --password \'$ARG3$\' --mode \'$ARG4$\' --warning \'$ARG5$\' --critical \'$ARG6$\'',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
