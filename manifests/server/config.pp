@@ -71,6 +71,8 @@ class nagios::server::config (
     require => Htpasswd['nagiosadmin']
   }
 
+  user { 'www-data': groups => ['nagios'], }
+
   if $iostat == true {
     class { '::nagios::server::collector::iostat': monitoring_environment => 
       $monitoring_environment }

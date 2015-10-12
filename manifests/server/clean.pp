@@ -64,8 +64,6 @@ class nagios::server::clean (
     notify       => Exec['rechmod'],
   }
 
-  user { 'www-data': groups => ['nagios'], }
-
   file { '/var/lib/nagios3/rw/':
     ensure => directory,
     mode   => '0750'
