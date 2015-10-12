@@ -24,7 +24,7 @@ class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
   require nagios::nrpe::package
   include nagios::nrpe::service
 
-  $hosts = "allowed_hosts = 127.0.0.1,${server}"
+  $hosts = "allowed_hosts=127.0.0.1,${server},192.168.90.217"
 
   file_line { 'allowed_hosts':
     ensure => present,
