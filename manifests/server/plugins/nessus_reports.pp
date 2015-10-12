@@ -1,12 +1,12 @@
 class nagios::server::plugins::nessus_reports (
-  $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
-  $nagios_service         = $::nagios::nrpe::config::nagios_service,
+  $monitoring_environment = $::nagios::server::config::monitoring_environment,
+  $nagios_service         = $::nagios::server::config::nagios_service,
   $nagios_alias           = $::hostname,
   $credentials_location   = '',
   $username               = 'root',
   $password) {
-  require nagios::nrpe::config
-  include nagios::nrpe::service
+  require nagios::server::config
+  include nagios::server::service
 
   file { 'check_nessus_reports.sh':
     ensure => present,
