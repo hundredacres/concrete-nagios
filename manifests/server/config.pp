@@ -64,6 +64,13 @@ class nagios::server::config (
     target      => '/etc/nagios3/htpasswd.users',
   }
 
+  file { '/etc/nagios3/htpasswd.users':
+    ensure  => present,
+    owner   => 'www-data',
+    group   => 'www-data',
+    require => Htpasswd['nagiosadmin']
+  }
+
   if $iostat == true {
     class { '::nagios::server::collector::iostat': monitoring_environment => 
       $monitoring_environment }
