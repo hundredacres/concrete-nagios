@@ -2,7 +2,7 @@ class nagios::server::notification::email ($contacts = undef) {
   include nagios::server::service
 
   ensure_resource('package', 'mailutils', {
-    'ensure' => 'present'
+    'ensure' => 'installed'
   }
   )
 
