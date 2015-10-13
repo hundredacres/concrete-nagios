@@ -11,6 +11,7 @@
 class nagios::server::clean (
   $pagerduty          = true,
   $hipchat            = true,
+  $email              = true,
   $event_handler      = true,
   $nrpe               = true,
   $check_mssql_health = true,
@@ -77,6 +78,10 @@ class nagios::server::clean (
     class { '::nagios::server::notification::hipchat': }
   }
 
+  if $email == true {
+    class { '::nagios::server::notification::email': }
+  }
+
   if $event_handler == true {
     class { '::nagios::server::plugins::event_handler': }
   }
@@ -119,7 +124,7 @@ class nagios::server::clean (
 
   if $contact_groups != undef {
     create_resources('nagios_contactgroup', $contact_groups, {
-      target => '/etc/nagios3/conf.d/puppet/contactgroup_nagios.cfg',
+      target => '/etc/nagios3/conf.d/puppet/contact_groups_nagios.cfg',
       notify => Exec['rechmod']
     }
     )
