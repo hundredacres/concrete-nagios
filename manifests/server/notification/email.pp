@@ -1,9 +1,10 @@
 class nagios::server::notification::email ($contacts = undef) {
   include nagios::server::service
 
-package { 'mailutils' :
-  ensure => installed
-}
+  ensure_resource('package', 'mailutils', {
+    'ensure' => 'present'
+  }
+  )
 
   nagios_command { 'notify_service_by_email':
     command_line => '/usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\nHost: $HOSTNAME$\nState: $HOSTSTATE$\nAddress: $HOSTADDRESS$\nInfo: $HOSTOUTPUT$\n\nDate/Time: $LONGDATETIME$\n" | /usr/bin/mail -s "** $NOTIFICATIONTYPE$ Host Alert: $HOSTNAME$ is $HOSTSTATE$ **" $CONTACTEMAIL$',
