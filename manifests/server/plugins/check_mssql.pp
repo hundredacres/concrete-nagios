@@ -1,8 +1,20 @@
+# == Class: nagios::server::check_mssql
+#
+# This is going to install the necessary nrpe plugin for running stored
+# procedures as a nagios check. It will also set up some basic commands to run
+# checks.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::plugins::check_mssql {
   require nagios::server::config
   include nagios::server::service
 
-  package { 'php5-sybase': ensure => installed, }
+  ensure_resource('package', 'php5-sybase', {
+    'ensure' => 'installed'
+  }
+  )
 
   file { 'check_mssql':
     ensure => present,

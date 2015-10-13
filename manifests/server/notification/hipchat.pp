@@ -1,3 +1,27 @@
+# == Class: nagios::server::notification::hipchat
+#
+# This will set up notification commands and plugin for performing hipchat
+# notifications. It will also build contacts with some simple defaults suitable
+# for hipchat.
+#
+# === Parameters
+#
+# [*token*]
+#   The hipchat token to authenticate with.
+#   Required.
+#
+# [*contacts*]
+#   The hipchat room to sent the messages to.
+#   Required.
+#
+# [*contacts*]
+#   A hash of contacts to build, that will build with some suitable defaults for
+#   hipchat - these can be overriden.
+#   Not required.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::notification::hipchat ($token, $room, $contacts = undef) {
   include nagios::server::service
   require python

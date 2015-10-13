@@ -1,9 +1,29 @@
+# == Class: nagios::server::nessus_reports
+#
+# This is going to set up a plugin and command to be able to test nessus reports
+# for warning and critical levels of incidents.
+#
+# === Parameters
+#
+# [*credentials_location*]
+#   The location to store the credentials for nagios to access the nessus
+#   reports.
+#   Not required. Defaults to /etc/nagios3/conf.d/puppet/credentials_nessus
+#
+# [*username*]
+#   The username to connect to nessus with
+#   Not required. Defaults to root
+#
+# [*password*]
+#   The password to use to connect to nessus/
+#   Required.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::plugins::nessus_reports (
-  $monitoring_environment = $::nagios::server::config::monitoring_environment,
-  $nagios_service         = $::nagios::server::config::nagios_service,
-  $nagios_alias           = $::hostname,
-  $credentials_location   = '',
-  $username               = 'root',
+  $credentials_location = '/etc/nagios3/conf.d/puppet/credentials_nessus',
+  $username             = 'root',
   $password) {
   require nagios::server::config
   include nagios::server::service

@@ -1,3 +1,19 @@
+# == Class: nagios::server::notification::email
+#
+# This is ensure that mailutils is installed and set up commands for emailing
+# alerts to contacts. It will also build contacts with some simple defaults
+# suitable for emails.
+#
+# === Parameters
+#
+# [*contacts*]
+#   A hash of contacts to build, that will build with some suitable defaults for
+#   emails - these can be overriden.
+#   Not required.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::notification::email ($contacts = undef) {
   include nagios::server::service
 

@@ -1,3 +1,23 @@
+# == Class: nagios::server::notification::pagerduty
+#
+# This will set up notification commands and plugin for performing pagerduty
+# notifications. It will also build contacts with some simple defaults suitable
+# for pagerduty.
+#
+# === Parameters
+#
+# [*pager*]
+#   The pager to send messages to.
+#   Required.
+#
+# [*contacts*]
+#   A hash of contacts to build, that will build with some suitable defaults for
+#   pagerduty - these can be overriden.
+#   Not required.
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
   include nagios::server::service
 

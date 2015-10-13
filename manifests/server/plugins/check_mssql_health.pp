@@ -1,8 +1,18 @@
+# == Class: nagios::server::check_mssql_health
+#
+# This is going to install the necessary nrpe plugin for checking mssql health
+#
+# === Authors
+#
+# Ben Field <ben.field@concreteplatform.com>
 class nagios::server::plugins::check_mssql_health {
   require nagios::server::config
   include nagios::server::service
 
-  package { 'libdbd-sybase-perl': ensure => installed, }
+  ensure_resource('package', 'libdbd-sybase-perl', {
+    'ensure' => 'installed'
+  }
+  )
 
   file { 'check_mssql_health':
     ensure => present,
