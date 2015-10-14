@@ -2,7 +2,8 @@
 #
 # This will set up notification commands and plugin for performing pagerduty
 # notifications. It will also build contacts with some simple defaults suitable
-# for pagerduty.
+# for pagerduty. It requires you to have already set up the apt repositories
+# from https://www.pagerduty.com/docs/guides/agent-install-guide/
 #
 # === Parameters
 #
@@ -21,22 +22,18 @@
 class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
   include nagios::server::service
 
-  file { '/usr/local/bin/pagerduty_nagios.pl':
-    ensure => present,
-    source => 'puppet:///modules/nagios/server/notification/pagerduty_nagios.pl',
-    owner  => 'nagios',
-    group  => 'nagios',
-    mode   => '0755',
-  }
+  package { 'pdagent': ensure => installed, }
+
+  package { 'pdagent-integrations': ensure => installed, }
 
   nagios_command { 'notify_service_by_pagerduty':
-    command_line => '/usr/local/bin/pagerduty_nagios.pl enqueue -f pd_nagios_object=service',
+    command_line => '/usr/share/pdagent-integrations/bin/pd-nagios -n service -k $CONTACTPAGER$ -t "$NOTIFICATIONTYPE$" -f SERVICEDESC="$SERVICEDESC$" -f SERVICESTATE="$SERVICESTATE$" -f HOSTNAME="$HOSTNAME$" -f SERVICEOUTPUT="$SERVICEOUTPUT$"',
     target       => '/etc/nagios3/conf.d/puppet/command_pagerduty.cfg',
     notify       => Exec['rechmod'],
   }
 
   nagios_command { 'notify_host_by_pagerduty':
-    command_line => '/usr/local/bin/pagerduty_nagios.pl enqueue -f pd_nagios_object=host',
+    command_line => '/usr/share/pdagent-integrations/bin/pd-nagios -n host -k $CONTACTPAGER$ -t "$NOTIFICATIONTYPE$" -f HOSTNAME="$HOSTNAME$" -f HOSTSTATE="$HOSTSTATE$"',
     target       => '/etc/nagios3/conf.d/puppet/command_pagerduty.cfg',
     notify       => Exec['rechmod'],
   }
@@ -55,7 +52,6 @@ class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
   }
 
   if $contacts != undef {
-    create_resources('nagios_contact', 
-    $contacts, $defaults)
+    create_resources('nagios_contact', $contacts, $defaults)
   }
 }
