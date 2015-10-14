@@ -68,7 +68,7 @@ class nagios::server::clean (
 
   file_line { 'admin_email':
     ensure => present,
-    line   => 'admin_email=1',
+    line   => "admin_email=${admin_email}",
     path   => '/etc/nagios3/nagios.cfg',
     match  => 'admin_email',
     notify => Service['nagios3'],
