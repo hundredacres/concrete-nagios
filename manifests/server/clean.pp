@@ -21,7 +21,8 @@ class nagios::server::clean (
   $contacts           = undef,
   $contact_groups     = undef,
   $services           = undef,
-  $hosts              = undef) {
+  $hosts              = undef,
+  $admin_email        = "nagios@${::hostname}") {
   include nagios::server::service
   require nagios::server::config
 
@@ -63,6 +64,14 @@ class nagios::server::clean (
     command_line => '/usr/lib/nagios/plugins/check_http -S --sni -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$ -s $ARG4$ --onredirect=sticky',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
+  }
+
+  file_line { 'admin_email':
+    ensure => present,
+    line   => 'admin_email=1',
+    path   => '/etc/nagios3/nagios.cfg',
+    match  => 'admin_email',
+    notify => Service['nagios3'],
   }
 
   file { '/var/lib/nagios3/rw/':
