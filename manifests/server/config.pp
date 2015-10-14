@@ -19,6 +19,26 @@
 #   The salt that will be used to generate the password hash.
 #   Not required. Defaults to a psuedo random 12 character string.
 #
+# [*virtualip*]
+#   Whether or not to set up the virtualip collector. This is required if you
+#   would like to use nagios::virtualip. As a warning this will break if you
+#   turn this on while NOT submitting virtual ips.
+#   Not required. Defaults to false
+#
+# [*iostat*]
+#   Whether or not to set up the iostat collector. This is required if you
+#   would like to use nagios::nrpe::iostat with service_groups. As a warning
+#   this will break if you turn this on while NOT submitting groups.
+#   Not required. Defaults to false
+#
+# [*nessus_reports*]
+#   Whether or not to set up the nessus_reports plugin and commands.
+#   Not required. Defaults to false
+#
+# [*check_temp_dell_6248*]
+#   Whether or not to set up the check_temp_dell_6248 plugin and commands.
+#   Not required. Defaults to false
+#
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com

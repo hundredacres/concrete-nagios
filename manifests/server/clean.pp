@@ -5,6 +5,65 @@
 # manually). In the case that we rebuild the current nagios servers, this should
 # be used globally and probably renamed.
 #
+# === Parameters
+#
+# [*pagerduty*]
+#   Whether or not to set up the pagerduty notification plugin and commands.
+#   Not required. Defaults to true
+#
+# [*hipchat*]
+#   Whether or not to set up the hipchat notification plugin and commands.
+#   Not required. Defaults to true
+#
+# [*email*]
+#   Whether or not to set up the email plugin and commands.
+#   Not required. Defaults to true
+#
+# [*event_handler*]
+#   Whether or not to set up the event_handler plugin and commands.
+#   Not required. Defaults to true
+#
+# [*nrpe*]
+#   Whether or not to set up the nrpe plugin and commands.
+#   Not required. Defaults to true
+#
+# [*check_mssql_health*]
+#   Whether or not to set up the check_mssql_health plugin and commands.
+#   Not required. Defaults to true
+#
+# [*check_mssql*]
+#   Whether or not to set up the check_mssql plugin and commands.
+#   Not required. Defaults to true
+#
+# [*time_periods*]
+#   A hash of time_periods to set up for nagios.
+#   Not required.
+#
+# [*$commands*]
+#   A hash of $commands to set up for nagios.
+#   Not required.
+#
+# [*contacts*]
+#   A hash of contacts to set up for nagios.
+#   Not required.
+#
+# [*contact_groups*]
+#   A hash of contact_groups to set up for nagios.
+#   Not required.
+#
+# [*services*]
+#   A hash of services to set up for nagios.
+#   Not required.
+#
+# [*hosts*]
+#   A hash of hosts to set up for nagios.
+#   Not required.
+#
+# [*admin_email*]
+#   The admin_email to set. This is the address that emails will be sent from,
+#   if you use them.
+#   Not required. Defaults to nagios@$hostname
+#
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
@@ -25,14 +84,6 @@ class nagios::server::clean (
   $admin_email        = "nagios@${::hostname}") {
   include nagios::server::service
   require nagios::server::config
-
-  nagios_command { 'Check Nrpe Longtimeout':
-    ensure       => 'present',
-    command_name => 'check_nrpe_1arg_longtimeout',
-    command_line => '/usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$ -t 30',
-    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
-    notify       => Exec['rechmod'],
-  }
 
   nagios_command { 'Check HTTP nonroot custom port':
     ensure       => 'present',
