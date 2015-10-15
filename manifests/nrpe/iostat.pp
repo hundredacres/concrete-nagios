@@ -78,6 +78,14 @@
 #   The critical level for average cpu utilisation
 #   Not required. Defaults to '100'
 #
+# [*service_groups*]
+#   Whether to set up service_groups per virtual machine
+#   Not required. Defaults to false
+#
+# [*parent*]
+#   The parent to use in the iostat group
+#   Not required. Defaults to xenhost
+#
 # === Variables
 #
 # [*drive*]
@@ -102,7 +110,7 @@ class nagios::nrpe::iostat (
   $critical_service_wait  = '200',
   $critical_cpu_util      = '100',
   $service_groups         = false,
-  $parent                 = $::nagios::client::parent) {
+  $parent                 = $::xenhost) {
   require nagios::nrpe::config
   require base::sysstat
   include nagios::nrpe::service
@@ -143,7 +151,9 @@ class nagios::nrpe::iostat (
     critical_read_wait     => $critical_read_wait,
     critical_write_wait    => $critical_write_wait,
     critical_service_wait  => $critical_service_wait,
-    critical_cpu_util      => $critical_cpu_util
+    critical_cpu_util      => $critical_cpu_util,
+    service_groups         => service_groups,
+    parent                 => parent
   }
 
 }
