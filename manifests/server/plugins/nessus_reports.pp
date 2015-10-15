@@ -40,7 +40,7 @@ class nagios::server::plugins::nessus_reports (
   nagios_command { 'check_nessus_reports':
     ensure       => 'present',
     command_name => 'check_nessus_reports',
-    command_line => '/usr/lib/nagios/plugins/check_nessus_report.sh -s $ARG1$ -C $ARG2$ -t $ARG3$ -w $ARG4$ -c $ARG5$',
+    command_line => '/usr/lib/nagios/plugins/check_nessus_reports.sh -s $ARG1$ -C $ARG2$ -t $ARG3$ -w $ARG4$ -c $ARG5$',
     target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
     notify       => Exec['rechmod'],
   }
