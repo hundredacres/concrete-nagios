@@ -163,7 +163,7 @@ define nagios::nrpe::process (
     file { "restart_${process}.sh":
       ensure  => present,
       path    => "/usr/lib/nagios/eventhandlers/restart_${process}.sh",
-      content => template('nagios/restart_service.conf.erb'),
+      content => template('nagios/nrpe/restart_service.conf.erb'),
       owner   => 'nagios',
       group   => 'nagios',
       mode    => '0755',

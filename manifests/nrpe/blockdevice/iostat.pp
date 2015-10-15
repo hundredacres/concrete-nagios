@@ -28,7 +28,8 @@
 #   submitting a check for a virtual ip.
 #
 # [*warning_io_wait*]
-#   The warning level for average io wait time. This should average read and writes.
+#   The warning level for average io wait time. This should average read and
+#   writes.
 #   Not required. Defaults to '1000'
 #
 # [*warning_read_wait*]
@@ -48,7 +49,8 @@
 #   Not required. Defaults to '100'
 #
 # [*critical_io_wait*]
-#   The critical level for average io wait time. This should average read and writes.
+#   The critical level for average io wait time. This should average read and
+#   writes.
 #   Not required. Defaults to '1000'
 #
 # [*critical_read_wait*]
@@ -66,6 +68,14 @@
 # [*critical_cpu_util*]
 #   The critical level for average cpu utilisation
 #   Not required. Defaults to '100'
+#
+# [*service_groups*]
+#   Whether to set up service_groups per virtual machine
+#   Not required. Defaults to false
+#
+# [*parent*]
+#   The parent to use in the iostat group
+#   Not required. Defaults to xenhost
 #
 # === Variables
 #
@@ -94,7 +104,9 @@ define nagios::nrpe::blockdevice::iostat (
   $critical_read_wait     = '200',
   $critical_write_wait    = '300',
   $critical_service_wait  = '200',
-  $critical_cpu_util      = '100') {
+  $critical_cpu_util      = '100',
+  $service_groups         = false,
+  $parent                 = $::xenhost) {
   require nagios::nrpe::checks::iostat
   require nagios::nrpe::load
 
@@ -114,26 +126,37 @@ define nagios::nrpe::blockdevice::iostat (
     $drive = $name
   }
 
-  @@nagios_service { "check_${drive}_iostat_${nagios_alias}":
-    check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
-    use                 => $nagios_service,
-    host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
-    service_description => "${nagios_alias}_check_${drive}_iostat",
-    tag                 => $monitoring_environment,
-    servicegroups       => "servicegroup_iostat_${::xenhost}",
+  if $service_groups == true {
+    @@nagios_service { "check_${drive}_iostat_${nagios_alias}":
+      check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
+      use                 => $nagios_service,
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => "${nagios_alias}_check_${drive}_iostat",
+      tag                 => $monitoring_environment,
+      servicegroups       => "servicegroup_iostat_${parent}",
+    }
+  } else {
+    @@nagios_service { "check_${drive}_iostat_${nagios_alias}":
+      check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
+      use                 => $nagios_service,
+      host_name           => $nagios_alias,
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+      service_description => "${nagios_alias}_check_${drive}_iostat",
+      tag                 => $monitoring_environment,
+    }
   }
 
   @@nagios_servicedependency { "load_${name}_on_${nagios_alias}_depencency_iostat"
   :
     dependent_host_name           => $nagios_alias,
     dependent_service_description => "${nagios_alias}_check_load",
-    host_name                     => $nagios_alias,
+    host_name => $nagios_alias,
     service_description           => "${nagios_alias}_check_${drive}_iostat",
     execution_failure_criteria    => 'w,c',
     notification_failure_criteria => 'w,c',
-    target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
-    tag                           => $monitoring_environment,
+    target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+    tag       => $monitoring_environment,
   }
 
 }

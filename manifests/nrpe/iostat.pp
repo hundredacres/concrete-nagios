@@ -37,7 +37,8 @@
 #   value for the define that it implements.
 #
 # [*warning_io_wait*]
-#   The warning level for average io wait time. This should average read and writes.
+#   The warning level for average io wait time. This should average read and
+#   writes.
 #   Not required. Defaults to '1000'
 #
 # [*warning_read_wait*]
@@ -57,7 +58,8 @@
 #   Not required. Defaults to '100'
 #
 # [*critical_io_wait*]
-#   The critical level for average io wait time. This should average read and writes.
+#   The critical level for average io wait time. This should average read and
+#   writes.
 #   Not required. Defaults to '1000'
 #
 # [*critical_read_wait*]
@@ -75,6 +77,14 @@
 # [*critical_cpu_util*]
 #   The critical level for average cpu utilisation
 #   Not required. Defaults to '100'
+#
+# [*service_groups*]
+#   Whether to set up service_groups per virtual machine
+#   Not required. Defaults to false
+#
+# [*parent*]
+#   The parent to use in the iostat group
+#   Not required. Defaults to xenhost
 #
 # === Variables
 #
@@ -98,7 +108,9 @@ class nagios::nrpe::iostat (
   $critical_read_wait     = '200',
   $critical_write_wait    = '300',
   $critical_service_wait  = '200',
-  $critical_cpu_util      = '100') {
+  $critical_cpu_util      = '100',
+  $service_groups         = false,
+  $parent                 = $::xenhost) {
   require nagios::nrpe::config
   require base::sysstat
   include nagios::nrpe::service
@@ -112,13 +124,16 @@ class nagios::nrpe::iostat (
   # datacat. Gonna add the xenhost name into the
   # array.
 
-  @@datacat_fragment { "${::fqdn} iostat in servicegroup":
-    target => '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg',
-    data   => {
-      host => [$::xenhost],
+  if $service_groups == true {
+    @@datacat_fragment { "${::fqdn} iostat in servicegroup":
+      target => '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg',
+      data   => {
+        host => [$parent],
+      }
+      ,
+      tag    => "iostat_${monitoring_environment}",
     }
-    ,
-    tag    => "iostat_${monitoring_environment}",
+
   }
 
   $drive = split($::used_blockdevices, ',')
@@ -136,7 +151,9 @@ class nagios::nrpe::iostat (
     critical_read_wait     => $critical_read_wait,
     critical_write_wait    => $critical_write_wait,
     critical_service_wait  => $critical_service_wait,
-    critical_cpu_util      => $critical_cpu_util
+    critical_cpu_util      => $critical_cpu_util,
+    service_groups         => service_groups,
+    parent                 => parent
   }
 
 }

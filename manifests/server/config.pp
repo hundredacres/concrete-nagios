@@ -9,12 +9,47 @@
 # [*monitoring_environment*]
 #   This is the environment that the recieve checks and clients from. . This
 #   will override the value for the define that it implements.
-#   Required
+#   Required.
+#
+# [*password*]
+#   The password you would like to use for the nagiosadmin user.
+#   Required.
+#
+# [*salt*]
+#   The salt that will be used to generate the password hash.
+#   Not required. Defaults to a psuedo random 12 character string.
+#
+# [*virtualip*]
+#   Whether or not to set up the virtualip collector. This is required if you
+#   would like to use nagios::virtualip. As a warning this will break if you
+#   turn this on while NOT submitting virtual ips.
+#   Not required. Defaults to false
+#
+# [*iostat*]
+#   Whether or not to set up the iostat collector. This is required if you
+#   would like to use nagios::nrpe::iostat with service_groups. As a warning
+#   this will break if you turn this on while NOT submitting groups.
+#   Not required. Defaults to false
+#
+# [*nessus_reports*]
+#   Whether or not to set up the nessus_reports plugin and commands.
+#   Not required. Defaults to false
+#
+# [*check_temp_dell_6248*]
+#   Whether or not to set up the check_temp_dell_6248 plugin and commands.
+#   Not required. Defaults to false
 #
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::server::config ($monitoring_environment) {
+class nagios::server::config (
+  $monitoring_environment,
+  $password,
+  $salt                 = generate_password(12, 'nagios'),
+  $virtualip            = false,
+  $iostat               = false,
+  $nessus_reports       = false,
+  $check_temp_dell_6248 = false,) {
   require nagios::server::package
   include nagios::server::service
 
@@ -42,4 +77,37 @@ class nagios::server::config ($monitoring_environment) {
     notify                 => Exec['rechmod'],
   }
 
+  $encrypted_password = ht_crypt($password, $salt)
+
+  htpasswd { 'nagiosadmin':
+    cryptpasswd => $encrypted_password,
+    target      => '/etc/nagios3/htpasswd.users',
+  }
+
+  file { '/etc/nagios3/htpasswd.users':
+    ensure  => present,
+    owner   => 'www-data',
+    group   => 'www-data',
+    require => Htpasswd['nagiosadmin']
+  }
+
+  user { 'www-data': groups => ['nagios'], }
+
+  if $iostat == true {
+    class { '::nagios::server::collector::iostat': monitoring_environment => 
+      $monitoring_environment }
+  }
+
+  if $virtualip == true {
+    class { '::nagios::server::collector::virtualip': monitoring_environment => 
+      $monitoring_environment }
+  }
+
+  if $nessus_reports == true {
+    class { '::nagios::server::plugins::nessus_reports': }
+  }
+
+  if $check_temp_dell_6248 == true {
+    class { '::nagios::server::plugins::check_temp_dell_6248': }
+  }
 }

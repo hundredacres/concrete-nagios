@@ -14,7 +14,7 @@ class nagios::nrpe::checks::file_count {
   file { 'check_file_count.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_file_count.sh',
-    source => 'puppet:///modules/nagios/check_file_count.sh',
+    source => 'puppet:///modules/nagios/nrpe/checks/check_file_count.sh',
     owner  => 'nagios',
     group  => 'nagios',
     mode   => '0755',

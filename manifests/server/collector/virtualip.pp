@@ -1,4 +1,4 @@
-# == Class: nagios::server::virtualip
+# == Class: nagios::server::collector::virtualip
 #
 # This is going to collect and collate the virtualips submitted by
 # nagios::virtualip into a virtualip file that nagios can read.
@@ -14,7 +14,7 @@
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com>
-class nagios::server::virtualip (
+class nagios::server::collector::virtualip (
   $monitoring_environment = $::nagios::server::config::monitoring_environment) {
   require nagios::server::config
   include nagios::server::service
@@ -23,7 +23,7 @@ class nagios::server::virtualip (
   }
 
   datacat { '/etc/nagios3/conf.d/puppet/host_virtualips.cfg':
-    template => 'nagios/virtualip.cfg.erb',
+    template => 'nagios/server/collector/virtualip.cfg.erb',
     notify   => Service['nagios3']
   }
 
