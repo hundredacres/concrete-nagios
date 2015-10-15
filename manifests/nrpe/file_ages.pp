@@ -122,9 +122,9 @@ define nagios::nrpe::file_ages (
     default => "-f ${filter} "
   }
 
-  #I will leave trailing _ but this is by far the easiest way to get this to work.
+  # I will leave trailing _ but this is by far the easiest way to get this to
+  # work.
   $command_name = "check_file_ages_${directory}_${extension}_${filter}"
-
 
   $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string} ${filter_string}"
 
@@ -142,7 +142,7 @@ define nagios::nrpe::file_ages (
     check_command       => "check_nrpe_1arg!${command_name}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
     service_description => "${nagios_alias}_${command_name}",
     tag                 => $monitoring_environment,
   }
