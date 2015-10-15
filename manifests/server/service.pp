@@ -17,7 +17,8 @@ class nagios::server::service {
   service { 'nagios3':
     ensure  => running,
     enable  => true,
-    require => Package['nagios3'],;
+    require => Package['nagios3'],
+    restart => '/usr/sbin/nagios3 -v /etc/nagios3/nagios.cfg && /etc/init.d/nagios3 reload'
   }
 
 }
