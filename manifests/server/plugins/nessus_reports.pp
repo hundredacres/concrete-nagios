@@ -27,6 +27,10 @@ class nagios::server::plugins::nessus_reports (
   $password) {
   require nagios::server::config
   include nagios::server::service
+  
+  package { 'jq' :
+    ensure => installed
+  }
 
   file { 'check_nessus_reports.sh':
     ensure => present,
