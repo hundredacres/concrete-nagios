@@ -81,7 +81,6 @@ class nagios::server::clean (
   $contact_groups     = undef,
   $services           = undef,
   $hosts              = undef,
-  $service_check_timeout = '120',
   $admin_email        = "nagios@${::hostname}") {
   include nagios::server::service
   require nagios::server::config
@@ -123,14 +122,6 @@ class nagios::server::clean (
     line   => "admin_email=${admin_email}",
     path   => '/etc/nagios3/nagios.cfg',
     match  => 'admin_email',
-    notify => Service['nagios3'],
-  }
-  
-  file_line { 'service_check_timeout':
-    ensure => present,
-    line   => "service_check_timeout=${service_check_timeout}",
-    path   => '/etc/nagios3/nagios.cfg',
-    match  => '^service_check_timeout.*$',
     notify => Service['nagios3'],
   }
   
