@@ -63,7 +63,10 @@
 #   The admin_email to set. This is the address that emails will be sent from,
 #   if you use them.
 #   Not required. Defaults to nagios@$hostname
-#
+# 
+# [*service_check_timeout*]
+#  Timeout for checks
+# 
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
