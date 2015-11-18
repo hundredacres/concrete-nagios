@@ -6,9 +6,6 @@
 # option in the check (but not this manifest) to allow greater response parsing.
 # This can be integrated later as situations require.
 #
-# Note: This require the server having nagios::server::clean or the commands
-# manually defined.
-#
 # === Parameters
 #
 # [*namevar*]
