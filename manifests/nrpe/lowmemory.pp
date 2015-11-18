@@ -39,7 +39,7 @@ class nagios::nrpe::lowmemory (
     file { 'check_lowmemory.sh':
       ensure => present,
       path   => '/usr/lib/nagios/plugins/check_lowmemory.sh',
-      source => 'puppet:///modules/nagios/check_lowmemory.sh',
+      source => 'puppet:///modules/nagios/nrpe/check_lowmemory.sh',
       owner  => 'root',
       group  => 'root',
       mode   => '0755',

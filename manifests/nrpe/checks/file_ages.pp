@@ -14,7 +14,7 @@ class nagios::nrpe::checks::file_ages {
   file { 'check_file_ages.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_file_ages.sh',
-    source => 'puppet:///modules/nagios/check_file_ages.sh',
+    source => 'puppet:///modules/nagios/nrpe/checks/check_file_ages.sh',
     owner  => 'nagios',
     group  => 'nagios',
     mode   => '0755',

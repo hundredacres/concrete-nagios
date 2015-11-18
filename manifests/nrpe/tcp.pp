@@ -4,9 +4,6 @@
 # This is useful if we want to check that a program is listening correctly but
 # it doesnt serve http (see nagios::nrpe::http).
 #
-# Note: This require the server having nagios::server::clean or the commands
-# manually defined.
-#
 # === Parameters
 #
 # [*port*]

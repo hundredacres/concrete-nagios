@@ -14,7 +14,7 @@ class nagios::nrpe::checks::mount {
   file { 'check_mount.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_mount.sh',
-    source => 'puppet:///modules/nagios/check_mount.sh',
+    source => 'puppet:///modules/nagios/nrpe/checks/check_mount.sh',
     owner  => 'nagios',
     group  => 'nagios',
     mode   => '0755',

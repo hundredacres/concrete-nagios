@@ -33,7 +33,7 @@ class nagios::nrpe::reboot (
   file { 'check_reboot.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_reboot.sh',
-    source => 'puppet:///modules/nagios/check_reboot.sh',
+    source => 'puppet:///modules/nagios/nrpe/check_reboot.sh',
     owner  => 'nagios',
     group  => 'nagios',
     mode   => '0755',

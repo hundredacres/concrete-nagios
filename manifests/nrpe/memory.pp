@@ -35,7 +35,7 @@ class nagios::nrpe::memory (
   file { 'check_mem.sh':
     ensure => present,
     path   => '/usr/lib/nagios/plugins/check_mem.sh',
-    source => 'puppet:///modules/nagios/check_mem.sh',
+    source => 'puppet:///modules/nagios/nrpe/check_mem.sh',
     owner  => 'root',
     group  => 'root',
     mode   => '0755',

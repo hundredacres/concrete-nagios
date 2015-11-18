@@ -34,6 +34,14 @@
 #   Minimum number of files.
 #   Not required. Defaults to 1.
 #
+# [*extension*]
+#   A file extenstion to filter for.
+#   Not required.
+#
+# [*filter*]
+#   A name to filter for.
+#   Not required.
+#
 # [*has_parent*]
 #   Whether this folder has a parent service dependency (eg a mount).
 #   Not required. Defaults to true.
@@ -88,6 +96,8 @@ define nagios::nrpe::file_ages (
   $recurse                = true,
   $type                   = 'file',
   $number                 = '1',
+  $extension              = '',
+  $filter                 = '',
   $has_parent             = false,
   $parent_host            = $::hostname,
   $parent_service         = '',
@@ -99,41 +109,55 @@ define nagios::nrpe::file_ages (
   require nagios::nrpe::checks::file_ages
 
   $recurse_string = $recurse ? {
-    true  => '-r ',
-    false => '',
+    true    => '-r ',
+    false   => '',
+    default => ''
   }
-  $command = "command[check_file_ages_${directory}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number}"
+  $extension_string = $extension ? {
+    ''      => '',
+    default => "-e ${extension} "
+  }
+  $filter_string = $filter ? {
+    ''      => '',
+    default => "-f ${filter} "
+  }
 
-  $service_description = "${nagios_alias}_check_file_ages_${directory}"
+  # I will leave trailing _ but this is by far the easiest way to get this to
+  # work.
+  $command_name = "check_file_ages_${directory}_${extension}_${filter}"
 
-  file_line { "check_file_ages_${directory}":
+  $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_file_ages.sh -w ${warning} ${recurse_string}-c ${critical} -t ${type} -d ${directory} -a ${number} ${extension_string} ${filter_string}"
+
+  $service_description = "${nagios_alias}_${command_name}"
+
+  file_line { "${command_name}":
     ensure => present,
     line   => $command,
     path   => '/etc/nagios/nrpe_local.cfg',
-    match  => "command\[check_file_ages_${directory}\]",
+    match  => "command\[${command_name}\]",
     notify => Service[nrpe],
   }
 
-  @@nagios_service { "check_file_ages_${directory}_on_${nagios_alias}":
-    check_command       => "check_nrpe_1arg!check_file_ages_${directory}",
+  @@nagios_service { "${command_name}_on_${nagios_alias}":
+    check_command       => "check_nrpe_1arg!${command_name}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
-    target              => "/etc/nagios3/conf.d/puppet/service_${::fqdn}.cfg",
-    service_description => "${nagios_alias}_check_file_ages_${directory}",
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+    service_description => "${nagios_alias}_${command_name}",
     tag                 => $monitoring_environment,
   }
 
   if $has_parent == true {
-    @@nagios_servicedependency { "${directory}_file_age_on_${nagios_alias}_depencency_${parent_service}"
+    @@nagios_servicedependency { "${command_name}_on_${nagios_alias}_depencency_${parent_service}"
     :
       dependent_host_name           => $nagios_alias,
       dependent_service_description => $service_description,
-      host_name                     => $parent_host,
+      host_name => $parent_host,
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
-      target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
-      tag                           => $monitoring_environment,
+      target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+      tag       => $monitoring_environment,
     }
   }
 
