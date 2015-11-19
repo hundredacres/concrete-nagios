@@ -27,8 +27,8 @@ class nagios::server::notification::hipchat ($token, $room, $contacts = undef) {
   require python
 
   python::pip { 'hipsaint':
-    pkgname => 'hipsaint',
     ensure  => 'latest',
+    pkgname => 'hipsaint',
     owner   => 'root',
   }
 

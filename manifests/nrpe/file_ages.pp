@@ -130,7 +130,7 @@ define nagios::nrpe::file_ages (
 
   $service_description = "${nagios_alias}_${command_name}"
 
-  file_line { "${command_name}":
+  file_line { $command_name:
     ensure => present,
     line   => $command,
     path   => '/etc/nagios/nrpe_local.cfg',
