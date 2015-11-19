@@ -28,7 +28,7 @@ Important Note:
 
 This module will require you to have puppetdb set up as the checks and clients are collected by external resource collectors.
 
-Simply install the module, and add the nagios::server::config to your server to have a fully working nagios server.
+Simply install the module, and add the nagios::server::config to your server to have a fully working nagios server. It will be accessible at http://fqdn with the password you set and the nagiosadmin user.
 
 Then add nagios::nrpe::config and nagios::client to each node in order to have a fully functioning (if slightly limited!) nagios environment.
 
