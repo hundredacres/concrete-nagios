@@ -69,6 +69,8 @@ nagios::server::notification::hipchat {
 
 This will set up a nagios server with email and pagerduty notification.
 
+Example:
+
 nagios::server::config {
 	monitoring_environment => 'production',
 	password               => 'nagios_password',
@@ -86,12 +88,16 @@ nagios::server::notification::pagerduty {
 
 This will set up just a host with a ping check
 
+Example:
+
 nagios::client {
 	nagios_service         => 'generic_service',
 	monitoring_environment => $::environment
 }
 
 ###Nagios Client (With NRPE and basic server checks)
+
+Example:
 
 This will set up a host with a series of the most useful basic server checks. Where nagios server is at 192.168.1.1:
 
@@ -121,6 +127,8 @@ Default Checks are:
 
 This will add an http check on a server that already has nagios::client.
 
+Example:
+
 nagios::nrpe::http { $::fqdn:
     health_check_uri => '/',
     port             => '80',
@@ -131,6 +139,8 @@ nagios::nrpe::http { $::fqdn:
 ###Nagios TCP Check
 
 This will add a process check on a server that already has nagios::client.
+
+Example:
 
 nagios::nrpe::process { "${::hostname} dummy process":
     process          => 'dummy',
