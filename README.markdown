@@ -40,114 +40,119 @@ For more information please look at the documentation contained in each class.
 
 This will set up a nagios server with only email notification.
 
-Example:
+####Example:
 
-nagios::server::config {
-	monitoring_environment => 'production',
-	password               => 'nagios_password'
-}
+	nagios::server::config {
+		monitoring_environment => 'production',
+		password               => 'nagios_password'
+	}
 
 ###Nagios Server (hipchat notification)
 
 This will set up a nagios server with email and hipchat notification.
 
-Example:
+####Example:
 
-nagios::server::config {
-	monitoring_environment => 'production',
-	password               => 'nagios_password',
-	hipchat                => true
-}
+	nagios::server::config {
+		monitoring_environment => 'production',
+		password               => 'nagios_password',
+		hipchat                => true
+	}
 
-nagios::server::notification::hipchat {
-	token                  => 'hipchat_token',
-	room                   => 'hipchat_room',
-	contacts               =>  { 'hipchat' => { alias => 'Hipchat Contact' } }
-}
+	nagios::server::notification::hipchat {
+		token                  => 'hipchat_token',
+		room                   => 'hipchat_room',
+		contacts               =>  { 'hipchat' => { alias => 'Hipchat Contact' } }
+	}
 
 ###Nagios Server (pagerduty notification)
 
 This will set up a nagios server with email and pagerduty notification.
 
-Example:
+####Example:
 
-nagios::server::config {
-	monitoring_environment => 'production',
-	password               => 'nagios_password',
-	pagerduty                => true
-}
+	nagios::server::config {
+		monitoring_environment => 'production',
+		password               => 'nagios_password',
+		pagerduty                => true
+	}
 
-nagios::server::notification::pagerduty {
-	pager                  => 'pagerduty_pager',
-	contacts               =>  { 'pagerduty' => { alias => 'Pagerduty Contact' },
+	nagios::server::notification::pagerduty {
+		pager                  => 'pagerduty_pager',
+		contacts               =>  { 'pagerduty' => { alias => 'Pagerduty Contact' },
                                  'pagerduty_non_urgent' => { alias => 'Pagerduty Non Urgent Contact',
                                  service_notification_period => 'non_urgent_hours' } }
-}
+	}
 
 ###Nagios Client (Only Ping Check)
 
 This will set up just a host with a ping check
 
-Example:
+####Example:
 
-nagios::client {
-	nagios_service         => 'generic_service',
-	monitoring_environment => $::environment
-}
+	nagios::client {
+		nagios_service         => 'generic_service',
+		monitoring_environment => $::environment
+	}
 
 ###Nagios Client (With NRPE and basic server checks)
 
-Example:
 
-This will set up a host with a series of the most useful basic server checks. Where nagios server is at 192.168.1.1:
 
-nagios::client {
-	nagios_service         => 'generic_service',
-	monitoring_environment => $::environment
-}
+This will set up a host with a series of the most useful basic server checks. 
 
-nagios::nrpe::config {
-	server                 => '192.168.1.1',
-	nagios_service         => 'generic_service',
-	monitoring_environment => $::environment
-}
+####Example:
+
+Where nagios server is at 192.168.1.1:
+
+	nagios::client {
+		nagios_service         => 'generic_service',
+		monitoring_environment => $::environment
+	}
+
+	nagios::nrpe::config {
+		server                 => '192.168.1.1',
+		nagios_service         => 'generic_service',
+		monitoring_environment => $::environment
+	}
 
 Default Checks are:
-*Diskspace
-*Inodes
-*Iostat (diskspeed)
-*Kernel_leak (for 32 bit systems)
-*Load
-*Memory
-*NTP
-*Total Procs
-*Zombie Procs
+
+* Diskspace
+* Inodes
+* Iostat (diskspeed)
+* Kernel_leak (for 32 bit systems)
+* Load
+* Memory
+* NTP
+* Total Procs
+* Zombie Procs
 
 ###Nagios HTTP Check
 
 This will add an http check on a server that already has nagios::client.
 
-Example:
+####Example:
 
-nagios::nrpe::http { $::fqdn:
-    health_check_uri => '/',
-    port             => '80',
-    ssl              => false,
-    nagios_service   => 'generic_service'
-}
+	nagios::nrpe::http { $::fqdn:
+    	health_check_uri => '/',
+    	port             => '80',
+    	ssl              => false,
+    	nagios_service   => 'generic_service'
+	}
 
 ###Nagios TCP Check
 
 This will add a process check on a server that already has nagios::client.
 
-Example:
+####Example:
 
-nagios::nrpe::process { "${::hostname} dummy process":
-    process          => 'dummy',
-    warning_low      => '1',
-    critical_low     => '1',
-    event_handler    => false,
-}
+	nagios::nrpe::process { "${::hostname} dummy process":
+    	process          => 'dummy',
+    	warning_low      => '1',
+    	critical_low     => '1',
+    	event_handler    => false,
+	}
 
 ###Other Individual Checks
 
@@ -163,5 +168,7 @@ Please feel free to submit any issues or pull requests to the github page.
 
 ###Changelog
 
-Version 2: A large refactor of the server manifests in order to make it totally self sufficent.
-Version 2.1: A refactor of nagios::nrpe::config to make it self sufficent. Also updated readme.
+Version:
+
+* 2: A large refactor of the server manifests in order to make it totally self sufficent.
+* 2.1: A refactor of nagios::nrpe::config to make it self sufficent. Also updated readme.
