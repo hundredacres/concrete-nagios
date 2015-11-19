@@ -4,7 +4,8 @@
 # etc. This uses the dodgy define nagios::nrpe::collector. There is no way to
 # achieve this otherwise - the owner/group will always be root!
 #
-# It will also handle the configuration for the various plugins that have been configured in this module.
+# It will also handle the configuration for the various plugins that have been
+# configured in this module.
 #
 # === Parameters
 #
