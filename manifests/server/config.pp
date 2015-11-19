@@ -40,6 +40,7 @@
 # [*check_temp_dell_6248*]
 #   Whether or not to set up the check_temp_dell_6248 plugin and commands.
 #   Not required. Defaults to false
+#
 # [*pagerduty*]
 #   Whether or not to set up the pagerduty notification plugin and commands.
 #   Not required. Defaults to true
@@ -111,8 +112,8 @@ class nagios::server::config (
   $iostat               = false,
   $nessus_reports       = false,
   $check_temp_dell_6248 = false,
-  $pagerduty            = true,
-  $hipchat              = true,
+  $pagerduty            = false,
+  $hipchat              = false,
   $email                = true,
   $event_handler        = true,
   $nrpe                 = true,

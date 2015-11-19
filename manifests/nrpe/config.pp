@@ -1,7 +1,8 @@
 # == Class: nagios::nrpe::config
 #
 # This will perform the configuration of the nrpe so that it allows the server
-# to connect to it.
+# to connect to it. It will also add nrpe checks for servers. The defaults are
+# probably sensible for a normal linux server.
 #
 # === Variables
 #
@@ -17,10 +18,67 @@
 #   This is the generic service that this check will implement. This will set
 #   the default for all checks added to nodes. Required.
 #
+# [*diskspace*]
+#   Whether to add a nagios check for diskspace on every drive.
+#   Not required. Defaults to true.
+#
+# [*inodes*]
+#   Whether to add a nagios check for inodes on every drive.
+#   Not required. Defaults to true.
+#
+# [*iostat*]
+#   Whether to add a nagios check for disk speed on every drive.
+#   Not required. Defaults to true.
+#
+# [*kernel_leak*]
+#   Whether to add a nagios check for kernel_leaks. This is slightly situational
+#   and potentially not useful, but only is used on 32 bit systems anyway
+#   Not required. Defaults to true.
+#
+# [*load*]
+#   Whether to add a nagios check for system load.
+#   Not required. Defaults to true.
+#
+# [*memory*]
+#   Whether to add a nagios check for memory usage.
+#   Not required. Defaults to true.
+#
+# [*ntp*]
+#   Whether to add a nagios check for ntp sync. This will by default check the
+#   time difference with the nagios server itself.
+#   Not required. Defaults to true.
+#
+# [*total_procs*]
+#   Whether to add a nagios check for total processes. This is probably not
+#   useful.
+#   Not required. Defaults to true.
+#
+# [*zombie_procs*]
+#   Whether to add a nagios check for zombie processes.
+#   Not required. Defaults to true.
+#
+# [*lowmemory*]
+#   Whether to add a nagios check for lowmemory (which only applies to 32 bit
+#   systems). Kernel leak is similar, so generally that should be used instead.
+#   Not required. Defaults to true.
+#
 # === Authors
 #
 # Ben Field <ben.field@concreteplatform.com
-class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
+class nagios::nrpe::config (
+  $server,
+  $nagios_service,
+  $monitoring_environment,
+  $diskspace    = true,
+  $inodes       = true,
+  $iostat       = true,
+  $kernel_leak  = true,
+  $load         = true,
+  $memory       = true,
+  $ntp          = true,
+  $total_procs  = true,
+  $zombie_procs = true,
+  $lowmemory    = false) {
   require nagios::nrpe::package
   include nagios::nrpe::service
 
@@ -34,4 +92,74 @@ class nagios::nrpe::config ($server, $nagios_service, $monitoring_environment) {
     notify => Service['nagios-nrpe-server'],
   }
 
+  if $diskspace == true {
+    class { '::nagios::nrpe::diskspace':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $inodes == true {
+    class { '::nagios::nrpe::inodes':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $iostat == true {
+    class { '::nagios::nrpe::iostat':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $kernel_leak == true {
+    class { '::nagios::nrpe::kernel_leak':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $load == true {
+    class { '::nagios::nrpe::load':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $memory == true {
+    class { '::nagios::nrpe::memory':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $ntp == true {
+    class { '::nagios::nrpe::ntp':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service,
+      server                 => $server
+    }
+  }
+
+  if $total_procs == true {
+    class { '::nagios::nrpe::total_procs':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $zombie_procs == true {
+    class { '::nagios::nrpe::zombie_procs':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
+
+  if $lowmemory == true {
+    class { '::nagios::nrpe::lowmemory':
+      monitoring_environment => $monitoring_environment,
+      nagios_service         => $nagios_service
+    }
+  }
 }
