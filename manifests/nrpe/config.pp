@@ -94,72 +94,51 @@ class nagios::nrpe::config (
 
   if $diskspace == true {
     class { '::nagios::nrpe::diskspace':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $inodes == true {
     class { '::nagios::nrpe::inodes':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $iostat == true {
     class { '::nagios::nrpe::iostat':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $kernel_leak == true {
     class { '::nagios::nrpe::kernel_leak':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $load == true {
     class { '::nagios::nrpe::load':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $memory == true {
     class { '::nagios::nrpe::memory':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $ntp == true {
     class { '::nagios::nrpe::ntp':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service,
-      server                 => $server
     }
   }
 
   if $total_procs == true {
     class { '::nagios::nrpe::total_procs':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $zombie_procs == true {
     class { '::nagios::nrpe::zombie_procs':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 
   if $lowmemory == true {
     class { '::nagios::nrpe::lowmemory':
-      monitoring_environment => $monitoring_environment,
-      nagios_service         => $nagios_service
     }
   }
 }
