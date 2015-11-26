@@ -35,7 +35,7 @@
 #
 #  nagios::nrpe::json_file { "/opt/test.json":
 #    variable => "status"
-#    pass     => "OK
+#    pass     => "OK"
 #  }
 #
 # === Authors
