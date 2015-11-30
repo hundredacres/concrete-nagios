@@ -99,13 +99,13 @@ else:
             print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(2)
     elif float(parsed_json[variable]) > float(warning):
-        f extra_variable == None:
+        if extra_variable == None:
             print("WARNING - " + variable + " is " + str(parsed_json[variable]) )
         else:
             print("WARNING - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(1)
     else:
-        f extra_variable == None:
+        if extra_variable == None:
             print("OK - " + variable + " is " + str(parsed_json[variable]) )
         else:
             print("OK - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
