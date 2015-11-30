@@ -83,30 +83,30 @@ if pass_value != None:
         if extra_variable == None:
             print("OK - " + variable + " is " + str(parsed_json[variable]) )
         else:
-            print("OK - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
+            print("OK - " + variable + " is " + str(parsed_json[variable]) + ", " + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(0)
     else:
         if extra_variable == None:
             print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) )
         else:
-            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
+            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + ", " + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(2)
 else:
     if float(parsed_json[variable]) > float(critical):
         if extra_variable == None:
             print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) )
         else:
-            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
+            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + ", " + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(2)
     elif float(parsed_json[variable]) > float(warning):
         if extra_variable == None:
             print("WARNING - " + variable + " is " + str(parsed_json[variable]) )
         else:
-            print("WARNING - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
+            print("WARNING - " + variable + " is " + str(parsed_json[variable]) + ", " + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(1)
     else:
         if extra_variable == None:
             print("OK - " + variable + " is " + str(parsed_json[variable]) )
         else:
-            print("OK - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
+            print("OK - " + variable + " is " + str(parsed_json[variable]) + ", " + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(0)
