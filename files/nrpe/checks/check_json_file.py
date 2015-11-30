@@ -19,7 +19,7 @@ Parameters:\n\
     print(help)
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], 'f:w:c:v:p:h')
+    opts, args = getopt.getopt(sys.argv[1:], 'f:w:c:v:p:x:h')
 except getopt.GetoptError:
     usage()
     sys.exit(2)
