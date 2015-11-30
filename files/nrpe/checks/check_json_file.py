@@ -14,6 +14,7 @@ Parameters:\n\
     -p pass value. This is optional but one of -p and -c are required\n\
     -w warning value. This optional.\n\
     -c critical value\n\
+    -x extra variable to return in check text\n\
     -h this help"
     print(help)
 
@@ -28,6 +29,7 @@ warning = None
 critical = None
 pass_value = None
 variable = None
+extra_variable = None
 
 
 for opt, arg in opts:
@@ -44,6 +46,8 @@ for opt, arg in opts:
         variable = arg
     elif opt in ('-f'):
         file_path = arg
+    elif opt in ('-x'):
+        extra_variable = arg
 
 if critical == None and pass_value == None:
     print("one of critical or pass value must be defined")
@@ -76,18 +80,33 @@ except:
 
 if pass_value != None:
     if pass_value == parsed_json[variable]:
-        print("OK - " + variable + " is " + parsed_json[variable] )
+        if extra_variable == None:
+            print("OK - " + variable + " is " + str(parsed_json[variable]) )
+        else:
+            print("OK - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(0)
     else:
-        print("CRITICAL - " + variable + " is " + parsed_json[variable] )
+        if extra_variable == None:
+            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) )
+        else:
+            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(2)
 else:
     if float(parsed_json[variable]) > float(critical):
-        print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) )
+        if extra_variable == None:
+            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) )
+        else:
+            print("CRITICAL - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(2)
     elif float(parsed_json[variable]) > float(warning):
-        print("WARNING - " + variable + " is " + str(parsed_json[variable]) )
+        f extra_variable == None:
+            print("WARNING - " + variable + " is " + str(parsed_json[variable]) )
+        else:
+            print("WARNING - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(1)
     else:
-        print("OK - " + variable + " is " + str(parsed_json[variable]) )
+        f extra_variable == None:
+            print("OK - " + variable + " is " + str(parsed_json[variable]) )
+        else:
+            print("OK - " + variable + " is " + str(parsed_json[variable]) + extra_variable + " is " + str(parsed_json[extra_variable]) )
         sys.exit(0)

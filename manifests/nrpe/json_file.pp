@@ -14,16 +14,24 @@
 #   The variable in the json file to check
 #   Required.
 #
+# [*extra_variable*]
+#   The variable that will be returned in the nagios return but not tested. Used
+#   for extra detail.
+#   Not required. Defaults to none.
+#
 # [*warning*]
-#   The warning level. It will warn if the variable is below this value. This is only used if critical is used.
+#   The warning level. It will warn if the variable is below this value. This is
+#   only used if critical is used.
 #   Not required. Defaults to none.
 #
 # [*crtical*]
-#   The critical level. It will be critical if the variable is below this value. This can only be used if pass is NOT used.
+#   The critical level. It will be critical if the variable is below this value.
+#   This can only be used if pass is NOT used.
 #   Not required. Defaults to none.
 #
 # [*pass*]
-#   The value to check for. It will be critical if the variable not this value. This can only be used if critical is NOT used.
+#   The value to check for. It will be critical if the variable not this value.
+#   This can only be used if critical is NOT used.
 #   Not required. Defaults to none.
 #
 # === Variables
@@ -44,6 +52,7 @@
 define nagios::nrpe::json_file (
   $variable,
   $json_file              = $name,
+  $extra_variable         = '',
   $warning                = '',
   $critical               = '',
   $pass                   = '',
@@ -67,7 +76,11 @@ define nagios::nrpe::json_file (
       $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_json_file.py -f ${json_file} -v ${variable} -w ${warning} -c ${critical}"
     }
   } else {
-    $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_json_file.py -f ${json_file} -v ${variable} -p ${pass}"
+    if $extra_variable == '' {
+      $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_json_file.py -f ${json_file} -v ${variable} -p ${pass}"
+    } else {
+      $command = "command[${command_name}]=/usr/lib/nagios/plugins/check_json_file.py -f ${json_file} -v ${variable} -x ${extra_variable} -p ${pass}"
+    }
   }
 
   file_line { $command_name:
