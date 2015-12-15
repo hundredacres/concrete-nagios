@@ -32,5 +32,5 @@
 	"source": "https://github.com/concrete-cc/puppet-nagios",
 	"summary": "A puppet nagios module that will configure both the nagios server and nrpe clients. The client configuration includes checks for almost everything you need.",
 	"tags": [ "nagios", "monitoring", "client"],
-	"version": "2.1.1"
+	"version": "2.2.0"
 }

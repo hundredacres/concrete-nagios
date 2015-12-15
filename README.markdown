@@ -172,3 +172,4 @@ Version:
 
 * 2: A large refactor of the server manifests in order to make it totally self sufficent.
 * 2.1: A refactor of nagios::nrpe::config to make it self sufficent. Also updated readme.
+* 2.2: A change to nagios::nrpe::config to reenable individual check overrides. Added json_file check.
