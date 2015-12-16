@@ -114,7 +114,10 @@ class nagios::nrpe::iostat (
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-  ensure_packages('sysstat')
+  ensure_packages('package', 'sysstat', {
+    'ensure' => 'installed'
+  }
+  )
 
   require nagios::nrpe::checks::iostat
 
