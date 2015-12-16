@@ -114,10 +114,7 @@ class nagios::nrpe::iostat (
   require nagios::nrpe::config
   include nagios::nrpe::service
 
-  ensure_resource('package', 'sysstat', {
-    'ensure' => 'present'
-  }
-  )
+  ensure_packages('sysstat')
 
   require nagios::nrpe::checks::iostat
 
