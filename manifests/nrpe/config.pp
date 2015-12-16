@@ -144,4 +144,10 @@ class nagios::nrpe::config (
   if $lowmemory == true {
     class { '::nagios::nrpe::lowmemory': }
   }
+
+  firewall { '200 allow nrpe access':
+    dport  => [5666],
+    proto  => tcp,
+    action => accept,
+  }
 }
