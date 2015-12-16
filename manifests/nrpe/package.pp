@@ -15,7 +15,7 @@ class nagios::nrpe::package {
     'Ubuntu'         : {
       $packages = ['nagios-nrpe-server', 'nagios-plugins-basic']
     }
-    'RHEL', 'Centos' : {
+    'RHEL', 'CentOS' : {
       require epel
 
       $packages = ['nrpe', 'nagios-plugins']
