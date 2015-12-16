@@ -145,9 +145,16 @@ class nagios::nrpe::config (
     class { '::nagios::nrpe::lowmemory': }
   }
 
-  firewall { '200 allow nrpe access':
-    dport  => [5666],
-    proto  => tcp,
-    action => accept,
+  case $::operatingsystem {
+    'RHEL', 'CentOS' : {
+      firewall { '200 allow nrpe access':
+        dport  => [5666],
+        proto  => tcp,
+        action => accept,
+      }
+    }
+    default          : {
+    }
   }
+
 }
