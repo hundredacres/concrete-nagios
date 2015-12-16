@@ -11,7 +11,7 @@ class nagios::server::plugins::check_mssql {
   require nagios::server::config
   include nagios::server::service
 
-  ensure_resource('package', 'php5-sybase', {
+  ensure_packages('php5-sybase', {
     'ensure' => 'installed'
   }
   )

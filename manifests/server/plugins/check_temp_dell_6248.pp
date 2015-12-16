@@ -22,7 +22,7 @@ class nagios::server::plugins::check_temp_dell_6248 (
   require nagios::server::config
   include nagios::server::service
 
-  ensure_resource('package', 'snmp', {
+  ensure_packages('snmp', {
     'ensure' => 'installed'
   }
   )
