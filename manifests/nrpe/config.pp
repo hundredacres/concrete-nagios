@@ -83,15 +83,26 @@ class nagios::nrpe::config (
   include nagios::nrpe::service
 
   $hosts = "allowed_hosts=127.0.0.1,${server}"
-  
 
+  file { '/etc/nagios/nrpe_local.cfg':
+    ensure => present,
+    mode   => '0644'
+  }
+
+  file_line { 'include':
+    ensure => present,
+    line   => 'include=/etc/nagios/nrpe_local.cfg',
+    path   => '/etc/nagios/nrpe.cfg',
+    match  => '^include=',
+    notify => Service[nrpe],
+  }
 
   file_line { 'allowed_hosts':
     ensure => present,
     line   => $hosts,
     path   => '/etc/nagios/nrpe.cfg',
     match  => '^allowed_hosts',
-    notify => Service['nagios-nrpe-server'],
+    notify => Service[nrpe],
   }
 
   if $diskspace == true {
