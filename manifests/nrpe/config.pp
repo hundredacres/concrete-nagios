@@ -83,6 +83,8 @@ class nagios::nrpe::config (
   include nagios::nrpe::service
 
   $hosts = "allowed_hosts=127.0.0.1,${server}"
+  
+
 
   file_line { 'allowed_hosts':
     ensure => present,

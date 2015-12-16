@@ -8,7 +8,6 @@
 class nagios::folders {
   file { '/usr/lib/nagios/':
     ensure  => directory,
-    recurse => true,
     owner   => 'nagios',
     group   => 'nagios',
     mode    => '0755',
@@ -16,7 +15,6 @@ class nagios::folders {
 
   file { '/usr/lib/nagios/plugins':
     ensure  => directory,
-    recurse => true,
     owner   => 'nagios',
     group   => 'nagios',
     mode    => '0755',
@@ -24,7 +22,6 @@ class nagios::folders {
 
   file { '/usr/lib/nagios/eventhandlers':
     ensure  => directory,
-    recurse => true,
     owner   => 'nagios',
     group   => 'nagios',
     mode    => '0755',
