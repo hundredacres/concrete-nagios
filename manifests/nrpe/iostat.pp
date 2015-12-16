@@ -112,8 +112,12 @@ class nagios::nrpe::iostat (
   $service_groups         = false,
   $parent                 = $::xenhost) {
   require nagios::nrpe::config
-  require base::sysstat
   include nagios::nrpe::service
+
+  ensure_resource('package', 'sysstat', {
+    'ensure' => 'present'
+  }
+  )
 
   require nagios::nrpe::checks::iostat
 
