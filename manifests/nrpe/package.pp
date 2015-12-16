@@ -9,7 +9,7 @@
 class nagios::nrpe::package {
   require stdlib
 
-  include nagios::eventhandlers
+  include nagios::folders
 
   case $::operatingsystem {
     'Ubuntu'         : {
@@ -29,5 +29,6 @@ class nagios::nrpe::package {
     ensure => installed,
     before => File['/usr/lib/nagios/eventhandlers']
   }
+  
 
 }
