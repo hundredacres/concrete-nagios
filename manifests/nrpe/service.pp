@@ -23,7 +23,7 @@ class nagios::nrpe::service {
     }
   }
 
-  service { 'nagios-nrpe-server':
+  service { $service:
     ensure => running,
     alias  => 'nrpe',
     enable => true,
