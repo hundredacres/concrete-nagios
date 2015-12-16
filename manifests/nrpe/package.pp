@@ -18,7 +18,7 @@ class nagios::nrpe::package {
     'RHEL', 'CentOS' : {
       require epel
 
-      $packages = ['nrpe', 'nagios-plugins']
+      $packages = ['nrpe', 'nagios-plugins-all']
     }
     default          : {
       err('Unsupported OS')
