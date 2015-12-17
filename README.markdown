@@ -66,14 +66,14 @@ This will set up a nagios server with email and hipchat notification.
 
 ###Nagios Server (pagerduty notification)
 
-This will set up a nagios server with email and pagerduty notification.
+This will set up a nagios server with email and pagerduty notification. You will need to have set up the pagerduty apt repository seperately!
 
 ####Example:
 
 	nagios::server::config {
 		monitoring_environment => 'production',
 		password               => 'nagios_password',
-		pagerduty                => true
+		pagerduty              => true
 	}
 
 	nagios::server::notification::pagerduty {
@@ -172,3 +172,4 @@ Version:
 * 2: A large refactor of the server manifests in order to make it totally self sufficent.
 * 2.1: A refactor of nagios::nrpe::config to make it self sufficent. Also updated readme.
 * 2.2: A change to nagios::nrpe::config to reenable individual check overrides. Added json_file check.
+* 2.3: Added support for centos clients (not servers) and fixed a fairly large mistake with iostat where a requirement was impossible.

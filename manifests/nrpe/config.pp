@@ -84,61 +84,77 @@ class nagios::nrpe::config (
 
   $hosts = "allowed_hosts=127.0.0.1,${server}"
 
+  file { '/etc/nagios/nrpe_local.cfg':
+    ensure => present,
+    mode   => '0644'
+  }
+
+  file_line { 'include':
+    ensure => present,
+    line   => 'include=/etc/nagios/nrpe_local.cfg',
+    path   => '/etc/nagios/nrpe.cfg',
+    match  => '^include=',
+    notify => Service[nrpe],
+  }
+
   file_line { 'allowed_hosts':
     ensure => present,
     line   => $hosts,
     path   => '/etc/nagios/nrpe.cfg',
     match  => '^allowed_hosts',
-    notify => Service['nagios-nrpe-server'],
+    notify => Service[nrpe],
   }
 
   if $diskspace == true {
-    class { '::nagios::nrpe::diskspace':
-    }
+    class { '::nagios::nrpe::diskspace': }
   }
 
   if $inodes == true {
-    class { '::nagios::nrpe::inodes':
-    }
+    class { '::nagios::nrpe::inodes': }
   }
 
   if $iostat == true {
-    class { '::nagios::nrpe::iostat':
-    }
+    class { '::nagios::nrpe::iostat': }
   }
 
   if $kernel_leak == true {
-    class { '::nagios::nrpe::kernel_leak':
-    }
+    class { '::nagios::nrpe::kernel_leak': }
   }
 
   if $load == true {
-    class { '::nagios::nrpe::load':
-    }
+    class { '::nagios::nrpe::load': }
   }
 
   if $memory == true {
-    class { '::nagios::nrpe::memory':
-    }
+    class { '::nagios::nrpe::memory': }
   }
 
   if $ntp == true {
-    class { '::nagios::nrpe::ntp':
-    }
+    class { '::nagios::nrpe::ntp': }
   }
 
   if $total_procs == true {
-    class { '::nagios::nrpe::total_procs':
-    }
+    class { '::nagios::nrpe::total_procs': }
   }
 
   if $zombie_procs == true {
-    class { '::nagios::nrpe::zombie_procs':
-    }
+    class { '::nagios::nrpe::zombie_procs': }
   }
 
   if $lowmemory == true {
-    class { '::nagios::nrpe::lowmemory':
+    class { '::nagios::nrpe::lowmemory': }
+  }
+
+  case $::operatingsystem {
+    'RHEL', 'CentOS' : {
+      firewall { '200 allow nrpe access':
+        dport  => [5666],
+        proto  => tcp,
+        action => accept,
+      }
+    }
+    default          : {
     }
   }
+
 }

@@ -2,7 +2,9 @@
 #
 # This will set up notification commands and plugin for performing pagerduty
 # notifications. It will also build contacts with some simple defaults suitable
-# for pagerduty. It requires you to have already set up the apt repositories
+# for pagerduty.
+#
+# IMPORTANT NOTE: It requires you to have already set up the apt repositories
 # from https://www.pagerduty.com/docs/guides/agent-install-guide/
 #
 # === Parameters

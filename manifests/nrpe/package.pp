@@ -9,16 +9,26 @@
 class nagios::nrpe::package {
   require stdlib
 
-  include nagios::eventhandlers
+  include nagios::folders
 
-  package { 'nagios-nrpe-server':
+  case $::operatingsystem {
+    'Ubuntu'         : {
+      $packages = ['nagios-nrpe-server', 'nagios-plugins-basic']
+    }
+    'RHEL', 'CentOS' : {
+      require epel
+
+      $packages = ['nrpe', 'nagios-plugins-all']
+    }
+    default          : {
+      err('Unsupported OS')
+    }
+  }
+
+  package { $packages:
     ensure => installed,
     before => File['/usr/lib/nagios/eventhandlers']
   }
-
-  package { 'nagios-plugins-basic':
-    ensure => installed,
-    before => File['/usr/lib/nagios/eventhandlers']
-  }
+  
 
 }
