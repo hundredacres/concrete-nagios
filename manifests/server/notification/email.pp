@@ -17,7 +17,7 @@
 class nagios::server::notification::email ($contacts = undef) {
   include nagios::server::service
 
-  ensure_resource('package', 'heirloom-mailx', {
+  ensure_packages('heirloom-mailx', {
     'ensure' => 'installed'
   }
   )

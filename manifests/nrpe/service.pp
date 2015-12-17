@@ -7,11 +7,26 @@
 #
 # Ben Field <ben.field@concreteplatform.com
 class nagios::nrpe::service {
-  service { 'nagios-nrpe-server':
-    ensure  => running,
-    alias   => 'nrpe',
-    enable  => true,
-    require => Package['nagios-nrpe-server'],
+  require nagios::nrpe::config
+
+  case $::operatingsystem {
+    'Ubuntu'         : {
+      $service = ['nagios-nrpe-server']
+    }
+    'RHEL', 'CentOS' : {
+      require epel
+
+      $service = ['nrpe']
+    }
+    default          : {
+      err('Unsupported OS')
+    }
+  }
+
+  service { $service:
+    ensure => running,
+    alias  => 'nrpe',
+    enable => true,
   }
 
 }
