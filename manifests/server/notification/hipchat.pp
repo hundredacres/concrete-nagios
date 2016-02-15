@@ -34,13 +34,21 @@ class nagios::server::notification::hipchat ($token, $room, $contacts = undef) {
 
   nagios_command { 'notify_service_by_hipchat':
     command_line => "hipsaint --token=${token} --room=${room} --type=service --inputs=\"\$SERVICEDESC\$|\$HOSTALIAS\$|\$LONGDATETIME\$|\$NOTIFICATIONTYPE\$|\$HOSTADDRESS\$|\$SERVICESTATE\$|\$SERVICEOUTPUT\$\" -n",
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_hipchat.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_hipchat.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
   nagios_command { 'notify_host_by_hipchat':
     command_line => "hipsaint --token=${token} --room=${room} --type=host --inputs=\"\$HOSTNAME\$|\$LONGDATETIME\$|\$NOTIFICATIONTYPE\$|\$HOSTADDRESS\$|\$HOSTSTATE\$|\$HOSTOUTPUT\$\" -n",
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_hipchat.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_hipchat.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -53,7 +61,11 @@ class nagios::server::notification::hipchat ($token, $room, $contacts = undef) {
     host_notification_period      => '24x7',
     host_notification_options     => 'd,r',
     email  => '/dev/null',
+<<<<<<< HEAD
     target => '/etc/nagios/conf.d/puppet/contact_hipchat.cfg',
+=======
+    target => '/etc/nagios3/conf.d/puppet/contact_hipchat.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify => Exec['rechmod'],
   }
 

@@ -27,7 +27,11 @@ class nagios::server::plugins::check_mssql_health {
     ensure       => 'present',
     command_name => 'check_mssql_health_custom',
     command_line => '/usr/lib/nagios/plugins/check_mssql_health --commit --server \'$ARG1$\' --username \'$ARG2$\' --password \'$ARG3$\' --name \'$ARG4$\' --mode \'$ARG5$\' --warning \'$ARG6$\' --critical \'$ARG7$\'',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -35,7 +39,11 @@ class nagios::server::plugins::check_mssql_health {
     ensure       => 'present',
     command_name => 'check_mssql_health_custom_noname',
     command_line => '/usr/lib/nagios/plugins/check_mssql_health --commit --server \'$ARG1$\' --username \'$ARG2$\' --password \'$ARG3$\' --mode \'$ARG4$\' --warning \'$ARG5$\' --critical \'$ARG6$\'',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 }

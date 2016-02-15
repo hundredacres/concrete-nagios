@@ -26,7 +26,11 @@ class nagios::server::plugins::event_handler {
     ensure       => 'present',
     command_name => 'event_handler',
     command_line => '/usr/lib/nagios/eventhandlers/event_handler.sh -h $HOSTADDRESS$ -s $SERVICESTATE$ -t $SERVICESTATETYPE$ -a $SERVICEATTEMPT$ -c $ARG1$',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 

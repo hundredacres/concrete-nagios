@@ -29,7 +29,11 @@ class nagios::server::plugins::check_mssql {
     ensure       => 'present',
     command_name => 'check_mssql',
     command_line => '/usr/lib/nagios/plugins/check_mssql -H \'$ARG1$\' -U \'$ARG2$\' -P \'$ARG3$\' -q \'$ARG4$\' -d \'$ARG5$\' -r \'OK\'',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -37,7 +41,11 @@ class nagios::server::plugins::check_mssql {
     ensure       => 'present',
     command_name => 'check_mssql_long_timeout',
     command_line => '/usr/lib/nagios/plugins/check_mssql -H \'$ARG1$\' -U \'$ARG2$\' -P \'$ARG3$\' -q \'$ARG4$\' -d \'$ARG5$\' -r \'OK\' -w 10 -c 20',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 }

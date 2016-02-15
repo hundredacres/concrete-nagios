@@ -133,12 +133,21 @@ class nagios::server::config (
   file_line { 'check_external_commands':
     ensure => present,
     line   => 'check_external_commands=1',
+<<<<<<< HEAD
     path   => '/etc/nagios/nagios.cfg',
     match  => 'check_external_commands',
     notify => Service['nagios'],
   }
 
   file { '/etc/nagios/conf.d/puppet/':
+=======
+    path   => '/etc/nagios3/nagios.cfg',
+    match  => 'check_external_commands',
+    notify => Service['nagios3'],
+  }
+
+  file { '/etc/nagios3/conf.d/puppet/':
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     ensure  => directory,
     # purge => true,
     recurse => true,
@@ -150,7 +159,11 @@ class nagios::server::config (
 
   nagios::server::collector { 'collect_it':
     monitoring_environment => $monitoring_environment,
+<<<<<<< HEAD
     require                => File['/etc/nagios/conf.d/puppet/'],
+=======
+    require                => File['/etc/nagios3/conf.d/puppet/'],
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify                 => Exec['rechmod'],
   }
 
@@ -158,10 +171,17 @@ class nagios::server::config (
 
   htpasswd { 'nagiosadmin':
     cryptpasswd => $encrypted_password,
+<<<<<<< HEAD
     target      => '/etc/nagios/htpasswd.users',
   }
 
   file { '/etc/nagios/htpasswd.users':
+=======
+    target      => '/etc/nagios3/htpasswd.users',
+  }
+
+  file { '/etc/nagios3/htpasswd.users':
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     ensure  => present,
     owner   => 'www-data',
     group   => 'www-data',
@@ -192,7 +212,11 @@ class nagios::server::config (
     ensure       => 'present',
     command_name => 'check_http_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -200,7 +224,11 @@ class nagios::server::config (
     ensure       => 'present',
     command_name => 'check_https_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -S --sni -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$  --onredirect=sticky -e 200,302',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -208,7 +236,11 @@ class nagios::server::config (
     ensure       => 'present',
     command_name => 'check_http_custom_string_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$ -s $ARG4$ --onredirect=sticky',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -216,19 +248,32 @@ class nagios::server::config (
     ensure       => 'present',
     command_name => 'check_https_custom_string_nonroot_custom_port',
     command_line => '/usr/lib/nagios/plugins/check_http -S --sni -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -p $ARG3$ -s $ARG4$ --onredirect=sticky',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
   file_line { 'admin_email':
     ensure => present,
     line   => "admin_email=${admin_email}",
+<<<<<<< HEAD
     path   => '/etc/nagios/nagios.cfg',
     match  => 'admin_email',
     notify => Service['nagios'],
   }
 
   file { '/usr/lib64/nagios/rw/':
+=======
+    path   => '/etc/nagios3/nagios.cfg',
+    match  => 'admin_email',
+    notify => Service['nagios3'],
+  }
+
+  file { '/var/lib/nagios3/rw/':
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     ensure => directory,
     mode   => '0750'
   }
@@ -263,7 +308,11 @@ class nagios::server::config (
 
   if $time_periods != undef {
     create_resources('nagios_timeperiod', $time_periods, {
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/timeperiod_nagios.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/timeperiod_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       notify => Exec['rechmod']
     }
     )
@@ -271,7 +320,11 @@ class nagios::server::config (
 
   if $commands != undef {
     create_resources('nagios_command', $commands, {
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       notify => Exec['rechmod']
     }
     )
@@ -279,7 +332,11 @@ class nagios::server::config (
 
   if $contacts != undef {
     create_resources('nagios_contact', $contacts, {
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/contact_nagios.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/contact_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       notify => Exec['rechmod']
     }
     )
@@ -287,7 +344,11 @@ class nagios::server::config (
 
   if $contact_groups != undef {
     create_resources('nagios_contactgroup', $contact_groups, {
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/contact_groups_nagios.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/contact_groups_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       notify => Exec['rechmod']
     }
     )
@@ -295,7 +356,11 @@ class nagios::server::config (
 
   if $services != undef {
     create_resources('nagios_service', $services, {
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/service_nagios.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/service_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       notify => Exec['rechmod']
     }
     )
@@ -303,7 +368,11 @@ class nagios::server::config (
 
   if $hosts != undef {
     create_resources('nagios_host', $hosts, {
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/host_nagios.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/host_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       notify => Exec['rechmod']
     }
     )

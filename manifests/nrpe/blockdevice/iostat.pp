@@ -131,7 +131,11 @@ define nagios::nrpe::blockdevice::iostat (
       check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
       use                 => $nagios_service,
       host_name           => $nagios_alias,
+<<<<<<< HEAD
       target              => "/etc/nagios/conf.d/puppet/service_${nagios_alias}.cfg",
+=======
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       service_description => "${nagios_alias}_check_${drive}_iostat",
       tag                 => $monitoring_environment,
       servicegroups       => "servicegroup_iostat_${parent}",
@@ -141,7 +145,11 @@ define nagios::nrpe::blockdevice::iostat (
       check_command       => "check_nrpe_1arg_longtimeout!check_iostat_${name}",
       use                 => $nagios_service,
       host_name           => $nagios_alias,
+<<<<<<< HEAD
       target              => "/etc/nagios/conf.d/puppet/service_${nagios_alias}.cfg",
+=======
+      target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       service_description => "${nagios_alias}_check_${drive}_iostat",
       tag                 => $monitoring_environment,
     }
@@ -155,7 +163,11 @@ define nagios::nrpe::blockdevice::iostat (
     service_description           => "${nagios_alias}_check_${drive}_iostat",
     execution_failure_criteria    => 'w,c',
     notification_failure_criteria => 'w,c',
+<<<<<<< HEAD
     target    => "/etc/nagios/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+=======
+    target    => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     tag       => $monitoring_environment,
   }
 

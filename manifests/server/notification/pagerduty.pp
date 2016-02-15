@@ -30,13 +30,21 @@ class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
 
   nagios_command { 'notify_service_by_pagerduty':
     command_line => '/usr/share/pdagent-integrations/bin/pd-nagios -n service -k $CONTACTPAGER$ -t "$NOTIFICATIONTYPE$" -f SERVICEDESC="$SERVICEDESC$" -f SERVICESTATE="$SERVICESTATE$" -f HOSTNAME="$HOSTNAME$" -f SERVICEOUTPUT="$SERVICEOUTPUT$"',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_pagerduty.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_pagerduty.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
   nagios_command { 'notify_host_by_pagerduty':
     command_line => '/usr/share/pdagent-integrations/bin/pd-nagios -n host -k $CONTACTPAGER$ -t "$NOTIFICATIONTYPE$" -f HOSTNAME="$HOSTNAME$" -f HOSTSTATE="$HOSTSTATE$"',
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_pagerduty.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_pagerduty.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 
@@ -49,7 +57,11 @@ class nagios::server::notification::pagerduty ($pager, $contacts = undef) {
     host_notification_period      => '24x7',
     host_notification_options     => 'd,r',
     pager  => $pager,
+<<<<<<< HEAD
     target => '/etc/nagios/conf.d/puppet/contact_pagerduty.cfg',
+=======
+    target => '/etc/nagios3/conf.d/puppet/contact_pagerduty.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify => Exec['rechmod'],
   }
 

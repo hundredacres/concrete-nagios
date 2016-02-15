@@ -130,7 +130,11 @@ class nagios::nrpe::iostat (
 
   if $service_groups == true {
     @@datacat_fragment { "${::fqdn} iostat in servicegroup":
+<<<<<<< HEAD
       target => '/etc/nagios/conf.d/puppet/servicegroups_iostat.cfg',
+=======
+      target => '/etc/nagios3/conf.d/puppet/servicegroups_iostat.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       data   => {
         host => [$parent],
       }

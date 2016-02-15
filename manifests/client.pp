@@ -41,7 +41,11 @@ class nagios::client (
   if $parent != 'physical' {
     @@nagios_host { $nagios_alias:
       ensure          => present,
+<<<<<<< HEAD
       target          => "/etc/nagios/conf.d/puppet/host_${nagios_alias}.cfg",
+=======
+      target          => "/etc/nagios3/conf.d/puppet/host_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       address         => $address,
       use             => 'generic-host',
       alias           => $nagios_alias,
@@ -53,7 +57,11 @@ class nagios::client (
   } else {
     @@nagios_host { $nagios_alias:
       ensure          => present,
+<<<<<<< HEAD
       target          => "/etc/nagios/conf.d/puppet/host_${nagios_alias}.cfg",
+=======
+      target          => "/etc/nagios3/conf.d/puppet/host_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       address         => $address,
       use             => 'generic-host',
       alias           => $nagios_alias,
@@ -64,7 +72,11 @@ class nagios::client (
   }
 
   @@nagios_service { "check_ping_${nagios_alias}":
+<<<<<<< HEAD
     target              => "/etc/nagios/conf.d/puppet/service_${nagios_alias}.cfg",
+=======
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     check_command       => 'check_ping!100.0,20%!500.0,60%',
     use                 => $nagios_service,
     host_name           => $nagios_alias,

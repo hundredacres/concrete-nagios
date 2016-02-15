@@ -22,9 +22,15 @@ class nagios::server::collector::virtualip (
   Datacat_fragment <<| tag == "virtualip_${monitoring_environment}" |>> {
   }
 
+<<<<<<< HEAD
   datacat { '/etc/nagios/conf.d/puppet/host_virtualips.cfg':
     template => 'nagios/server/collector/virtualip.cfg.erb',
     notify   => Service['nagios']
+=======
+  datacat { '/etc/nagios3/conf.d/puppet/host_virtualips.cfg':
+    template => 'nagios/server/collector/virtualip.cfg.erb',
+    notify   => Service['nagios3']
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
   }
 
 }

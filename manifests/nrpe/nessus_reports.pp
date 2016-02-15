@@ -27,7 +27,11 @@
 #
 # [*credentials_location*]
 #   The location for the nessus credentials.
+<<<<<<< HEAD
 #   Not required. Defaults to /etc/nagios/conf.d/puppet/credentials_nessus
+=======
+#   Not required. Defaults to /etc/nagios3/conf.d/puppet/credentials_nessus
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
 #
 # [*warning*]
 #   The warning level for exploits to alert on
@@ -39,7 +43,11 @@
 #
 # [*nessus_port*]
 #   The location for the nessus credentials.
+<<<<<<< HEAD
 #   Not required. Defaults to /etc/nagios/conf.d/puppet/credentials_nessus
+=======
+#   Not required. Defaults to /etc/nagios3/conf.d/puppet/credentials_nessus
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
 #
 # === Authors
 #
@@ -51,7 +59,11 @@ define nagios::nrpe::nessus_reports (
   $monitoring_environment = $::nagios::nrpe::config::monitoring_environment,
   $nagios_service         = $::nagios::nrpe::config::nagios_service,
   $nagios_alias           = $::hostname,
+<<<<<<< HEAD
   $credentials_location   = '/etc/nagios/conf.d/puppet/credentials_nessus',
+=======
+  $credentials_location   = '/etc/nagios3/conf.d/puppet/credentials_nessus',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
   $nessus_port            = '8834') {
   require nagios::nrpe::config
   include nagios::nrpe::service
@@ -60,7 +72,11 @@ define nagios::nrpe::nessus_reports (
     check_command       => "check_nessus_reports!${::fqdn}:${nessus_port}!${credentials_location}!\"${scan}\"!${critical}!${warning}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
+<<<<<<< HEAD
     target              => "/etc/nagios/conf.d/puppet/service_${nagios_alias}.cfg",
+=======
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     service_description => "${nagios_alias}_check_nessus_reports_${scan}",
     tag                 => $monitoring_environment,
   }

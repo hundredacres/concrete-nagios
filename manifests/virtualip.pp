@@ -44,7 +44,11 @@ class nagios::virtualip (
   $parent,
   $monitoring_environment) {
   @@datacat_fragment { "${::hostname} Virtual ip":
+<<<<<<< HEAD
     target => '/etc/nagios/conf.d/puppet/host_virtualips.cfg',
+=======
+    target => '/etc/nagios3/conf.d/puppet/host_virtualips.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     data   => {
       $cluster_name => {
         virtualip => [$virtualip],

@@ -40,7 +40,11 @@ class nagios::server::plugins::check_temp_dell_6248 (
     ensure       => 'present',
     command_name => 'check_temp_dell_6248',
     command_line => "/usr/lib/nagios/plugins/check_temp_dell_6248.sh -C \$ARG1\$ -i \$HOSTADDRESS\$ -w ${warning} -c ${critical}",
+<<<<<<< HEAD
     target       => '/etc/nagios/conf.d/puppet/command_nagios.cfg',
+=======
+    target       => '/etc/nagios3/conf.d/puppet/command_nagios.cfg',
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     notify       => Exec['rechmod'],
   }
 }

@@ -67,7 +67,11 @@ define nagios::nrpe::tcp (
     check_command       => "check_tcp!${port}",
     use                 => $nagios_service,
     host_name           => $nagios_alias,
+<<<<<<< HEAD
     target              => "/etc/nagios/conf.d/puppet/service_${nagios_alias}.cfg",
+=======
+    target              => "/etc/nagios3/conf.d/puppet/service_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
     service_description => "${nagios_alias}_check_port_${port}",
     tag                 => $monitoring_environment,
   }
@@ -81,7 +85,11 @@ define nagios::nrpe::tcp (
       service_description           => $parent_service,
       execution_failure_criteria    => 'c',
       notification_failure_criteria => 'c',
+<<<<<<< HEAD
       target                        => "/etc/nagios/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+=======
+      target                        => "/etc/nagios3/conf.d/puppet/service_dependencies_${nagios_alias}.cfg",
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
       tag                           => $monitoring_environment,
     }
   }

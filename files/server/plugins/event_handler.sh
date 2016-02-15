@@ -6,7 +6,11 @@
 #       retried 3 times (in a "soft" state) or if the web service somehow
 #       manages to fall into a "hard" error state.
 #
+<<<<<<< HEAD
 # This has been completly ripped off from the nagios examples page. However, this is going to be reengineered so it actually uses getopts. 
+=======
+# This has been completly ripped off from the nagios3 examples page. However, this is going to be reengineered so it actually uses getopts. 
+>>>>>>> 1e86654231d7c29360426c7db6fb721c0f31061c
 # It should fare as a decent framework for future event-handlers we create.
 # Options:
 # -s State (OK, Warning, Critical, Unknown)
