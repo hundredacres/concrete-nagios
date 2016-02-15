@@ -1,0 +1,36 @@
+{
+  "name": "concrete/nagios",
+  "version": "2.3.0",
+  "author": "concrete",
+  "summary": "A puppet nagios module that will configure both the nagios server and nrpe clients. The client configuration includes checks for almost everything you need.",
+  "license": "MIT",
+  "source": "https://github.com/concrete-cc/puppet-nagios",
+  "project_page": "https://github.com/concrete-cc/puppet-nagios",
+  "issues_url": "https://github.com/concrete-cc/puppet-nagios/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04",
+        "12.04",
+        "10.04"
+      ]
+    }
+  ],
+  "requirements": [
+  
+  ],
+  "tags": [
+    "nagios",
+    "monitoring",
+    "client"
+  ],
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":"4.x"},
+    {"name":"puppetlabs/apt","version_requirement":"1.x"},
+    {"name":"stankevich/python","version_requirement":"1.9.x"},
+    {"name":"richardc/datacat","version_requirement":"0.x"},
+    {"name":"leinaddm/htpasswd","version_requirement":"0.x"},
+    {"name":"stahnma/epel","version_requirement":"1.x"}
+  ]
+}
